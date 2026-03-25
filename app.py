@@ -89,7 +89,7 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.1"
+APP_VERSION = "0.1.2"
 GITHUB_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
 GITHUB_REPO_URL = f"https://github.com/{GITHUB_REPO}"
@@ -851,12 +851,17 @@ class RefineApp:
         self._api_base_editing = False
         self._model_editing = False
         self._custom_vocab_toggle_btn = None
-        self._glossary_frame = None
+        self._custom_vocab_window = None
+        self.term_tree = None
+        self.term_key_var = None
+        self.term_preferred_var = None
+        self.term_note_var = None
         self._action_row = None
-        self._custom_vocab_expanded = False
+        self.refine_btn = None
         self._edit_icon_tk = None
         self.model_search_var = tk.StringVar(value="")
         self._history_tree = None
+        self._preferred_paste_hwnd = 0
         self._force_output_language_once = ""
         self._perm_dialog = None
         self._perm_rows = {}
@@ -1022,17 +1027,10 @@ class RefineApp:
     def _update_custom_vocab_toggle_label(self) -> None:
         if self._custom_vocab_toggle_btn is None:
             return
-        marker = "[-]" if self._custom_vocab_expanded else "[+]"
-        self._custom_vocab_toggle_btn.configure(text=f"{marker} {self._t('custom_vocabulary')}")
+        self._custom_vocab_toggle_btn.configure(text=self._t("custom_vocabulary"))
 
     def _toggle_custom_vocabulary_panel(self) -> None:
-        self._custom_vocab_expanded = not self._custom_vocab_expanded
-        if self._glossary_frame is not None:
-            if self._custom_vocab_expanded:
-                self._glossary_frame.pack(fill="both", expand=True, pady=(8, 0), before=self._action_row)
-            else:
-                self._glossary_frame.pack_forget()
-        self._update_custom_vocab_toggle_label()
+        self._open_custom_vocabulary_window()
 
     def _build_ui(self) -> None:
         main = ttk.Frame(self.root, padding=18, style="App.TFrame")
@@ -1067,6 +1065,9 @@ class RefineApp:
                 github_btn.configure(image=self._github_icon_tk, compound="left")
         except Exception:
             pass
+        self._custom_vocab_toggle_btn = ttk.Button(actions, command=self._toggle_custom_vocabulary_panel, style="Ghost.TButton")
+        self._custom_vocab_toggle_btn.pack(side="right", padx=(0, 8))
+        self._update_custom_vocab_toggle_label()
         lang_combo = ttk.Combobox(actions, textvariable=self.ui_lang_var, values=UI_LANGUAGES, state="readonly", width=10, style="App.TCombobox")
         lang_combo.pack(side="right", padx=(0, 8))
         lang_combo.bind("<<ComboboxSelected>>", self._on_language_change)
@@ -1109,13 +1110,18 @@ class RefineApp:
         self._api_base_edit_btn = ttk.Button(model_frame, command=self._toggle_api_base_edit, style="Ghost.TButton")
         self._api_base_edit_btn.grid(row=2, column=2, sticky="e", padx=(8, 0), pady=4)
 
-        ttk.Label(model_frame, text=self._t("model")).grid(row=3, column=0, sticky="w", padx=(0, 8), pady=4)
-        self.model_combo = ttk.Combobox(model_frame, textvariable=self.model_var, values=DEFAULT_MODELS, state="readonly", style="App.TCombobox")
-        self.model_combo.grid(row=3, column=1, sticky="ew", pady=4)
-        self._model_edit_btn = ttk.Button(model_frame, command=self._toggle_model_edit, style="Ghost.TButton")
-        self._model_edit_btn.grid(row=3, column=2, sticky="e", padx=(8, 0), pady=4)
+        ttk.Label(model_frame, text=self._t("model_search")).grid(row=3, column=0, sticky="w", padx=(0, 8), pady=4)
+        model_search_entry = ttk.Entry(model_frame, textvariable=self.model_search_var, style="App.TEntry")
+        model_search_entry.grid(row=3, column=1, sticky="ew", pady=4)
+        model_search_entry.bind("<KeyRelease>", self._on_model_search_change)
 
-        ttk.Label(model_frame, text=self._t("hotkey")).grid(row=4, column=0, sticky="w", padx=(0, 8), pady=4)
+        ttk.Label(model_frame, text=self._t("model")).grid(row=4, column=0, sticky="w", padx=(0, 8), pady=4)
+        self.model_combo = ttk.Combobox(model_frame, textvariable=self.model_var, values=DEFAULT_MODELS, state="readonly", style="App.TCombobox")
+        self.model_combo.grid(row=4, column=1, sticky="ew", pady=4)
+        self._model_edit_btn = ttk.Button(model_frame, command=self._toggle_model_edit, style="Ghost.TButton")
+        self._model_edit_btn.grid(row=4, column=2, sticky="e", padx=(8, 0), pady=4)
+
+        ttk.Label(model_frame, text=self._t("hotkey")).grid(row=5, column=0, sticky="w", padx=(0, 8), pady=4)
         self.hotkey_combo = ttk.Combobox(
             model_frame,
             textvariable=self.hotkey_var,
@@ -1123,65 +1129,34 @@ class RefineApp:
             state="readonly",
             style="App.TCombobox",
         )
-        self.hotkey_combo.grid(row=4, column=1, sticky="ew", pady=4)
+        self.hotkey_combo.grid(row=5, column=1, sticky="ew", pady=4)
         self.hotkey_combo.bind("<<ComboboxSelected>>", self._on_hotkey_change)
         self._main_save_btn = ttk.Button(model_frame, text=self._t("save_settings"), command=self._save_config_with_feedback, style="Ghost.TButton", width=self._action_btn_width)
-        self._main_save_btn.grid(row=4, column=2, sticky="e", padx=(8, 0), pady=4)
+        self._main_save_btn.grid(row=5, column=2, sticky="e", padx=(8, 0), pady=4)
         model_frame.columnconfigure(1, weight=1)
 
-        self._custom_vocab_toggle_btn = ttk.Button(main, command=self._toggle_custom_vocabulary_panel, style="Ghost.TButton")
-        self._custom_vocab_toggle_btn.pack(fill="x", pady=(14, 0))
-        self._update_custom_vocab_toggle_label()
-
-        glossary_frame = ttk.LabelFrame(main, text=self._t("custom_vocabulary"), padding=14, style="Card.TLabelframe")
-        self._glossary_frame = glossary_frame
-        glossary_frame.columnconfigure(1, weight=1)
-        glossary_frame.columnconfigure(3, weight=1)
-
-        self.term_key_var = tk.StringVar()
-        self.term_preferred_var = tk.StringVar()
-        self.term_note_var = tk.StringVar()
-
-        ttk.Label(glossary_frame, text=self._t("term")).grid(row=0, column=0, sticky="w", pady=4)
-        term_entry = ttk.Entry(glossary_frame, textvariable=self.term_key_var, style="App.TEntry")
-        term_entry.grid(row=0, column=1, sticky="ew", padx=(8, 16), pady=6)
-        term_entry.bind("<Return>", lambda _e: self._add_or_update_term())
-        ttk.Label(glossary_frame, text=self._t("preferred")).grid(row=0, column=2, sticky="w", pady=4)
-        pref_entry = ttk.Entry(glossary_frame, textvariable=self.term_preferred_var, style="App.TEntry")
-        pref_entry.grid(row=0, column=3, sticky="ew", padx=(8, 8), pady=6)
-        pref_entry.bind("<Return>", lambda _e: self._add_or_update_term())
-        ttk.Button(glossary_frame, text=self._t("add_update_term"), command=self._add_or_update_term, style="Ghost.TButton").grid(row=0, column=4, sticky="e", padx=(0, 0), pady=6)
-
-        tree_container = ttk.Frame(glossary_frame, style="App.TFrame")
-        tree_container.grid(row=1, column=0, columnspan=5, sticky="nsew", pady=(8, 0))
-        tree_container.columnconfigure(0, weight=1)
-        tree_container.rowconfigure(0, weight=1)
-        glossary_frame.rowconfigure(1, weight=1)
-
-        self.term_tree = ttk.Treeview(tree_container, columns=("term", "preferred"), show="headings", height=10, style="App.Treeview")
-        self.term_tree.heading("term", text=self._t("term"))
-        self.term_tree.heading("preferred", text=self._t("preferred"))
-        self.term_tree.column("term", width=300, anchor="w")
-        self.term_tree.column("preferred", width=500, anchor="w")
-        self.term_tree.grid(row=0, column=0, sticky="nsew")
-        term_scroll = ttk.Scrollbar(tree_container, orient="vertical", command=self.term_tree.yview)
-        term_scroll.grid(row=0, column=1, sticky="ns")
-        self.term_tree.configure(yscrollcommand=term_scroll.set)
-        self.term_tree.bind("<<TreeviewSelect>>", self._on_term_select)
-        self.term_tree.bind("<Button-3>", self._on_term_right_click)
-
-        btn_row = ttk.Frame(main, style="App.TFrame")
-        self._action_row = btn_row
-        btn_row.pack(fill="x", pady=(10, 0))
-        self.refine_btn = ttk.Button(btn_row, text=self._t("run_refine"), command=self._run_refine, style="Ghost.TButton")
-        self.refine_btn.pack(side="left")
-        ttk.Button(btn_row, text=self._t("remove_selected"), command=self._remove_selected_term, style="Ghost.TButton").pack(side="left", padx=8)
-        ttk.Button(btn_row, text=self._t("clear_term_fields"), command=self._clear_term_fields, style="Ghost.TButton").pack(side="left", padx=8)
+        self._action_row = None
+        self.refine_btn = None
 
         self._set_api_base_edit_mode(False)
         self._set_model_edit_mode(False)
-        if self._custom_vocab_expanded:
-            self._glossary_frame.pack(fill="both", expand=True, pady=(8, 0), before=self._action_row)
+
+        history_frame = ttk.LabelFrame(main, text=self._t("history"), padding=12, style="Card.TLabelframe")
+        history_frame.pack(fill="both", expand=True, pady=(10, 0))
+        ttk.Label(history_frame, text=self._t("history_label")).pack(anchor="w")
+        history_tree = ttk.Treeview(history_frame, columns=("date", "time", "text"), show="headings", height=8, style="App.Treeview")
+        history_tree.heading("date", text=self._t("date"))
+        history_tree.heading("time", text=self._t("time"))
+        history_tree.heading("text", text=self._t("input_text"))
+        history_tree.column("date", width=110, anchor="w")
+        history_tree.column("time", width=70, anchor="w")
+        history_tree.column("text", width=620, anchor="w")
+        history_tree.pack(fill="both", expand=True, pady=(8, 8))
+        self._history_tree = history_tree
+        self._refresh_history_tree()
+        history_action = ttk.Frame(history_frame, style="Card.TLabelframe")
+        history_action.pack(fill="x")
+        ttk.Button(history_action, text=self._t("clear_history"), command=self._clear_history, style="Ghost.TButton").pack(side="left")
 
         ttk.Label(main, textvariable=self.status_var, style="Status.TLabel").pack(anchor="w", pady=(10, 0))
 
@@ -1190,6 +1165,8 @@ class RefineApp:
         # Close settings window if open
         if self._settings_window is not None and self._settings_window.winfo_exists():
             self._close_settings_window()
+        if self._custom_vocab_window is not None and self._custom_vocab_window.winfo_exists():
+            self._close_custom_vocabulary_window()
         # Destroy and rebuild the entire main UI
         for child in self.root.winfo_children():
             child.destroy()
@@ -1221,6 +1198,7 @@ class RefineApp:
 
     def _cancel_active_audio_pipeline(self, reason: str = "") -> None:
         self._pipeline_token += 1
+        self._preferred_paste_hwnd = 0
         self._is_transcribing = False
         self._translate_hotkey_active = False
         if self._is_recording and self._recording_stream is not None:
@@ -1248,6 +1226,91 @@ class RefineApp:
             self.status_var.set(f"Opened console: {provider}")
         except Exception as exc:
             messagebox.showerror("Open Console Error", str(exc))
+
+    def _open_custom_vocabulary_window(self) -> None:
+        if self._custom_vocab_window is not None and self._custom_vocab_window.winfo_exists():
+            self._custom_vocab_window.lift()
+            self._custom_vocab_window.focus_force()
+            return
+
+        win = tk.Toplevel(self.root)
+        win.title(self._t("custom_vocabulary"))
+        win.geometry("940x620")
+        win.minsize(860, 520)
+        win.transient(self.root)
+        win.protocol("WM_DELETE_WINDOW", self._close_custom_vocabulary_window)
+        win.configure(bg=self.colors["surface"])
+        self._apply_app_icon(win)
+        self._custom_vocab_window = win
+
+        container = ttk.Frame(win, padding=14, style="Surface.TFrame")
+        container.pack(fill="both", expand=True)
+        container.columnconfigure(1, weight=1)
+        container.columnconfigure(3, weight=1)
+        container.rowconfigure(1, weight=1)
+
+        self.term_key_var = tk.StringVar()
+        self.term_preferred_var = tk.StringVar()
+        self.term_note_var = tk.StringVar()
+
+        ttk.Label(container, text=self._t("term")).grid(row=0, column=0, sticky="w", pady=4)
+        term_entry = ttk.Entry(container, textvariable=self.term_key_var, style="App.TEntry")
+        term_entry.grid(row=0, column=1, sticky="ew", padx=(8, 16), pady=6)
+        term_entry.bind("<Return>", lambda _e: self._add_or_update_term())
+
+        ttk.Label(container, text=self._t("preferred")).grid(row=0, column=2, sticky="w", pady=4)
+        pref_entry = ttk.Entry(container, textvariable=self.term_preferred_var, style="App.TEntry")
+        pref_entry.grid(row=0, column=3, sticky="ew", padx=(8, 8), pady=6)
+        pref_entry.bind("<Return>", lambda _e: self._add_or_update_term())
+
+        ttk.Button(
+            container,
+            text=self._t("add_update_term"),
+            command=self._add_or_update_term,
+            style="Ghost.TButton",
+        ).grid(row=0, column=4, sticky="e", pady=6)
+
+        tree_container = ttk.Frame(container, style="Surface.TFrame")
+        tree_container.grid(row=1, column=0, columnspan=5, sticky="nsew", pady=(8, 0))
+        tree_container.columnconfigure(0, weight=1)
+        tree_container.rowconfigure(0, weight=1)
+
+        self.term_tree = ttk.Treeview(
+            tree_container,
+            columns=("term", "preferred"),
+            show="headings",
+            height=12,
+            style="App.Treeview",
+        )
+        self.term_tree.heading("term", text=self._t("term"))
+        self.term_tree.heading("preferred", text=self._t("preferred"))
+        self.term_tree.column("term", width=280, anchor="w")
+        self.term_tree.column("preferred", width=540, anchor="w")
+        self.term_tree.grid(row=0, column=0, sticky="nsew")
+        term_scroll = ttk.Scrollbar(tree_container, orient="vertical", command=self.term_tree.yview)
+        term_scroll.grid(row=0, column=1, sticky="ns")
+        self.term_tree.configure(yscrollcommand=term_scroll.set)
+        self.term_tree.bind("<<TreeviewSelect>>", self._on_term_select)
+        self.term_tree.bind("<Button-3>", self._on_term_right_click)
+
+        footer = ttk.Frame(container, style="Surface.TFrame")
+        footer.grid(row=2, column=0, columnspan=5, sticky="ew", pady=(8, 0))
+        ttk.Button(footer, text=self._t("close"), command=self._close_custom_vocabulary_window, style="Ghost.TButton").pack(side="right")
+
+        self._refresh_term_tree()
+        term_entry.focus_set()
+
+    def _close_custom_vocabulary_window(self) -> None:
+        if self._custom_vocab_window is not None and self._custom_vocab_window.winfo_exists():
+            try:
+                self._custom_vocab_window.destroy()
+            except Exception:
+                pass
+        self._custom_vocab_window = None
+        self.term_tree = None
+        self.term_key_var = None
+        self.term_preferred_var = None
+        self.term_note_var = None
 
     def _open_settings_window(self) -> None:
         if self._settings_window is not None and self._settings_window.winfo_exists():
@@ -1405,23 +1468,6 @@ class RefineApp:
         ttk.Button(action_row, text=self._t("use_strict_prompt"), command=self._reset_refi_prompt, style="Ghost.TButton").pack(side="left")
         self._prompt_save_btn = ttk.Button(action_row, text=self._t("save_prompt"), command=self._save_prompt_with_feedback, style="Ghost.TButton")
         self._prompt_save_btn.pack(side="left", padx=8)
-
-        history_tab = ttk.Frame(notebook, padding=14, style="Surface.TFrame")
-        notebook.add(history_tab, text=self._t("history"))
-        ttk.Label(history_tab, text=self._t("history_label")).pack(anchor="w")
-        history_tree = ttk.Treeview(history_tab, columns=("date", "time", "text"), show="headings", height=14, style="App.Treeview")
-        history_tree.heading("date", text=self._t("date"))
-        history_tree.heading("time", text=self._t("time"))
-        history_tree.heading("text", text=self._t("input_text"))
-        history_tree.column("date", width=110, anchor="w")
-        history_tree.column("time", width=70, anchor="w")
-        history_tree.column("text", width=620, anchor="w")
-        history_tree.pack(fill="both", expand=True, pady=(8, 8))
-        self._history_tree = history_tree
-        self._refresh_history_tree()
-        history_action = ttk.Frame(history_tab, style="Surface.TFrame")
-        history_action.pack(fill="x")
-        ttk.Button(history_action, text=self._t("clear_history"), command=self._clear_history, style="Ghost.TButton").pack(side="left")
 
         scanner_tab = ttk.Frame(notebook, padding=14, style="Surface.TFrame")
         notebook.add(scanner_tab, text=self._t("term_scanner"))
@@ -1613,7 +1659,6 @@ class RefineApp:
         self._settings_prompt_text = None
         self._settings_save_btn = None
         self._stt_preload_btn = None
-        self._history_tree = None
         self._scanner_term_tree = None
         self._scanner_status_var = None
 
@@ -1655,7 +1700,7 @@ class RefineApp:
         self.status_var.set(self._t("default_prompt_applied"))
 
     def _refresh_term_tree(self) -> None:
-        if not hasattr(self, "term_tree"):
+        if self.term_tree is None or not self.term_tree.winfo_exists():
             return
         for item in self.term_tree.get_children():
             self.term_tree.delete(item)
@@ -1675,7 +1720,7 @@ class RefineApp:
             )
 
     def _on_term_select(self, _event=None) -> None:
-        if not hasattr(self, "term_tree"):
+        if self.term_tree is None or not self.term_tree.winfo_exists():
             return
         selected = self.term_tree.selection()
         if not selected:
@@ -1684,12 +1729,15 @@ class RefineApp:
         if idx < 0 or idx >= len(self.custom_terms):
             return
         row = self.custom_terms[idx]
-        self.term_key_var.set(row.get("term", ""))
-        self.term_preferred_var.set(row.get("preferred", ""))
-        self.term_note_var.set(row.get("note", ""))
+        if self.term_key_var is not None:
+            self.term_key_var.set(row.get("term", ""))
+        if self.term_preferred_var is not None:
+            self.term_preferred_var.set(row.get("preferred", ""))
+        if self.term_note_var is not None:
+            self.term_note_var.set(row.get("note", ""))
 
     def _on_term_right_click(self, event) -> None:
-        if not hasattr(self, "term_tree"):
+        if self.term_tree is None or not self.term_tree.winfo_exists():
             return
         item = self.term_tree.identify_row(event.y)
         if not item:
@@ -1700,13 +1748,18 @@ class RefineApp:
         menu.tk_popup(event.x_root, event.y_root)
 
     def _clear_term_fields(self) -> None:
-        self.term_key_var.set("")
-        self.term_preferred_var.set("")
-        self.term_note_var.set("")
-        if hasattr(self, "term_tree"):
+        if self.term_key_var is not None:
+            self.term_key_var.set("")
+        if self.term_preferred_var is not None:
+            self.term_preferred_var.set("")
+        if self.term_note_var is not None:
+            self.term_note_var.set("")
+        if self.term_tree is not None and self.term_tree.winfo_exists():
             self.term_tree.selection_remove(self.term_tree.selection())
 
     def _add_or_update_term(self) -> None:
+        if self.term_key_var is None or self.term_preferred_var is None or self.term_note_var is None:
+            return
         term = self.term_key_var.get().strip()
         preferred = self.term_preferred_var.get().strip()
         note = self.term_note_var.get().strip()
@@ -1733,7 +1786,7 @@ class RefineApp:
         self.term_preferred_var.set("")
 
     def _remove_selected_term(self) -> None:
-        if not hasattr(self, "term_tree"):
+        if self.term_tree is None or not self.term_tree.winfo_exists():
             return
         selected = self.term_tree.selection()
         if not selected:
@@ -2107,6 +2160,10 @@ class RefineApp:
             self.status_var.set(self._t("stt_requires"))
             return
         self._pipeline_token += 1
+        fg_hwnd = self._get_foreground_window_handle()
+        root_hwnd = int(self.root.winfo_id())
+        if fg_hwnd and fg_hwnd != root_hwnd:
+            self._preferred_paste_hwnd = fg_hwnd
         self._translate_hotkey_active = bool(translate_hotkey_active and self.voice_lang_command_enabled_var.get())
         try:
             with self._recording_lock:
@@ -2372,7 +2429,7 @@ class RefineApp:
             self._show_floating_text(transcript)
 
     def _run_refine_from_hotkey(self) -> None:
-        if str(self.refine_btn["state"]) == "disabled":
+        if self.refine_btn is not None and str(self.refine_btn["state"]) == "disabled":
             self._hide_recording_overlay()
             return
         self._run_refine(self._pipeline_token)
@@ -3035,7 +3092,8 @@ class RefineApp:
             return
 
         self._append_history(input_text)
-        self.refine_btn.config(state="disabled")
+        if self.refine_btn is not None:
+            self.refine_btn.config(state="disabled")
         self.status_var.set(self._t("refine_running"))
 
         thread = threading.Thread(
@@ -3102,7 +3160,8 @@ class RefineApp:
             return
         self.latest_refined_text = text
         self.status_var.set(status)
-        self.refine_btn.config(state="normal")
+        if self.refine_btn is not None:
+            self.refine_btn.config(state="normal")
         self._hide_recording_overlay()
         if self.auto_paste_var.get():
             self._paste_text_to_active_window(text)
@@ -3113,7 +3172,8 @@ class RefineApp:
         if pipeline_token is not None and pipeline_token != self._pipeline_token:
             return
         self.status_var.set(self._t("refine_failed"))
-        self.refine_btn.config(state="normal")
+        if self.refine_btn is not None:
+            self.refine_btn.config(state="normal")
         self._hide_recording_overlay()
         user_msg = message
         provider = self.provider_var.get().strip()
@@ -3247,6 +3307,31 @@ class RefineApp:
         except Exception:
             pass
 
+    @staticmethod
+    def _is_valid_hwnd(hwnd: int) -> bool:
+        if not hwnd:
+            return False
+        try:
+            import ctypes
+
+            return bool(ctypes.windll.user32.IsWindow(int(hwnd)))
+        except Exception:
+            return True
+
+    @staticmethod
+    def _paste_via_winapi(hwnd: int) -> bool:
+        try:
+            import ctypes
+
+            user32 = ctypes.windll.user32
+            WM_PASTE = 0x0302
+            user32.SetForegroundWindow(int(hwnd))
+            time.sleep(0.03)
+            user32.SendMessageW(int(hwnd), WM_PASTE, 0, 0)
+            return True
+        except Exception:
+            return False
+
     def _paste_text_to_active_window(self, text: str) -> None:
         if keyboard is None:
             self.status_var.set(self._t("paste_no_keyboard"))
@@ -3254,7 +3339,9 @@ class RefineApp:
             return
         hwnd = self._get_foreground_window_handle()
         root_hwnd = int(self.root.winfo_id())
-        if hwnd == 0 or hwnd == root_hwnd:
+        preferred = int(self._preferred_paste_hwnd or 0)
+        target_hwnd = preferred if self._is_valid_hwnd(preferred) and preferred != root_hwnd else hwnd
+        if target_hwnd == 0 or target_hwnd == root_hwnd:
             self.status_var.set(self._t("paste_no_target"))
             self._show_floating_text(text)
             return
@@ -3262,11 +3349,14 @@ class RefineApp:
             self.root.clipboard_clear()
             self.root.clipboard_append(text)
             self.root.update_idletasks()
-            self.root.after(80, lambda: keyboard.send("ctrl+v"))
+            if not self._paste_via_winapi(target_hwnd):
+                self.root.after(80, lambda: keyboard.send("ctrl+v"))
             self.status_var.set(self._t("paste_done"))
         except Exception as exc:
             self.status_var.set(f"Auto paste failed: {str(exc)[:120]}")
             self._show_floating_text(text)
+        finally:
+            self._preferred_paste_hwnd = 0
 
     def _show_recording_overlay(self) -> None:
         if self._overlay_window is None:
@@ -3369,8 +3459,9 @@ class RefineApp:
                 c.create_rectangle(x1, y1, x2, y2, fill=color, outline="", width=0)
         else:
             t = time.time()
+            model_name = self.model_var.get().strip() or "-"
             c.create_text(16, 22, anchor="w", text=self._t("processing_title"), fill="#ffffff", font=("TkDefaultFont", 13, "bold"))
-            c.create_text(16, 44, anchor="w", text=self._t("processing_hint"), fill="#98989d", font=("TkDefaultFont", 9))
+            c.create_text(16, 44, anchor="w", text=model_name, fill="#98989d", font=("TkDefaultFont", 9))
 
             # Pulsing dots animation
             num_dots = 4
@@ -3519,6 +3610,12 @@ class RefineApp:
             except Exception:
                 pass
             self._settings_window = None
+        if self._custom_vocab_window is not None and self._custom_vocab_window.winfo_exists():
+            try:
+                self._custom_vocab_window.destroy()
+            except Exception:
+                pass
+            self._custom_vocab_window = None
         self._hide_recording_overlay()
         if self._overlay_window is not None:
             try:
