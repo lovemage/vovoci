@@ -1,111 +1,74 @@
-# VOVOCI（繁體中文）
+﻿# VOVOCI
 
-VOVOCI 是一個 Windows 開源桌面工具，流程為：
+Windows 上的 vibecoding 與日常對話結構化語音秘書。
 
-按住熱鍵錄音 -> 本地 STT -> 可選 Refine -> 可選自動貼上
+語言版本：[English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md)
 
-倉庫：`https://github.com/lovemage/vovoci.git`
+VOVOCI 會先用本機 `faster-whisper` 做語音轉文字，再交給你選擇的 LLM 進行語義結構化，不改變使用者原意。
 
-## 語言版本
+## 為什麼是 VOVOCI
 
-- [English](./README.md)
-- 繁體中文（本頁）
-- [简体中文](./README.zh-CN.md)
-- [日本語](./README.ja.md)
-- [한국어](./README.ko.md)
+- 適合 vibecoding、語音筆記、社群草稿、一般對話
+- 支援任何 Windows 軟體場景（Push-to-talk + Auto paste）
+- 使用你自己的 Provider 與模型，不綁平台
+- 支援混合語言輸入與結構化輸出
 
-## 功能摘要
+## 核心流程
 
-| 功能 | 說明 |
-|---|---|
-| Push-to-talk | 按住熱鍵開始錄音，放開後轉寫 |
-| 本地 STT | 使用 `faster-whisper` |
-| 多語設定 | 主語言 + 次語言提示 |
-| Refine | 修正錯字、語助詞、語句流暢度，保留原意 |
-| 混語處理 | 支援中英混合輸入 |
-| Provider | OpenAI Compatible / OpenRouter / Xiaomi MiMo V2 / Google Gemini API / NVIDIA NIM |
-| 分平台 API Key | 每個 Provider 各自儲存 API key |
-| Settings | Local STT + Refi Prompt 整合管理 |
+1. 按住熱鍵錄音
+2. 本機 STT（`faster-whisper`）轉寫
+3. LLM 做語義結構化
+4. 輸出貼到目前作用中的視窗
 
-## STT 支援
+## 翻譯模式（雙熱鍵）
 
-| 引擎 | 模式 | 模型 |
-|---|---|---|
-| faster-whisper | 本地 | `tiny`, `base`, `small`, `medium`, `large-v3` |
+- 一般精修：按原本熱鍵，浮窗顯示 `Listening ...`
+- 翻譯模式：按 `Ctrl + 翻譯熱鍵`，浮窗開頭顯示 `Translating`
+- 內容會翻譯並結構化成你在設定中指定的語言
 
-## 完整安裝
+## 功能
 
-### 1. 下載程式碼
+- 本機 STT（可離線轉寫）
+- `system_prompt.json` 提示詞系統
+- 多語系 UI：English、繁體中文、日本語、한국어
+- Provider：OpenAI-compatible、OpenRouter、Xiaomi MiMo、Google Gemini、NVIDIA NIM
+- 依 Provider 動態載入模型清單
+- 自訂詞彙表
+- 錄音檔為暫存，流程完成後會刪除
+
+## 建議模型
+
+- `gemini-2.5-flash`
+- `openai/gpt-oss-20b`（NVIDIA）
+- `Qwen2.5-Coder-7B-Instruct`
+- `nvidia/nemotron-nano-9b-v2`
+- `mistralai/mistral-small-24b-instruct`
+
+## 快速開始
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
-```
-
-### 2. 建立 Python 虛擬環境
-
-```powershell
 python -m venv .venv
 .venv\Scripts\activate
-```
-
-### 3. 安裝 Python 套件
-
-```powershell
-pip install --upgrade pip
-pip install keyboard numpy sounddevice faster-whisper ctranslate2 pystray pillow
-```
-
-### 4. 預載 STT 模型（建議）
-
-啟動後進入 `Settings` -> `Local STT` -> `Preload STT Model`。  
-建議先用 `small`。
-
-## 啟動
-
-```powershell
+pip install -r requirements.txt
 python app.py
 ```
 
-## 使用指南
+第一次啟動請到 Settings -> Local STT -> Preload STT Model，先預載 `small`。
 
-1. 選擇 Provider 與 Model。  
-2. 輸入對應 Provider 的 API key。  
-3. 點右上 `Settings` 設定 STT 與 Prompt。  
-4. 設定熱鍵，按住說話、放開轉寫。  
-5. 依需求開啟：
-   - Auto Refine After STT
-   - Auto Paste to Active Window
-   - Recording Overlay 位置（`Left Bottom` / `Center Bottom` / `Right Bottom`）
+## 打包 Windows 安裝檔
 
-## 自訂詞彙
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.0
+```
 
-定義詞彙對照表，確保特定領域詞彙在 Refine 時能正確處理。
+或使用一鍵打包：
 
-| 欄位 | 說明 |
-|---|---|
-| Term | 要偵測的詞彙或片語 |
-| Preferred | 正確或偏好的形式 |
-| Note | 提供給 Refine 引擎的補充說明（選填） |
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1
+```
 
-自訂詞彙會在 Refine 時自動注入系統提示詞。
+## 授權
 
-## Check Permissions
-
-會逐項顯示 `✓ / ✗`：
-
-| 檢查項目 |
-|---|
-| 本地 STT 依賴是否安裝 |
-| STT 模型是否存在 |
-| API 連線測試 |
-| 麥克風權限 / Runtime |
-| 熱鍵 Runtime |
-| 更新檢查（GitHub） |
-
-## 更新
-
-| 操作 | 說明 |
-|---|---|
-| Check Update | 檢查 GitHub 最新版本 |
-| Self Update | 在 git 倉庫執行 `git pull --ff-only` |
+Apache 2.0，詳見 [LICENSE](./LICENSE)。
