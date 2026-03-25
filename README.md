@@ -28,9 +28,16 @@ VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then 
 
 ## Quick Start
 
+### 1) Clone
+
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
+```
+
+### 2) Setup + Run
+
+```powershell
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt

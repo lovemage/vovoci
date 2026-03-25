@@ -26,11 +26,18 @@ VOVOCI 先用本地 `faster-whisper` 做语音转文字，再交给你选择的 
 3. LLM 做语义结构化
 4. 输出粘贴到当前活动窗口
 
-## 快速开始
+## Quick Start
+
+### 1) Clone
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
+```
+
+### 2) Setup + Run
+
+```powershell
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
