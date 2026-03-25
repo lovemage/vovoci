@@ -10,6 +10,7 @@ import threading
 import time
 import wave
 import webbrowser
+import shutil
 from datetime import datetime
 from pathlib import Path
 import tkinter as tk
@@ -51,15 +52,44 @@ if getattr(sys, "frozen", False):
 else:
     APP_DIR = Path(__file__).resolve().parent
     RESOURCE_DIR = APP_DIR
-CONFIG_PATH = APP_DIR / "config.json"
-SYSTEM_PROMPT_JSON_PATH = APP_DIR / "system_prompt.json"
+
+
+def _resolve_data_dir() -> Path:
+    env_override = (os.getenv("VOVOCI_DATA_DIR") or "").strip()
+    if env_override:
+        return Path(env_override).expanduser()
+    if not getattr(sys, "frozen", False):
+        return APP_DIR
+    if sys.platform.startswith("win"):
+        base = os.getenv("LOCALAPPDATA") or os.getenv("APPDATA")
+        if base:
+            return Path(base) / "VOVOCI"
+        return Path.home() / "AppData" / "Local" / "VOVOCI"
+    if sys.platform == "darwin":
+        return Path.home() / "Library" / "Application Support" / "VOVOCI"
+    xdg_config_home = (os.getenv("XDG_CONFIG_HOME") or "").strip()
+    if xdg_config_home:
+        return Path(xdg_config_home) / "vovoci"
+    return Path.home() / ".config" / "vovoci"
+
+
+DATA_DIR = _resolve_data_dir()
+try:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    DATA_DIR = APP_DIR
+
+CONFIG_PATH = DATA_DIR / "config.json"
+SYSTEM_PROMPT_JSON_PATH = DATA_DIR / "system_prompt.json"
+LEGACY_CONFIG_PATH = APP_DIR / "config.json"
+LEGACY_SYSTEM_PROMPT_JSON_PATH = APP_DIR / "system_prompt.json"
 AGENT_META_PATH = APP_DIR / ".agent"
-MODEL_CACHE_DIR = APP_DIR / "models"
+MODEL_CACHE_DIR = DATA_DIR / "models"
 TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.0"
+APP_VERSION = "0.1.1"
 GITHUB_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
 GITHUB_REPO_URL = f"https://github.com/{GITHUB_REPO}"
@@ -103,6 +133,7 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
     ],
     "refinement_rules": [
         "Do not rewrite for style beyond what is needed for structure and readability.",
+        "Apply automatic spelling correction for obvious misspellings when it does not change meaning.",
         "Fix typos and punctuation only when needed to clarify the same meaning.",
         "Remove filler/disfluency words, empty whitespace content, and duplicated phrases.",
         "If sentences are fragmented, merge/reorder only to recover the original semantic structure.",
@@ -133,6 +164,22 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
         "No headings, no notes, no metadata.",
     ],
 }
+
+
+def _migrate_runtime_file_if_needed(target: Path, legacy: Path) -> None:
+    if target == legacy:
+        return
+    if target.exists() or not legacy.exists():
+        return
+    try:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(legacy, target)
+    except Exception:
+        pass
+
+
+_migrate_runtime_file_if_needed(CONFIG_PATH, LEGACY_CONFIG_PATH)
+_migrate_runtime_file_if_needed(SYSTEM_PROMPT_JSON_PATH, LEGACY_SYSTEM_PROMPT_JSON_PATH)
 
 
 def _normalize_prompt_json_text(raw_text: str) -> str:
@@ -905,7 +952,7 @@ class RefineApp:
 
     def _set_window_title(self) -> None:
         version = str(self.app_version or APP_VERSION).strip() or APP_VERSION
-        self.root.title(f"VOVOCI - {version}")
+        self.root.title(f"VOVOCI v{version}")
 
     def _write_agent_meta(self) -> None:
         payload = {
@@ -1559,24 +1606,27 @@ class RefineApp:
         self._scanner_term_tree = None
         self._scanner_status_var = None
 
-    def _save_prompt_from_settings(self) -> None:
+    def _save_prompt_from_settings(self) -> bool:
         if self._settings_prompt_text is not None and self._settings_prompt_text.winfo_exists():
             raw = self._settings_prompt_text.get("1.0", "end").strip() or DEFAULT_SYSTEM_PROMPT
             try:
                 normalized = _normalize_prompt_json_text(raw)
             except Exception as exc:
                 messagebox.showerror("Prompt JSON Error", f"System prompt must be valid JSON.\n\n{str(exc)}")
-                return
+                return False
             self.system_prompt_cache = normalized
             try:
                 SYSTEM_PROMPT_JSON_PATH.write_text(normalized, encoding="utf-8")
-            except Exception:
-                pass
+            except Exception as exc:
+                messagebox.showerror("Save Error", str(exc))
+                return False
             self._settings_prompt_text.delete("1.0", "end")
             self._settings_prompt_text.insert("1.0", normalized)
+        return True
 
     def _save_settings_from_window(self) -> None:
-        self._save_prompt_from_settings()
+        if not self._save_prompt_from_settings():
+            return
         self._save_config()
         self.status_var.set(self._t("settings_saved"))
         self._animate_save_button(self._settings_save_btn, "save_all")
@@ -2926,8 +2976,8 @@ class RefineApp:
         self._animate_save_button(self._main_save_btn, "save_settings")
 
     def _save_prompt_with_feedback(self) -> None:
-        self._save_prompt_from_settings()
-        self._animate_save_button(self._prompt_save_btn, "save_prompt")
+        if self._save_prompt_from_settings():
+            self._animate_save_button(self._prompt_save_btn, "save_prompt")
 
     def _run_refine(self, pipeline_token=None) -> None:
         self._save_prompt_from_settings()

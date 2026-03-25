@@ -6,6 +6,10 @@
 
 언어: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
+## 버전
+
+현재 버전: `0.1.1`
+
 ## 개요
 
 VOVOCI는 음성을 로컬 `faster-whisper`로 전사한 뒤, 사용자가 선택한 LLM으로 의미를 구조화합니다. 사용자 의도는 바꾸지 않습니다.

@@ -1,6 +1,6 @@
 #define MyAppName "VOVOCI"
 #ifndef MyAppVersion
-  #define MyAppVersion "0.1.0"
+  #define MyAppVersion "0.1.1"
 #endif
 #define MyAppPublisher "VOVOCI"
 #define MyAppExeName "VOVOCI.exe"
@@ -41,11 +41,11 @@ Name: "{autodesktop}\VOVOCI"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopi
 Filename: "{app}\{#MyAppExeName}"; Description: "Launch VOVOCI"; Flags: nowait postinstall skipifsilent
 
 [UninstallDelete]
-Type: files; Name: "{app}\config.json"
-Type: files; Name: "{app}\system_prompt.json"
 Type: files; Name: "{app}\.agent"
 Type: files; Name: "{app}\crash.log"
 Type: files; Name: "{app}\voice_*.wav"
 Type: files; Name: "{app}\vovoci_voice_*.wav"
-Type: filesandordirs; Name: "{app}\models"
 Type: filesandordirs; Name: "{app}\__pycache__"
+Type: files; Name: "{localappdata}\VOVOCI\config.json"
+Type: files; Name: "{localappdata}\VOVOCI\system_prompt.json"
+Type: filesandordirs; Name: "{localappdata}\VOVOCI\models"

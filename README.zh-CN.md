@@ -6,6 +6,10 @@
 
 语言版本：[English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
+## 版本
+
+当前版本：`0.1.1`
+
 ## 项目简介
 
 VOVOCI 先用本地 `faster-whisper` 做语音转文字，再交给你选择的 LLM 做语义结构化，不改变用户原意。

@@ -8,6 +8,7 @@
   ],
   "refinement_rules": [
     "Do not rewrite for style beyond what is needed for structure and readability.",
+    "Apply automatic spelling correction for obvious misspellings when it does not change meaning.",
     "Fix typos and punctuation only when needed to clarify the same meaning.",
     "Remove filler/disfluency words, empty whitespace content, and duplicated phrases.",
     "If sentences are fragmented, merge/reorder only to recover the original semantic structure.",

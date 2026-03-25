@@ -8,7 +8,7 @@ $ProjectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $ProjectRoot
 
 if (-not $Version -or [string]::IsNullOrWhiteSpace($Version)) {
-  $defaultVersion = "0.1.0"
+  $defaultVersion = "0.1.1"
   $agentPath = Join-Path $ProjectRoot ".agent"
   if (Test-Path $agentPath) {
     try {

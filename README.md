@@ -6,6 +6,10 @@
 
 Languages: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
+## Version
+
+Current version: `0.1.1`
+
 ## Overview
 
 VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics while preserving your intent.

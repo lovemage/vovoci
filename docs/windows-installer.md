@@ -18,13 +18,13 @@
 在项目根目录执行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.0
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.1
 ```
 
 仅构建可运行目录（不生成安装包）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.0 -SkipInstaller
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.1 -SkipInstaller
 ```
 
 ## 打包内容（已包含）
