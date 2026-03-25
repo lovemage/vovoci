@@ -1,0 +1,14 @@
+﻿site/
+
+# Local/runtime artifacts
+__pycache__/
+*.pyc
+build/
+dist/
+models/
+.venv-build/
+
+# Local app state / sensitive
+config.json
+crash.log
+.agent
