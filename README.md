@@ -32,14 +32,22 @@ VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then 
 
 ## Quick Start
 
-### 1) Clone
+### 1) Windows Portable (Recommended)
+
+1. Download `VOVOCI-portable-<version>.zip` from [Releases](https://github.com/lovemage/vovoci/releases/latest)
+2. Extract the ZIP
+3. Run `Run-VOVOCI-First-Time.cmd` first, then use `VOVOCI.exe`
+
+Note: STT model files are auto-downloaded on first use (internet required once), then cached locally for offline reuse.
+
+### 2) Clone (From Source)
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
 ```
 
-### 2) Setup + Run
+### 3) Setup + Run
 
 ```powershell
 python -m venv .venv

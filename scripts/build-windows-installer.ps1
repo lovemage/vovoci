@@ -1,6 +1,12 @@
 param(
     [string]$Version = "0.1.1",
-    [switch]$SkipInstaller
+    [switch]$SkipInstaller,
+    [switch]$Sign,
+    [string]$SignToolPath = "",
+    [string]$TimestampUrl = "http://timestamp.digicert.com",
+    [string]$CertThumbprint = "",
+    [string]$CertSubject = "",
+    [switch]$SkipSignatureVerify
 )
 
 $ErrorActionPreference = "Stop"
@@ -17,6 +23,39 @@ $IsccAlt = "C:\Program Files\Inno Setup 6\ISCC.exe"
 
 Write-Host "==> Project root: $ProjectRoot"
 Write-Host "==> Version: $Version"
+
+function Resolve-SignToolPath {
+    param(
+        [string]$UserPath
+    )
+
+    if ($UserPath -and -not [string]::IsNullOrWhiteSpace($UserPath)) {
+        if (Test-Path $UserPath) {
+            return $UserPath
+        }
+        throw "SignTool not found at provided path: $UserPath"
+    }
+
+    $candidates = @()
+    $kitsRoot = "C:\Program Files (x86)\Windows Kits\10\bin"
+    if (Test-Path $kitsRoot) {
+        $candidates += Get-ChildItem $kitsRoot -Recurse -Filter signtool.exe -ErrorAction SilentlyContinue |
+            Where-Object { $_.FullName -match "\\x64\\signtool\.exe$" } |
+            Sort-Object FullName -Descending |
+            Select-Object -ExpandProperty FullName
+    }
+
+    if ($candidates.Count -gt 0) {
+        return $candidates[0]
+    }
+
+    $cmd = Get-Command signtool.exe -ErrorAction SilentlyContinue
+    if ($cmd -and $cmd.Source) {
+        return $cmd.Source
+    }
+
+    throw "signtool.exe not found. Install Windows SDK Signing Tools or provide -SignToolPath."
+}
 
 if (!(Test-Path $VenvDir)) {
     Write-Host "==> Creating build virtualenv"
@@ -70,5 +109,38 @@ if (Test-Path $IsccUser) {
 
 Write-Host "==> Building installer (Inno Setup)"
 & $Iscc "/DMyAppVersion=$Version" ".\installer\vovoci.iss"
+
+if ($Sign) {
+    $InstallerPath = Join-Path $ProjectRoot ("release\VOVOCI-Setup-{0}.exe" -f $Version)
+    if (!(Test-Path $InstallerPath)) {
+        throw "Installer not found for signing: $InstallerPath"
+    }
+
+    $ResolvedSignTool = Resolve-SignToolPath -UserPath $SignToolPath
+    Write-Host "==> Signing installer with: $ResolvedSignTool"
+
+    $signArgs = @("sign", "/fd", "SHA256", "/td", "SHA256", "/tr", $TimestampUrl)
+    if ($CertThumbprint -and -not [string]::IsNullOrWhiteSpace($CertThumbprint)) {
+        $signArgs += @("/sha1", $CertThumbprint)
+    } elseif ($CertSubject -and -not [string]::IsNullOrWhiteSpace($CertSubject)) {
+        $signArgs += @("/n", $CertSubject)
+    } else {
+        $signArgs += "/a"
+    }
+    $signArgs += $InstallerPath
+
+    & $ResolvedSignTool @signArgs
+    if ($LASTEXITCODE -ne 0) {
+        throw "signtool sign failed with exit code $LASTEXITCODE"
+    }
+
+    if (-not $SkipSignatureVerify) {
+        Write-Host "==> Verifying signature"
+        & $ResolvedSignTool verify /pa /v $InstallerPath
+        if ($LASTEXITCODE -ne 0) {
+            throw "signtool verify failed with exit code $LASTEXITCODE"
+        }
+    }
+}
 
 Write-Host "==> Done. Installer output folder: .\release"

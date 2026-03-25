@@ -6,6 +6,7 @@
 
 - 应用目录：`dist/VOVOCI/`
 - 安装包：`release/VOVOCI-Setup-<version>.exe`
+- 可携版：`release/VOVOCI-portable-<version>.zip`
 - 发布位置：GitHub Releases（**不提交 `release/*.exe` 到仓库**）
 
 ## 前置条件
@@ -21,6 +22,30 @@
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.1
 ```
+
+打包并签章（若系统已安装 `signtool.exe` 且证书可用）：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign
+```
+
+指定证书（可选其一）：
+
+```powershell
+# 按证书 Thumbprint
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign -CertThumbprint "<thumbprint>"
+
+# 按证书 Subject
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign -CertSubject "Your Company Name"
+```
+
+仅打包可携版 ZIP（不生成安装器）：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -PortableOnly
+```
+
+可携版 ZIP 内会附带 `Run-VOVOCI-First-Time.cmd`，建议首次运行时优先双击该文件（会自动执行 `Unblock-File` 后启动 `VOVOCI.exe`）。
 
 仅构建可运行目录（不生成安装包）：
 

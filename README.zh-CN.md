@@ -32,14 +32,22 @@ VOVOCI 先用本地 `faster-whisper` 做语音转文字，再交给你选择的 
 
 ## Quick Start
 
-### 1) Clone
+### 1) Windows 便携版（推荐）
+
+1. 从 [Releases](https://github.com/lovemage/vovoci/releases/latest) 下载 `VOVOCI-portable-<version>.zip`
+2. 解压 ZIP
+3. 先运行 `Run-VOVOCI-First-Time.cmd`，再使用 `VOVOCI.exe`
+
+注意：STT 模型会在首次使用时自动下载（需要一次联网），之后会缓存到本地供离线重复使用。
+
+### 2) Clone（源码）
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
 ```
 
-### 2) Setup + Run
+### 3) Setup + Run
 
 ```powershell
 python -m venv .venv
