@@ -1,17 +1,23 @@
-﻿# VOVOCI
-
-Structured voice secretary for vibecoding and everyday conversation on Windows.
+﻿<div align="center">
+  <img src="./logo.png" alt="VOVOCI Logo" width="140" />
+  <h1>VOVOCI</h1>
+  <p>Structured voice secretary for vibecoding and everyday conversation on Windows.</p>
+</div>
 
 Languages: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
-VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics without changing user intent.
+## Overview
 
-## Why VOVOCI
+VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics while preserving your intent.
+
+## Highlights
 
 - Built for vibecoding, notes, social drafts, and general conversation
 - Works in any Windows app with push-to-talk and auto paste
-- Uses your own provider and model (no vendor lock-in)
 - Supports mixed-language input and structured output
+- Multi-language UI: English, Traditional Chinese, Japanese, Korean
+- Providers: OpenAI-compatible, OpenRouter, Xiaomi MiMo, Google Gemini, NVIDIA NIM
+- Recording files are temporary and removed after processing
 
 ## Core Workflow
 
@@ -19,22 +25,6 @@ VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then 
 2. Local STT (`faster-whisper`) transcribes audio
 3. LLM refines into structured semantic output
 4. Result is pasted into the active window
-
-## Translation Mode (Dual Hotkey)
-
-- Normal refine: hold your normal hotkey, overlay shows `Listening ...`
-- Translate mode: press `Ctrl + translate hotkey`, overlay starts with `Translating`
-- Output is translated and structured into your configured target language
-
-## Features
-
-- Local STT (offline transcription)
-- Prompt system from `system_prompt.json`
-- Multi-language UI: English, Traditional Chinese, Japanese, Korean
-- Providers: OpenAI-compatible, OpenRouter, Xiaomi MiMo, Google Gemini, NVIDIA NIM
-- Dynamic provider model list
-- Custom vocabulary support
-- Recording files are temporary and removed after processing
 
 ## Quick Start
 
