@@ -2,7 +2,7 @@
 
 Structured voice secretary for vibecoding and everyday conversation on Windows.
 
-Languages: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md)
+Languages: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
 
 VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics without changing user intent.
 
@@ -36,14 +36,6 @@ VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then 
 - Custom vocabulary support
 - Recording files are temporary and removed after processing
 
-## Suggested Models
-
-- `gemini-2.5-flash`
-- `openai/gpt-oss-20b` (NVIDIA)
-- `Qwen2.5-Coder-7B-Instruct`
-- `nvidia/nemotron-nano-9b-v2`
-- `mistralai/mistral-small-24b-instruct`
-
 ## Quick Start
 
 ```powershell
@@ -53,20 +45,6 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
-```
-
-On first launch, open Settings -> Local STT -> Preload STT Model, then preload `small`.
-
-## Build Windows Installer
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.0
-```
-
-Or use one command:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1
 ```
 
 ## License
