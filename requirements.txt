@@ -1,0 +1,8 @@
+keyboard
+numpy
+sounddevice
+faster-whisper
+ctranslate2
+pystray
+pillow
+
