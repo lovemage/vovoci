@@ -12,3 +12,6 @@ models/
 config.json
 crash.log
 .agent
+
+# Release assets should be uploaded to GitHub Releases
+release/*.exe
