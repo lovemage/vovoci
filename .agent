@@ -1,0 +1,22 @@
+{
+  "name": "VOVOCI",
+  "version": "0.1.1",
+  "updated_at": "2026-03-25T15:35:00",
+  "release_policy": {
+    "windows_artifact": "release/VOVOCI-Setup-<version>.exe",
+    "do_not_commit_installer_to_repo": true,
+    "publish_target": "GitHub Releases"
+  },
+  "release_workflow": [
+    "1) Build installer: powershell -ExecutionPolicy Bypass -File .\\scripts\\package-windows.ps1 -Version <version>",
+    "2) Verify artifact exists: release/VOVOCI-Setup-<version>.exe",
+    "3) Commit source/version changes only (exclude release/*.exe)",
+    "4) Push branch to origin",
+    "5) Create release tag and GitHub Release",
+    "6) Upload installer to Release asset (not repository files)"
+  ],
+  "release_upload_examples": {
+    "create_release": "gh release create v<version> --title \"VOVOCI v<version>\" --notes \"Windows installer release\"",
+    "upload_asset": "gh release upload v<version> release/VOVOCI-Setup-<version>.exe --clobber"
+  }
+}

@@ -24,6 +24,22 @@ python -m venv .venv
 
 No test suite, linter, or build system exists. The app is run directly.
 
+## Release Workflow (Agent Policy)
+
+For Windows releases, always use this process:
+
+1. Build installer
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version <version>
+```
+2. Confirm artifact exists at `release/VOVOCI-Setup-<version>.exe`.
+3. Commit/push source changes only. Do **not** commit `release/*.exe` into repository history.
+4. Publish binary via GitHub Release asset upload (not repository files), for example:
+```powershell
+gh release create v<version> --title "VOVOCI v<version>" --notes "Windows installer release"
+gh release upload v<version> release/VOVOCI-Setup-<version>.exe --clobber
+```
+
 ## Architecture
 
 **Single-file monolith:** All application code lives in `app.py` (~2400 lines). The main class is `RefineApp`.

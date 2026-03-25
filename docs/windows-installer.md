@@ -6,6 +6,7 @@
 
 - 应用目录：`dist/VOVOCI/`
 - 安装包：`release/VOVOCI-Setup-<version>.exe`
+- 发布位置：GitHub Releases（**不提交 `release/*.exe` 到仓库**）
 
 ## 前置条件
 
@@ -46,6 +47,15 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -
 - PyInstaller 规则：`vovoci.spec`
 - 构建脚本：`scripts/build-windows-installer.ps1`
 - Inno Setup 脚本：`installer/vovoci.iss`
+
+## 上传到 GitHub Release
+
+建议使用 GitHub CLI：
+
+```powershell
+gh release create v<version> --title "VOVOCI v<version>" --notes "Windows installer release"
+gh release upload v<version> release/VOVOCI-Setup-<version>.exe --clobber
+```
 
 ## 常见问题
 

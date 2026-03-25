@@ -955,11 +955,22 @@ class RefineApp:
         self.root.title(f"VOVOCI v{version}")
 
     def _write_agent_meta(self) -> None:
+        existing = {}
+        try:
+            if AGENT_META_PATH.exists():
+                raw = json.loads(AGENT_META_PATH.read_text(encoding="utf-8"))
+                if isinstance(raw, dict):
+                    existing = raw
+        except Exception:
+            existing = {}
         payload = {
             "name": "VOVOCI",
             "version": str(self.app_version or APP_VERSION).strip() or APP_VERSION,
             "updated_at": datetime.now().isoformat(timespec="seconds"),
         }
+        for k, v in existing.items():
+            if k not in payload:
+                payload[k] = v
         try:
             AGENT_META_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         except Exception:
