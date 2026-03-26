@@ -1,67 +1,81 @@
-﻿<div align="center">
-  <img src="./logo.png" alt="VOVOCI Logo" width="140" />
-  <h1>VOVOCI</h1>
-  <p>面向 Windows 的 vibecoding 与日常对话结构化语音秘书。</p>
+<div align="center">
+
+<img src="./logo.png" width="140" />
+
+# VOVOCI
+
+**开口即思考，边说边打磨。**
+
+自然说话，在任意 Windows 应用中获得干净的结构化文本 — 由本地 STT 和你选择的 LLM 驱动。
+
+[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci/releases)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
+
+Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+
 </div>
 
-语言版本：[English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
+## 为什么要用结构化语音？
 
-## 版本
+说话会激活一种不同的思维方式 — 你会探索想法、发现漏洞，并实时纠正方向。VOVOCI 把这些原始思考转化为干净、结构化的输出，让你可以：
 
-当前版本：`0.1.4`
+- **边说边想** — 语音将思维外化，帮助大脑比单纯打字更快地处理和打磨想法
+- **随时调整方向** — 听到自己的推理过程，发现哪里不对，在说到一半时就修正思路
+- **直达任何场景** — 结构化输出直接流入你的 IDE、Agent 提示词、笔记或聊天窗口 — 无需二次整理
 
-## 项目简介
+## 工作原理
 
-VOVOCI 先用本地 `faster-whisper` 做语音转文字，再交给你选择的 LLM 做语义结构化，不改变用户原意。
+```mermaid
+graph LR
+    A[🎤 按住热键 <br> 自然说话] --> B[🖥️ 本地 STT <br> faster-whisper]
+    B --> C[🤖 LLM 润色 <br> 你选择的服务商]
+    C --> D[📋 自动粘贴 <br> 当前活动窗口]
+```
 
-## APP 截图
+> 本地转录，你自己的 API Key。在 LLM 环节之前数据不会离开你的电脑 — 而且你可以选择信任哪个服务商。
 
-![VOVOCI APP 截图](./docs/images/app-screenshot.png)
+## 亮点
 
-## 特色
+| 💰 约 $3.80/月 | 📖 术语扫描器 | 🌐 双热键翻译 |
+|:---:|:---:|:---:|
+| 无需订阅。你只为实际使用的 LLM API tokens 付费。通过 OpenRouter 使用 Grok 4.1 Fast 重度日用约 $3.80/月。 | 将内置提示词复制到你的 AI Agent 中 — 它会扫描你的代码库并导出词汇表。导入后，每次听写都能使用正确的拼写。 | 分配第二个热键用于翻译。按下它代替常规听写键，VOVOCI 会自动将你的语音翻译成目标语言。 |
 
-- 适合 vibecoding、语音笔记、社媒草稿、日常对话
-- 可在任意 Windows 软件中使用（Push-to-talk + Auto paste）
-- 支持混合语言输入与结构化输出
-- 多语言 UI：English、繁體中文、日本語、한국어
-- Provider：OpenAI-compatible、OpenRouter、Xiaomi MiMo、Google Gemini、NVIDIA NIM
-- 录音文件为临时文件，处理完成后删除
+## 快速开始
 
-## 核心流程
+### 便携版（推荐）
 
-1. 按住热键录音
-2. 本地 STT（`faster-whisper`）转写
-3. LLM 做语义结构化
-4. 输出粘贴到当前活动窗口
+1. 从 [Releases](https://github.com/lovemage/vovoci/releases/latest) 下载 `VOVOCI-portable-0.1.4.zip`
+2. 解压并运行 `Run-VOVOCI-First-Time.cmd`
+3. 启动 `VOVOCI.exe`
 
-## Quick Start
+> STT 模型在首次使用时自动下载（需要联网一次），之后缓存到本地可离线复用。
 
-### 1) Windows 便携版（推荐）
-
-1. 从 [Releases](https://github.com/lovemage/vovoci/releases/latest) 下载 `VOVOCI-portable-<version>.zip`
-2. 解压 ZIP
-3. 先运行 `Run-VOVOCI-First-Time.cmd`，再使用 `VOVOCI.exe`
-
-注意：STT 模型会在首次使用时自动下载（需要一次联网），之后会缓存到本地供离线重复使用。
-
-### 2) Clone（源码）
+### 从源码运行
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
-```
-
-### 3) Setup + Run
-
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
+python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
 ```
 
-## 许可证
+## 服务商
 
-Apache 2.0，详见 [LICENSE](./LICENSE)。
+VOVOCI 开箱即用支持五个 LLM 服务商 — 绝不锁定。
 
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（免费额度）*
 
+> LLM API 新手？从 NVIDIA NIM 开始 — 免费使用，无需信用卡。
+
+## 应用截图
+
+![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
+
+<div align="center">
+
+🌐 [官网](https://vovoci.com) · 📄 [Apache 2.0 License](./LICENSE)
+
+</div>

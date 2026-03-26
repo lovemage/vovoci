@@ -1,66 +1,81 @@
-﻿<div align="center">
-  <img src="./logo.png" alt="VOVOCI Logo" width="140" />
-  <h1>VOVOCI</h1>
-  <p>Structured voice secretary for vibecoding and everyday conversation on Windows.</p>
+<div align="center">
+
+<img src="./logo.png" width="140" />
+
+# VOVOCI
+
+**Voice Your Thoughts. Refine as You Go.**
+
+Speak naturally, get clean structured text in any Windows app — powered by local STT and your choice of LLM.
+
+[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci/releases)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
+
+Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+
 </div>
 
-Languages: [English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
+## Why Structured Voice?
 
-## Version
+Speaking activates a different kind of thinking — you explore ideas, catch gaps, and course-correct in real time. VOVOCI turns that raw thinking into clean, structured output so you can:
 
-Current version: `0.1.4`
+- **Think while you speak** — voice externalizes your thoughts, helping your brain process and refine faster than typing alone
+- **Steer your direction** — hear your own reasoning out loud, spot what's off, and adjust your development approach mid-sentence
+- **Ship to any context** — structured output flows directly into your IDE, agent prompt, note, or chat — no cleanup needed
 
-## Overview
+## How It Works
 
-VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics while preserving your intent.
+```mermaid
+graph LR
+    A[🎤 Hold Hotkey <br> Speak naturally] --> B[🖥️ Local STT <br> faster-whisper]
+    B --> C[🤖 LLM Refine <br> Your chosen provider]
+    C --> D[📋 Auto Paste <br> Active window]
+```
+
+> Local transcription. Your API key. No data leaves your machine until the LLM step — and you choose which provider to trust.
+
+## Highlights
+
+| 💰 ~$3.80/month | 📖 Term Scanner | 🌐 Dual-Hotkey Translation |
+|:---:|:---:|:---:|
+| No subscription. You only pay for LLM API tokens you actually use. Heavy daily usage on Grok 4.1 Fast via OpenRouter costs ~$3.80/mo. | Copy a built-in prompt into your AI agent — it scans your codebase and exports a vocabulary table. Import it, and every dictation uses the right spelling. | Assign a second hotkey for translation. Press it instead of the regular dictation key, and VOVOCI translates your speech into your target language automatically. |
+
+## Quick Start
+
+### Portable (Recommended)
+
+1. Download `VOVOCI-portable-0.1.4.zip` from [Releases](https://github.com/lovemage/vovoci/releases/latest)
+2. Extract and run `Run-VOVOCI-First-Time.cmd`
+3. Launch `VOVOCI.exe`
+
+> STT models auto-download on first use (internet required once), then cached locally for offline reuse.
+
+### From Source
+
+```powershell
+git clone https://github.com/lovemage/vovoci.git
+cd vovoci
+python -m venv .venv && .venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+
+## Providers
+
+VOVOCI works with five LLM providers out of the box — you're never locked in.
+
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(free tier)*
+
+> New to LLM APIs? Start with NVIDIA NIM — free access, no credit card needed.
 
 ## App Screenshot
 
 ![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
 
-## Highlights
+<div align="center">
 
-- Built for vibecoding, notes, social drafts, and general conversation
-- Works in any Windows app with push-to-talk and auto paste
-- Supports mixed-language input and structured output
-- Multi-language UI: English, Traditional Chinese, Japanese, Korean
-- Providers: OpenAI-compatible, OpenRouter, Xiaomi MiMo, Google Gemini, NVIDIA NIM
-- Recording files are temporary and removed after processing
+🌐 [Website](https://vovoci.com) · 📄 [Apache 2.0 License](./LICENSE)
 
-## Core Workflow
-
-1. Hold hotkey to record
-2. Local STT (`faster-whisper`) transcribes audio
-3. LLM refines into structured semantic output
-4. Result is pasted into the active window
-
-## Quick Start
-
-### 1) Windows Portable (Recommended)
-
-1. Download `VOVOCI-portable-<version>.zip` from [Releases](https://github.com/lovemage/vovoci/releases/latest)
-2. Extract the ZIP
-3. Run `Run-VOVOCI-First-Time.cmd` first, then use `VOVOCI.exe`
-
-Note: STT model files are auto-downloaded on first use (internet required once), then cached locally for offline reuse.
-
-### 2) Clone (From Source)
-
-```powershell
-git clone https://github.com/lovemage/vovoci.git
-cd vovoci
-```
-
-### 3) Setup + Run
-
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
-```
-
-## License
-
-Apache 2.0. See [LICENSE](./LICENSE).
-
+</div>

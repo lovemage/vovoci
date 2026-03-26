@@ -1,67 +1,81 @@
-﻿<div align="center">
-  <img src="./logo.png" alt="VOVOCI Logo" width="140" />
-  <h1>VOVOCI</h1>
-  <p>Windows 向けの vibecoding と日常会話のための構造化音声秘書。</p>
+<div align="center">
+
+<img src="./logo.png" width="140" />
+
+# VOVOCI
+
+**声に出して考えよう。話しながら磨き上げる。**
+
+自然に話すだけで、整った構造化テキストがWindowsアプリに届きます — ローカルSTTとお好みのLLMで動作します。
+
+[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci/releases)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
+
+Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+
 </div>
 
-言語: [English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
+## なぜ「構造化された音声入力」なのか？
 
-## バージョン
+話すことは、タイピングとは異なる思考回路を活性化させます — アイデアを探り、抜け漏れに気づき、リアルタイムで軌道修正できます。VOVOCIはその生の思考を整った構造化テキストに変換します。
 
-現在のバージョン: `0.1.4`
+- **話しながら考える** — 声に出すことで思考が外在化され、タイピングだけより速く脳が処理・整理できます
+- **方向を修正する** — 自分の推論を声に出して聞き、おかしな点に気づき、文の途中でもアプローチを調整できます
+- **あらゆる場面にそのまま使える** — 構造化された出力がIDE、エージェントプロンプト、メモ、チャットに直接流れます — 手直し不要です
 
-## 概要
+## 仕組み
 
-VOVOCI は音声をローカルの `faster-whisper` で文字起こしし、その後あなたが選んだ LLM で意味を構造化します。ユーザーの意図は変更しません。
+```mermaid
+graph LR
+    A[🎤 ホットキー長押し <br> 自然に話す] --> B[🖥️ ローカルSTT <br> faster-whisper]
+    B --> C[🤖 LLMで整形 <br> お好みのプロバイダー]
+    C --> D[📋 自動ペースト <br> アクティブウィンドウ]
+```
 
-## アプリ画面
+> ローカルで文字起こし。APIキーはあなた自身のもの。LLMステップまでデータは外部に送信されません — どのプロバイダーを信頼するかはあなたが選べます。
 
-![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
+## 特長
 
-## 特徴
+| 💰 月額約$3.80 | 📖 用語スキャナー | 🌐 デュアルホットキー翻訳 |
+|:---:|:---:|:---:|
+| サブスクリプション不要。実際に使ったLLM APIトークン分だけお支払い。Grok 4.1 Fast（OpenRouter経由）でヘビーに毎日使っても月額約$3.80です。 | 内蔵プロンプトをAIエージェントにコピーするだけ — コードベースをスキャンして用語テーブルをエクスポートします。インポートすれば、すべての音声入力で正しいスペルが使われます。 | 翻訳用に2つ目のホットキーを割り当てられます。通常の音声入力キーの代わりにそのキーを押すと、VOVOCIが発話を自動的にターゲット言語に翻訳します。 |
 
-- vibecoding、音声メモ、SNS 下書き、日常会話に対応
-- Push-to-talk と Auto paste で Windows の各アプリに対応
-- 混在言語入力と構造化出力をサポート
-- 多言語 UI: English、繁體中文、日本語、한국어
-- Provider: OpenAI-compatible、OpenRouter、Xiaomi MiMo、Google Gemini、NVIDIA NIM
-- 録音ファイルは一時ファイルとして処理後に削除
+## クイックスタート
 
-## コアフロー
+### ポータブル版（推奨）
 
-1. ホットキーを押して録音
-2. ローカル STT（`faster-whisper`）で文字起こし
-3. LLM で意味を構造化
-4. 出力をアクティブなウィンドウへ貼り付け
+1. [Releases](https://github.com/lovemage/vovoci/releases/latest) から `VOVOCI-portable-0.1.4.zip` をダウンロード
+2. 解凍して `Run-VOVOCI-First-Time.cmd` を実行
+3. `VOVOCI.exe` を起動
 
-## Quick Start
+> STTモデルは初回使用時に自動ダウンロードされます（インターネット接続が一度だけ必要）。以降はローカルにキャッシュされ、オフラインで再利用できます。
 
-### 1) Windows ポータブル版（推奨）
-
-1. [Releases](https://github.com/lovemage/vovoci/releases/latest) から `VOVOCI-portable-<version>.zip` をダウンロード
-2. ZIP を展開
-3. 最初に `Run-VOVOCI-First-Time.cmd` を実行し、その後 `VOVOCI.exe` を使う
-
-注意: STT モデルは初回利用時に自動ダウンロードされます（初回のみネット接続が必要）。以後はローカルキャッシュでオフライン再利用できます。
-
-### 2) Clone（ソースコード）
+### ソースから実行
 
 ```powershell
 git clone https://github.com/lovemage/vovoci.git
 cd vovoci
-```
-
-### 3) Setup + Run
-
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
+python -m venv .venv && .venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
 ```
 
-## ライセンス
+## プロバイダー
 
-Apache 2.0。詳細は [LICENSE](./LICENSE) を参照してください。
+VOVOCIは5つのLLMプロバイダーにすぐ対応しています — ロックインはありません。
 
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（無料枠あり）*
 
+> LLM APIが初めての方は、NVIDIA NIMから始めるのがおすすめです — 無料でアクセスでき、クレジットカードも不要です。
+
+## アプリのスクリーンショット
+
+![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
+
+<div align="center">
+
+🌐 [ウェブサイト](https://vovoci.com) · 📄 [Apache 2.0 License](./LICENSE)
+
+</div>
