@@ -1,6 +1,6 @@
-#define MyAppName "VOVOCI"
+﻿#define MyAppName "VOVOCI"
 #ifndef MyAppVersion
-  #define MyAppVersion "0.1.2"
+  #define MyAppVersion "0.1.3"
 #endif
 #define MyAppPublisher "VOVOCI"
 #define MyAppExeName "VOVOCI.exe"
@@ -49,3 +49,4 @@ Type: filesandordirs; Name: "{app}\__pycache__"
 Type: files; Name: "{localappdata}\VOVOCI\config.json"
 Type: files; Name: "{localappdata}\VOVOCI\system_prompt.json"
 Type: filesandordirs; Name: "{localappdata}\VOVOCI\models"
+

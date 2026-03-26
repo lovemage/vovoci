@@ -89,7 +89,7 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.2"
+APP_VERSION = "0.1.3"
 GITHUB_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
 GITHUB_REPO_URL = f"https://github.com/{GITHUB_REPO}"
@@ -818,7 +818,7 @@ class RefineApp:
         self.voice_lang_target_var = tk.StringVar(value="Follow Input")
         self.voice_lang_modifier_hotkey_var = tk.StringVar(value="Right Shift")
         self.show_recording_overlay_var = tk.BooleanVar(value=True)
-        self.overlay_position_var = tk.StringVar(value="Right Bottom")
+        self.overlay_position_var = tk.StringVar(value="Center Bottom")
         self.system_prompt_cache = DEFAULT_SYSTEM_PROMPT
 
         self._hotkey_press_hook = None
@@ -1147,7 +1147,7 @@ class RefineApp:
         history_tree = ttk.Treeview(history_frame, columns=("date", "time", "text"), show="headings", height=8, style="App.Treeview")
         history_tree.heading("date", text=self._t("date"))
         history_tree.heading("time", text=self._t("time"))
-        history_tree.heading("text", text=self._t("input_text"))
+        history_tree.heading("text", text=f"⌨ {self._t('input_text')}")
         history_tree.column("date", width=110, anchor="w")
         history_tree.column("time", width=70, anchor="w")
         history_tree.column("text", width=620, anchor="w")
@@ -2161,9 +2161,12 @@ class RefineApp:
             return
         self._pipeline_token += 1
         fg_hwnd = self._get_foreground_window_handle()
-        root_hwnd = int(self.root.winfo_id())
-        if fg_hwnd and fg_hwnd != root_hwnd:
-            self._preferred_paste_hwnd = fg_hwnd
+        root_hwnd = self._get_top_level_window_handle(int(self.root.winfo_id()))
+        fg_top_hwnd = self._get_top_level_window_handle(fg_hwnd)
+        if fg_top_hwnd and fg_top_hwnd != root_hwnd:
+            self._preferred_paste_hwnd = fg_top_hwnd
+        else:
+            self._preferred_paste_hwnd = 0
         self._translate_hotkey_active = bool(translate_hotkey_active and self.voice_lang_command_enabled_var.get())
         try:
             with self._recording_lock:
@@ -2925,9 +2928,9 @@ class RefineApp:
                 translate_hotkey = "Right Shift"
             self.voice_lang_modifier_hotkey_var.set(translate_hotkey)
             self.show_recording_overlay_var.set(bool(data.get("show_recording_overlay", True)))
-            overlay_pos = data.get("overlay_position", "Right Bottom")
+            overlay_pos = data.get("overlay_position", "Center Bottom")
             if overlay_pos not in OVERLAY_POSITION_OPTIONS:
-                overlay_pos = "Right Bottom"
+                overlay_pos = "Center Bottom"
             self.overlay_position_var.set(overlay_pos)
             self._active_provider = provider
 
@@ -3215,6 +3218,19 @@ class RefineApp:
             return 0
 
     @staticmethod
+    def _get_top_level_window_handle(hwnd: int) -> int:
+        if not hwnd:
+            return 0
+        try:
+            import ctypes
+
+            GA_ROOT = 2
+            top = int(ctypes.windll.user32.GetAncestor(int(hwnd), GA_ROOT))
+            return top or int(hwnd)
+        except Exception:
+            return int(hwnd)
+
+    @staticmethod
     def _has_foreground_text_caret() -> bool:
         try:
             import ctypes
@@ -3288,7 +3304,7 @@ class RefineApp:
             action.pack(fill="x")
             ttk.Button(
                 action,
-                text=self._t("copy"),
+                text=f"📋 {self._t('copy')}",
                 command=lambda: (self.root.clipboard_clear(), self.root.clipboard_append(txt.get("1.0", "end").strip())),
                 style="Ghost.TButton",
             ).pack(side="left")
@@ -3333,24 +3349,35 @@ class RefineApp:
             return False
 
     def _paste_text_to_active_window(self, text: str) -> None:
-        if keyboard is None:
-            self.status_var.set(self._t("paste_no_keyboard"))
+        hwnd = self._get_top_level_window_handle(self._get_foreground_window_handle())
+        root_hwnd = self._get_top_level_window_handle(int(self.root.winfo_id()))
+        preferred = self._get_top_level_window_handle(int(self._preferred_paste_hwnd or 0))
+        target_hwnd = 0
+        if self._is_valid_hwnd(preferred) and preferred != root_hwnd:
+            target_hwnd = preferred
+        elif self._is_valid_hwnd(hwnd) and hwnd != root_hwnd:
+            target_hwnd = hwnd
+
+        if target_hwnd == 0:
+            self.status_var.set(self._t("paste_no_target"))
             self._show_floating_text(text)
             return
-        hwnd = self._get_foreground_window_handle()
-        root_hwnd = int(self.root.winfo_id())
-        preferred = int(self._preferred_paste_hwnd or 0)
-        target_hwnd = preferred if self._is_valid_hwnd(preferred) and preferred != root_hwnd else hwnd
-        if target_hwnd == 0 or target_hwnd == root_hwnd:
-            self.status_var.set(self._t("paste_no_target"))
+        if not self._has_foreground_text_caret():
+            self.status_var.set("No text caret detected. Showing editable output window.")
             self._show_floating_text(text)
             return
         try:
             self.root.clipboard_clear()
             self.root.clipboard_append(text)
             self.root.update_idletasks()
-            if not self._paste_via_winapi(target_hwnd):
+            pasted = self._paste_via_winapi(target_hwnd)
+            if not pasted and keyboard is not None:
                 self.root.after(80, lambda: keyboard.send("ctrl+v"))
+                pasted = True
+            if not pasted:
+                self.status_var.set(self._t("paste_no_keyboard"))
+                self._show_floating_text(text)
+                return
             self.status_var.set(self._t("paste_done"))
         except Exception as exc:
             self.status_var.set(f"Auto paste failed: {str(exc)[:120]}")
