@@ -89,10 +89,11 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.3"
+APP_VERSION = "0.1.4"
 GITHUB_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
 GITHUB_REPO_URL = f"https://github.com/{GITHUB_REPO}"
+OPENROUTER_DEFAULT_MODEL = "x-ai/grok-4.1-fast"
 _SINGLE_INSTANCE_MUTEX = None
 VOCABULARY_EXPORT_PROMPT = (
     "Please analyze my development environment, codebase, and frequently used tools, "
@@ -223,6 +224,7 @@ PROVIDERS = {
     "OpenRouter": {
         "api_base": "https://openrouter.ai/api/v1",
         "models": [
+            OPENROUTER_DEFAULT_MODEL,
             "openai/gpt-5-mini",
             "openai/gpt-5",
             "google/gemini-2.5-flash",
@@ -329,7 +331,7 @@ UI_STRINGS = {
         "save_all": "Save All Settings",
         "saved": "Saved",
         "check_permissions": "System Check",
-        "settings": "Settings",
+        "settings": "Advanced",
         "github": "GitHub",
         "run_refine": "Run Refine",
         "add_update_term": "Add / Update Term",
@@ -352,6 +354,8 @@ UI_STRINGS = {
         "local_stt": "Local STT",
         "refine_prompt": "Refine Prompt",
         "history": "History",
+        "show_settings": "Show Settings",
+        "hide_settings": "Hide Settings",
         "term_scanner": "Term Scanner",
         "enable_local_stt": "Enable Local STT",
         "auto_refine": "Auto Refine After STT",
@@ -372,10 +376,11 @@ UI_STRINGS = {
         "secondary_languages_help": "Optional. Leave empty by default. Use comma-separated ISO language codes (e.g., en,ja,ko) only when speech may mix languages; too many codes can reduce accuracy.",
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "Set Default",
-        "history_label": "Input text history (latest first)",
-        "history_copied": "Copied input text from history.",
+        "history_label": "Original text history (latest first)",
+        "history_copied": "Copied original text from history.",
         "history_copied_short": "Copied",
         "clear_history": "Clear History",
+        "model_settings": "Model Settings",
         "copy": "Copy",
         "close": "Close",
         "scan_sources": "Step 1: Copy Prompt to Your AI Agent",
@@ -389,7 +394,7 @@ UI_STRINGS = {
         "date": "Date",
         "date_time": "Date / Time",
         "time": "Time",
-        "input_text": "Input Text",
+        "input_text": "Original Text",
         "scanner_hint": "Copy the prompt below and paste it into your AI agent (Claude, ChatGPT, Gemini, etc.).\nThe agent will analyze your environment and export a vocabulary table.\nSave the output as a .md file, then import it here.",
         "open_mic_settings": "Open Microphone Settings",
         "check_update": "Check Update",
@@ -437,7 +442,7 @@ UI_STRINGS = {
         "save_all": "儲存全部設定",
         "saved": "已儲存",
         "check_permissions": "系統檢查",
-        "settings": "設定",
+        "settings": "進階",
         "github": "GitHub",
         "run_refine": "執行 Refi",
         "add_update_term": "新增 / 更新詞彙",
@@ -460,6 +465,8 @@ UI_STRINGS = {
         "local_stt": "本機 STT",
         "refine_prompt": "Refi Prompt",
         "history": "歷史紀錄",
+        "show_settings": "顯示設定",
+        "hide_settings": "收合設定",
         "term_scanner": "詞彙掃描",
         "enable_local_stt": "啟用本機 STT",
         "auto_refine": "STT 後自動 Refi",
@@ -480,9 +487,10 @@ UI_STRINGS = {
         "secondary_languages_help": "可選，預設留空。僅在混語時填入 ISO 代碼（如 en,ja,ko）；過多語言會降低準確率。",
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "設為預設",
-        "history_label": "輸入文字歷史（最新在前）",
+        "history_label": "原始文字歷史（最新在前）",
         "history_copied_short": "已複製",
         "clear_history": "清空歷史",
+        "model_settings": "模型設定",
         "copy": "複製",
         "close": "關閉",
         "scan_sources": "步驟 1：複製 Prompt 到 AI 助手",
@@ -496,7 +504,7 @@ UI_STRINGS = {
         "date": "日期",
         "date_time": "日期 / 時間",
         "time": "時間",
-        "input_text": "輸入文字",
+        "input_text": "原始文字",
         "scanner_hint": "複製下方 Prompt 並貼到你的 AI 助手（Claude、ChatGPT、Gemini 等）。\n助手會分析環境並輸出詞彙表。\n將結果存成 .md 後回到此處匯入。",
         "open_mic_settings": "開啟麥克風設定",
         "check_update": "檢查更新",
@@ -507,7 +515,7 @@ UI_STRINGS = {
         "no_terms_loaded": "尚未載入詞彙，請先開啟 .md 檔。",
         "default_prompt_applied": "已套用預設 Prompt。",
         "history_cleared": "歷史已清空。",
-        "history_copied": "已複製歷史中的輸入文字。",
+        "history_copied": "已複製歷史中的原始文字。",
         "recording_title": "Listening ...",
         "recording_hint": "放開以轉寫",
         "processing_title": "vovocing",
@@ -545,7 +553,7 @@ UI_STRINGS = {
         "save_all": "すべて保存",
         "saved": "保存しました",
         "check_permissions": "システムチェック",
-        "settings": "設定",
+        "settings": "詳細",
         "github": "GitHub",
         "run_refine": "Refi 実行",
         "add_update_term": "用語を追加 / 更新",
@@ -568,6 +576,8 @@ UI_STRINGS = {
         "local_stt": "ローカル STT",
         "refine_prompt": "Refi Prompt",
         "history": "履歴",
+        "show_settings": "設定を表示",
+        "hide_settings": "設定を隠す",
         "term_scanner": "用語スキャナー",
         "enable_local_stt": "ローカル STT を有効化",
         "auto_refine": "STT 後に自動 Refi",
@@ -588,9 +598,10 @@ UI_STRINGS = {
         "secondary_languages_help": "任意（初期値は空）。混在音声時のみ ISO コード（例: en,ja,ko）を指定してください。",
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "デフォルトに戻す",
-        "history_label": "入力履歴（新しい順）",
+        "history_label": "原文履歴（新しい順）",
         "history_copied_short": "コピー済み",
         "clear_history": "履歴をクリア",
+        "model_settings": "モデル設定",
         "copy": "コピー",
         "close": "閉じる",
         "scan_sources": "ステップ 1: Prompt を AI に貼り付け",
@@ -604,7 +615,7 @@ UI_STRINGS = {
         "date": "日付",
         "date_time": "日付 / 時刻",
         "time": "時刻",
-        "input_text": "入力テキスト",
+        "input_text": "原文テキスト",
         "scanner_hint": "下の Prompt をコピーして AI（Claude/ChatGPT/Gemini など）に貼り付けます。\nAI が環境を分析し、用語表を出力します。\n結果を .md で保存してここにインポートしてください。",
         "open_mic_settings": "マイク設定を開く",
         "check_update": "更新確認",
@@ -615,7 +626,7 @@ UI_STRINGS = {
         "no_terms_loaded": "用語が未読込です。先に .md を開いてください。",
         "default_prompt_applied": "デフォルト Prompt を適用しました。",
         "history_cleared": "履歴をクリアしました。",
-        "history_copied": "履歴の入力テキストをコピーしました。",
+        "history_copied": "履歴の原文テキストをコピーしました。",
         "recording_title": "Listening ...",
         "recording_hint": "離して文字起こし",
         "processing_title": "vovocing",
@@ -653,7 +664,7 @@ UI_STRINGS = {
         "save_all": "전체 설정 저장",
         "saved": "저장됨",
         "check_permissions": "시스템 점검",
-        "settings": "설정",
+        "settings": "고급",
         "github": "GitHub",
         "run_refine": "Refi 실행",
         "add_update_term": "용어 추가 / 수정",
@@ -676,6 +687,8 @@ UI_STRINGS = {
         "local_stt": "로컬 STT",
         "refine_prompt": "Refi Prompt",
         "history": "기록",
+        "show_settings": "설정 표시",
+        "hide_settings": "설정 숨기기",
         "term_scanner": "용어 스캐너",
         "enable_local_stt": "로컬 STT 사용",
         "auto_refine": "STT 후 자동 Refi",
@@ -696,9 +709,10 @@ UI_STRINGS = {
         "secondary_languages_help": "선택사항(기본은 비움). 혼합 발화 시에만 ISO 코드(예: en,ja,ko)를 입력하세요.",
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "기본값 적용",
-        "history_label": "입력 텍스트 기록(최신순)",
+        "history_label": "원문 텍스트 기록(최신순)",
         "history_copied_short": "복사됨",
         "clear_history": "기록 지우기",
+        "model_settings": "모델 설정",
         "copy": "복사",
         "close": "닫기",
         "scan_sources": "1단계: Prompt를 AI에 붙여넣기",
@@ -712,7 +726,7 @@ UI_STRINGS = {
         "date": "날짜",
         "date_time": "날짜 / 시간",
         "time": "시간",
-        "input_text": "입력 텍스트",
+        "input_text": "원문 텍스트",
         "scanner_hint": "아래 Prompt를 복사해 AI(Claude/ChatGPT/Gemini 등)에 붙여넣으세요.\nAI가 환경을 분석해 용어 표를 만듭니다.\n결과를 .md로 저장한 뒤 여기서 가져오세요.",
         "open_mic_settings": "마이크 설정 열기",
         "check_update": "업데이트 확인",
@@ -723,7 +737,7 @@ UI_STRINGS = {
         "no_terms_loaded": "불러온 용어가 없습니다. 먼저 .md 파일을 여세요.",
         "default_prompt_applied": "기본 Prompt를 적용했습니다.",
         "history_cleared": "기록을 지웠습니다.",
-        "history_copied": "기록의 입력 텍스트를 복사했습니다.",
+        "history_copied": "기록의 원문 텍스트를 복사했습니다.",
         "recording_title": "Listening ...",
         "recording_hint": "놓으면 전사",
         "processing_title": "vovocing",
@@ -895,6 +909,23 @@ class RefineApp:
         self._refine_quick_output_mode = None
         self._history_status_var = tk.StringVar(value="")
         self._history_status_after_id = None
+        self._main_notebook = None
+        self._workspace_tab = None
+        self._workspace_top_grid = None
+        self._settings_main_tab = None
+        self._vocab_main_tab = None
+        self._checks_main_tab = None
+        self._checks_panel_ready = False
+        self._workspace_settings_frame = None
+        self._workspace_history_frame = None
+        self._workspace_settings_toggle_btn = None
+        self._workspace_settings_collapsed = False
+        self._settings_scroll_canvas = None
+        self._settings_scroll_body = None
+        self._settings_prompt_section = None
+        self._advanced_lang_combo = None
+        self._header_anim_canvas = None
+        self._header_anim_after_id = None
 
         self._configure_styles()
         self._build_ui()
@@ -949,10 +980,13 @@ class RefineApp:
         style.configure("Subhead.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=(f, 10))
         style.configure("Section.TLabel", background=self.colors["card"], foreground=self.colors["ink"], font=(f, 10, "bold"))
         style.configure("Status.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=(f, 10))
+        style.configure("StatusCompact.TLabel", background=self.colors["bg"], foreground=self.colors["muted"], font=(f, 9))
         style.configure("Hero.TButton", font=(f, 10, "bold"), padding=(16, 10), background=self.colors["accent"], foreground="#ffffff", borderwidth=0)
         style.map("Hero.TButton", background=[("active", "#005bbf"), ("pressed", "#004a9e")])
         style.configure("Ghost.TButton", font=(f, 10, "bold"), padding=(14, 10), background="#e8e8ed", foreground=self.colors["ink"], borderwidth=0)
+        style.configure("GhostCompact.TButton", font=(f, 9, "bold"), padding=(10, 6), background="#e8e8ed", foreground=self.colors["ink"], borderwidth=0)
         style.map("Ghost.TButton", background=[("active", "#d1d1d6")])
+        style.map("GhostCompact.TButton", background=[("active", "#d1d1d6")])
         style.configure("App.TEntry", fieldbackground="#ffffff", bordercolor=self.colors["line"], lightcolor=self.colors["line"], darkcolor=self.colors["line"], padding=8)
         style.configure("App.TCombobox", fieldbackground="#ffffff", padding=6)
         style.configure("App.Treeview", background="#ffffff", fieldbackground="#ffffff", foreground=self.colors["ink"], rowheight=32, bordercolor=self.colors["line"])
@@ -961,6 +995,11 @@ class RefineApp:
         style.configure("App.TNotebook", background=self.colors["surface"], borderwidth=0)
         style.configure("App.TNotebook.Tab", padding=(16, 8), font=(f, 10, "bold"), background="#e8e8ed")
         style.map("App.TNotebook.Tab", background=[("selected", self.colors["surface"])], foreground=[("selected", self.colors["ink"])])
+        # Hide notebook's native tab strip; top-right compact buttons are the single navigation entrypoint.
+        style.layout("App.TNotebook.Tab", [])
+        style.configure("Sub.TNotebook", background=self.colors["surface"], borderwidth=0)
+        style.configure("Sub.TNotebook.Tab", padding=(14, 7), font=(f, 9, "bold"), background="#e8e8ed")
+        style.map("Sub.TNotebook.Tab", background=[("selected", self.colors["surface"])], foreground=[("selected", self.colors["ink"])])
         style.configure("App.Horizontal.TProgressbar", troughcolor="#e8e8ed", background=self.colors["accent"], bordercolor="#e8e8ed", lightcolor=self.colors["accent"], darkcolor=self.colors["accent"])
 
     def _apply_main_window_acrylic(self) -> None:
@@ -1046,7 +1085,8 @@ class RefineApp:
         self._custom_vocab_toggle_btn.configure(text=self._t("custom_vocabulary"))
 
     def _toggle_custom_vocabulary_panel(self) -> None:
-        self._open_custom_vocabulary_window()
+        if self._vocab_main_tab is not None:
+            self._switch_main_tab(self._vocab_main_tab)
 
     def _build_ui(self) -> None:
         main = ttk.Frame(self.root, padding=18, style="App.TFrame")
@@ -1067,13 +1107,32 @@ class RefineApp:
                 ttk.Label(title_row, image=self._header_logo_tk, style="Subhead.TLabel").pack(side="left")
         except Exception:
             pass
+        self._header_anim_canvas = tk.Canvas(
+            title_row,
+            width=88,
+            height=24,
+            highlightthickness=0,
+            bg=self.colors["bg"],
+            bd=0,
+        )
+        self._header_anim_canvas.pack(side="left", padx=(8, 0))
+        self._start_header_animation()
         actions = ttk.Frame(hero, style="App.TFrame")
         actions.grid(row=0, column=1, sticky="e")
-        ttk.Button(actions, text=self._t("check_permissions"), command=self._run_permission_check, style="Ghost.TButton").pack(side="right")
-        ttk.Button(actions, text=self._t("settings"), command=self._open_settings_window, style="Ghost.TButton").pack(side="right", padx=(0, 8))
+        ttk.Button(
+            actions,
+            text=self._t("workspace"),
+            command=lambda: self._switch_main_tab(self._workspace_tab),
+            style="GhostCompact.TButton",
+        ).pack(side="left")
+        self._custom_vocab_toggle_btn = ttk.Button(actions, command=self._toggle_custom_vocabulary_panel, style="GhostCompact.TButton")
+        self._custom_vocab_toggle_btn.pack(side="left", padx=(6, 0))
+        self._update_custom_vocab_toggle_label()
+        ttk.Button(actions, text=self._t("check_permissions"), command=self._run_permission_check, style="GhostCompact.TButton").pack(side="left", padx=(6, 0))
+        ttk.Button(actions, text=self._t("settings"), command=self._open_settings_window, style="GhostCompact.TButton").pack(side="left", padx=(6, 0))
         self._github_icon_tk = None
-        github_btn = ttk.Button(actions, text="GitHub", command=lambda: webbrowser.open(GITHUB_REPO_URL), style="Ghost.TButton")
-        github_btn.pack(side="right", padx=(0, 8))
+        github_btn = ttk.Button(actions, text="GitHub", command=lambda: webbrowser.open(GITHUB_REPO_URL), style="GhostCompact.TButton")
+        github_btn.pack(side="left", padx=(6, 0))
         try:
             if Image is not None and ImageTk is not None and GITHUB_ICON_PATH.exists():
                 gi = Image.open(GITHUB_ICON_PATH).convert("RGBA").resize((16, 16), Image.LANCZOS)
@@ -1081,19 +1140,26 @@ class RefineApp:
                 github_btn.configure(image=self._github_icon_tk, compound="left")
         except Exception:
             pass
-        self._custom_vocab_toggle_btn = ttk.Button(actions, command=self._toggle_custom_vocabulary_panel, style="Ghost.TButton")
-        self._custom_vocab_toggle_btn.pack(side="right", padx=(0, 8))
-        self._update_custom_vocab_toggle_label()
-        lang_combo = ttk.Combobox(actions, textvariable=self.ui_lang_var, values=UI_LANGUAGES, state="readonly", width=10, style="App.TCombobox")
-        lang_combo.pack(side="right", padx=(0, 8))
-        lang_combo.bind("<<ComboboxSelected>>", self._on_language_change)
 
-        top_grid = ttk.Frame(main, style="App.TFrame")
+        self._main_notebook = ttk.Notebook(main, style="App.TNotebook")
+        self._main_notebook.pack(fill="both", expand=True)
+        self._workspace_tab = ttk.Frame(self._main_notebook, style="App.TFrame")
+        self._settings_main_tab = ttk.Frame(self._main_notebook, style="Surface.TFrame")
+        self._vocab_main_tab = ttk.Frame(self._main_notebook, style="Surface.TFrame")
+        self._checks_main_tab = ttk.Frame(self._main_notebook, style="Surface.TFrame")
+        self._main_notebook.add(self._workspace_tab, text=self._t("workspace"))
+        self._main_notebook.add(self._settings_main_tab, text=self._t("settings"))
+        self._main_notebook.add(self._vocab_main_tab, text=self._t("custom_vocabulary"))
+        self._main_notebook.add(self._checks_main_tab, text=self._t("check_permissions"))
+
+        top_grid = ttk.Frame(self._workspace_tab, style="App.TFrame")
         top_grid.pack(fill="x")
+        self._workspace_top_grid = top_grid
         top_grid.columnconfigure(0, weight=1)
 
         model_frame = ttk.LabelFrame(top_grid, text="", padding=14, style="Card.TLabelframe")
         model_frame.grid(row=0, column=0, sticky="nsew")
+        self._workspace_settings_frame = model_frame
 
         ttk.Label(model_frame, text=self._t("api_key")).grid(row=0, column=0, sticky="w", padx=(0, 8), pady=4)
         self.api_key_entry = ttk.Entry(model_frame, textvariable=self.api_key_var, show="*", width=56, style="App.TEntry")
@@ -1157,22 +1223,291 @@ class RefineApp:
         self._set_api_base_edit_mode(False)
         self._set_model_edit_mode(False)
 
-        history_frame = ttk.LabelFrame(main, text=self._t("history"), padding=12, style="Card.TLabelframe")
+        history_frame = ttk.LabelFrame(self._workspace_tab, text="VOVOCI Original Text", padding=12, style="Card.TLabelframe")
         history_frame.pack(fill="both", expand=True, pady=(10, 0))
+        self._workspace_history_frame = history_frame
         history_toolbar = ttk.Frame(history_frame, style="Card.TLabelframe")
         history_toolbar.pack(fill="x", pady=(0, 6))
-        ttk.Button(history_toolbar, text=self._t("clear_history"), command=self._clear_history, style="Ghost.TButton").pack(side="left")
-        ttk.Label(history_toolbar, textvariable=self._history_status_var, style="Status.TLabel").pack(side="left", padx=(10, 0))
-        ttk.Label(history_toolbar, textvariable=self.status_var, style="Status.TLabel").pack(side="right")
+        ttk.Button(history_toolbar, text=self._t("clear_history"), command=self._clear_history, style="GhostCompact.TButton").pack(side="left")
+        ttk.Button(
+            history_toolbar,
+            text=self._t("model_settings"),
+            command=self._show_workspace_model_settings,
+            style="GhostCompact.TButton",
+        ).pack(side="left", padx=(6, 0))
+        ttk.Label(history_toolbar, textvariable=self._history_status_var, style="StatusCompact.TLabel").pack(side="left", padx=(8, 0))
+        ttk.Label(history_toolbar, textvariable=self.status_var, style="StatusCompact.TLabel").pack(side="right")
         history_tree = ttk.Treeview(history_frame, columns=("datetime", "text"), show="headings", height=8, style="App.Treeview")
-        history_tree.heading("datetime", text=self._t("date_time"))
-        history_tree.heading("text", text=f"⌨ {self._t('input_text')}")
-        history_tree.column("datetime", width=170, anchor="w")
-        history_tree.column("text", width=630, anchor="w")
+        history_tree.heading("datetime", text=self._t("date_time"), anchor="w")
+        history_tree.heading("text", text=f"⌨ {self._t('input_text')}", anchor="w")
+        history_tree.column("datetime", width=150, minwidth=140, anchor="w", stretch=False)
+        history_tree.column("text", width=560, minwidth=420, anchor="w", stretch=True)
         history_tree.pack(fill="both", expand=True, pady=(2, 8))
         history_tree.bind("<ButtonRelease-1>", self._on_history_click_copy)
         self._history_tree = history_tree
         self._refresh_history_tree()
+        self._set_workspace_settings_collapsed(False)
+
+        self._build_settings_main_tab(self._settings_main_tab)
+        self._build_custom_vocabulary_main_tab(self._vocab_main_tab)
+        self._build_system_check_main_tab(self._checks_main_tab)
+
+    def _switch_main_tab(self, target) -> None:
+        if self._main_notebook is None or not self._main_notebook.winfo_exists():
+            return
+        try:
+            self._main_notebook.select(target)
+        except Exception:
+            pass
+
+    def _update_workspace_settings_toggle_label(self) -> None:
+        if self._workspace_settings_toggle_btn is None:
+            return
+        text = self._t("settings")
+        self._workspace_settings_toggle_btn.configure(text=text)
+
+    def _set_workspace_settings_collapsed(self, collapsed: bool) -> None:
+        self._workspace_settings_collapsed = bool(collapsed)
+        top = self._workspace_top_grid
+        history = self._workspace_history_frame
+        if top is not None and top.winfo_exists():
+            try:
+                if self._workspace_settings_collapsed:
+                    top.pack_forget()
+                else:
+                    if history is not None and history.winfo_exists():
+                        top.pack(fill="x", before=history)
+                    else:
+                        top.pack(fill="x")
+            except Exception:
+                pass
+        if history is not None and history.winfo_exists():
+            try:
+                history.update_idletasks()
+            except Exception:
+                pass
+        self._update_workspace_settings_toggle_label()
+
+    def _toggle_workspace_settings_panel(self) -> None:
+        self._set_workspace_settings_collapsed(not self._workspace_settings_collapsed)
+
+    def _show_workspace_model_settings(self) -> None:
+        self._switch_main_tab(self._workspace_tab)
+        self._set_workspace_settings_collapsed(False)
+
+    def _start_header_animation(self) -> None:
+        if self._header_anim_after_id is not None:
+            try:
+                self.root.after_cancel(self._header_anim_after_id)
+            except Exception:
+                pass
+            self._header_anim_after_id = None
+        self._update_header_animation()
+
+    def _update_header_animation(self) -> None:
+        c = self._header_anim_canvas
+        if c is None or not c.winfo_exists():
+            return
+        import math
+
+        c.delete("all")
+        w = max(1, int(c.winfo_width()))
+        h = max(1, int(c.winfo_height()))
+        t = time.time()
+        is_active = bool(self._is_recording or self._is_transcribing or self._overlay_mode != "idle")
+        amp = 1.0 if is_active else 0.35
+        bars = 8
+        bar_w = 6
+        gap = 4
+        total_w = bars * (bar_w + gap) - gap
+        start_x = max(0, (w - total_w) // 2)
+        base_y = h - 4
+        for i in range(bars):
+            phase = t * (6.2 if is_active else 2.6) + i * 0.7
+            wave = (math.sin(phase) + 1.0) / 2.0
+            min_h = 4
+            max_h = int(12 * amp) + 6
+            bar_h = min_h + int((max_h - min_h) * wave)
+            x1 = start_x + i * (bar_w + gap)
+            y1 = base_y - bar_h
+            x2 = x1 + bar_w
+            y2 = base_y
+            glow = 0.45 + 0.55 * wave
+            r = int(24 + 32 * glow)
+            g = int(148 + 90 * glow)
+            b = int(116 + 52 * glow)
+            color = f"#{r:02x}{g:02x}{b:02x}"
+            c.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
+        self._header_anim_after_id = self.root.after(80, self._update_header_animation)
+
+    def _build_settings_main_tab(self, parent) -> None:
+        if parent is None or not parent.winfo_exists():
+            return
+        for child in parent.winfo_children():
+            child.destroy()
+        container = ttk.Frame(parent, padding=12, style="Surface.TFrame")
+        container.pack(fill="both", expand=True)
+        sub_tabs = ttk.Notebook(container, style="Sub.TNotebook")
+        sub_tabs.pack(fill="both", expand=True)
+
+        tab_general = ttk.Frame(sub_tabs, style="Surface.TFrame", padding=12)
+        tab_translate = ttk.Frame(sub_tabs, style="Surface.TFrame", padding=12)
+        tab_stt = ttk.Frame(sub_tabs, style="Surface.TFrame", padding=12)
+        tab_prompt = ttk.Frame(sub_tabs, style="Surface.TFrame", padding=12)
+        sub_tabs.add(tab_general, text="General")
+        sub_tabs.add(tab_translate, text="Translate")
+        sub_tabs.add(tab_stt, text="STT")
+        sub_tabs.add(tab_prompt, text=self._t("refine_prompt"))
+
+        tab_general.columnconfigure(1, weight=1)
+        tab_general.columnconfigure(3, weight=1)
+        ttk.Label(tab_general, text=self._t("language")).grid(row=0, column=0, sticky="w", pady=6)
+        self._advanced_lang_combo = ttk.Combobox(
+            tab_general,
+            textvariable=self.ui_lang_var,
+            values=UI_LANGUAGES,
+            state="readonly",
+            width=16,
+            style="App.TCombobox",
+        )
+        self._advanced_lang_combo.grid(row=0, column=1, sticky="w", pady=6)
+        self._advanced_lang_combo.bind("<<ComboboxSelected>>", self._on_language_change)
+        ttk.Checkbutton(tab_general, text=self._t("enable_local_stt"), variable=self.enable_local_stt_var).grid(row=1, column=0, sticky="w", pady=6)
+        ttk.Checkbutton(tab_general, text=self._t("auto_paste"), variable=self.auto_paste_var).grid(row=1, column=1, sticky="w", pady=6)
+        ttk.Checkbutton(tab_general, text=self._t("show_overlay"), variable=self.show_recording_overlay_var).grid(row=1, column=2, sticky="w", pady=6, padx=(12, 0))
+        ttk.Label(tab_general, text=self._t("overlay_position")).grid(row=2, column=0, sticky="w", pady=6)
+        ttk.Combobox(tab_general, textvariable=self.overlay_position_var, values=OVERLAY_POSITION_OPTIONS, state="readonly", width=14, style="App.TCombobox").grid(row=2, column=1, sticky="w", pady=6)
+        ttk.Checkbutton(tab_general, text=self._t("auto_refine"), variable=self.auto_refine_after_stt_var).grid(row=3, column=0, sticky="w", pady=6)
+        ttk.Checkbutton(tab_general, text=self._t("append_buffer"), variable=self.append_input_var).grid(row=3, column=1, sticky="w", pady=6)
+
+        tab_translate.columnconfigure(1, weight=1)
+        ttk.Checkbutton(tab_translate, text=self._t("voice_lang_cmd_enable"), variable=self.voice_lang_command_enabled_var).grid(row=0, column=0, columnspan=2, sticky="w", pady=6)
+        ttk.Label(tab_translate, text=self._t("voice_lang_cmd_target")).grid(row=1, column=0, sticky="w", pady=6)
+        ttk.Combobox(
+            tab_translate,
+            textvariable=self.voice_lang_target_var,
+            values=TARGET_OUTPUT_LANGUAGE_OPTIONS,
+            state="readonly",
+            width=20,
+            style="App.TCombobox",
+        ).grid(row=1, column=1, sticky="w", pady=6)
+        ttk.Label(tab_translate, text=self._t("voice_lang_cmd_hotkey")).grid(row=2, column=0, sticky="w", pady=6)
+        translate_hotkey_combo = ttk.Combobox(
+            tab_translate,
+            textvariable=self.voice_lang_modifier_hotkey_var,
+            values=list(TRANSLATE_HOTKEY_OPTIONS.keys()),
+            state="readonly",
+            width=20,
+            style="App.TCombobox",
+        )
+        translate_hotkey_combo.grid(row=2, column=1, sticky="w", pady=6)
+        translate_hotkey_combo.bind("<<ComboboxSelected>>", self._on_translate_hotkey_change)
+        ttk.Label(tab_translate, text=self._t("voice_lang_cmd_hint"), style="Subhead.TLabel", justify="left", wraplength=760).grid(row=3, column=0, columnspan=2, sticky="w", pady=(4, 6))
+
+        tab_stt.columnconfigure(1, weight=1)
+        tab_stt.columnconfigure(3, weight=1)
+        ttk.Label(tab_stt, text=self._t("stt_model")).grid(row=0, column=0, sticky="w", pady=6)
+        ttk.Combobox(tab_stt, textvariable=self.stt_model_var, values=LOCAL_STT_MODELS, state="readonly", width=16, style="App.TCombobox").grid(row=0, column=1, sticky="w", pady=6)
+        self._stt_preload_btn = ttk.Button(tab_stt, text=self._t("preload_model"), command=self._preload_stt_model, style="Ghost.TButton")
+        self._stt_preload_btn.grid(row=0, column=2, sticky="w", padx=(12, 0), pady=6)
+        self._set_preload_button_state(self._is_preloading_stt)
+        ttk.Label(tab_stt, text=self._t("preload_model_help"), style="Subhead.TLabel", justify="left", wraplength=760).grid(row=1, column=0, columnspan=4, sticky="w", pady=(0, 8))
+        ttk.Label(tab_stt, text=self._t("primary_language")).grid(row=2, column=0, sticky="w", pady=6)
+        ttk.Combobox(tab_stt, textvariable=self.stt_primary_language_var, values=STT_PRIMARY_LANGUAGE_OPTIONS, state="readonly", width=16, style="App.TCombobox").grid(row=2, column=1, sticky="w", pady=6)
+        ttk.Label(tab_stt, text=self._t("secondary_languages")).grid(row=2, column=2, sticky="e", pady=6, padx=(12, 6))
+        ttk.Entry(tab_stt, textvariable=self.stt_secondary_languages_var, style="App.TEntry").grid(row=2, column=3, sticky="ew", pady=6)
+        ttk.Label(tab_stt, text=self._t("secondary_languages_help"), style="Subhead.TLabel", justify="left", wraplength=760).grid(row=3, column=0, columnspan=4, sticky="w", pady=(0, 6))
+
+        tab_prompt.columnconfigure(0, weight=1)
+        tab_prompt.rowconfigure(1, weight=1)
+        ttk.Label(tab_prompt, text=self._t("system_prompt")).grid(row=0, column=0, sticky="w")
+        self._settings_prompt_text = tk.Text(tab_prompt, height=18, wrap="word", bg="#ffffff", fg=self.colors["ink"], insertbackground=self.colors["ink"], relief="flat", padx=12, pady=12)
+        self._settings_prompt_text.grid(row=1, column=0, sticky="nsew", pady=(6, 6))
+        self._settings_prompt_text.insert("1.0", self.system_prompt_cache)
+        action_row = ttk.Frame(tab_prompt, style="Surface.TFrame")
+        action_row.grid(row=2, column=0, sticky="w")
+        ttk.Button(action_row, text=self._t("use_strict_prompt"), command=self._reset_refi_prompt, style="Ghost.TButton").pack(side="left")
+        self._prompt_save_btn = ttk.Button(action_row, text=self._t("save_prompt"), command=self._save_prompt_with_feedback, style="Ghost.TButton")
+        self._prompt_save_btn.pack(side="left", padx=8)
+
+    def _build_custom_vocabulary_main_tab(self, parent) -> None:
+        if parent is None or not parent.winfo_exists():
+            return
+        for child in parent.winfo_children():
+            child.destroy()
+        container = ttk.Frame(parent, padding=14, style="Surface.TFrame")
+        container.pack(fill="both", expand=True)
+        container.columnconfigure(1, weight=1)
+        container.columnconfigure(3, weight=1)
+        container.rowconfigure(1, weight=1)
+
+        self.term_key_var = tk.StringVar()
+        self.term_preferred_var = tk.StringVar()
+        self.term_note_var = tk.StringVar()
+
+        ttk.Label(container, text=self._t("term")).grid(row=0, column=0, sticky="w", pady=4)
+        term_entry = ttk.Entry(container, textvariable=self.term_key_var, style="App.TEntry")
+        term_entry.grid(row=0, column=1, sticky="ew", padx=(8, 16), pady=6)
+        term_entry.bind("<Return>", lambda _e: self._add_or_update_term())
+        ttk.Label(container, text=self._t("preferred")).grid(row=0, column=2, sticky="w", pady=4)
+        pref_entry = ttk.Entry(container, textvariable=self.term_preferred_var, style="App.TEntry")
+        pref_entry.grid(row=0, column=3, sticky="ew", padx=(8, 8), pady=6)
+        pref_entry.bind("<Return>", lambda _e: self._add_or_update_term())
+        ttk.Button(container, text=self._t("add_update_term"), command=self._add_or_update_term, style="Ghost.TButton").grid(row=0, column=4, sticky="e", pady=6)
+
+        tree_container = ttk.Frame(container, style="Surface.TFrame")
+        tree_container.grid(row=1, column=0, columnspan=5, sticky="nsew", pady=(8, 0))
+        tree_container.columnconfigure(0, weight=1)
+        tree_container.rowconfigure(0, weight=1)
+        self.term_tree = ttk.Treeview(tree_container, columns=("term", "preferred"), show="headings", height=12, style="App.Treeview")
+        self.term_tree.heading("term", text=self._t("term"))
+        self.term_tree.heading("preferred", text=self._t("preferred"))
+        self.term_tree.column("term", width=280, anchor="w")
+        self.term_tree.column("preferred", width=540, anchor="w")
+        self.term_tree.grid(row=0, column=0, sticky="nsew")
+        term_scroll = ttk.Scrollbar(tree_container, orient="vertical", command=self.term_tree.yview)
+        term_scroll.grid(row=0, column=1, sticky="ns")
+        self.term_tree.configure(yscrollcommand=term_scroll.set)
+        self.term_tree.bind("<<TreeviewSelect>>", self._on_term_select)
+        self.term_tree.bind("<Button-3>", self._on_term_right_click)
+        self._refresh_term_tree()
+
+    def _build_system_check_main_tab(self, parent) -> None:
+        if parent is None or not parent.winfo_exists():
+            return
+        for child in parent.winfo_children():
+            child.destroy()
+        items = [
+            ("deps", "Local STT dependencies"),
+            ("model", "Local STT model installed"),
+            ("api", "Provider API connectivity"),
+            ("mic", "Microphone permission/runtime"),
+            ("voice_stream", "Voice stream (exclusive access)"),
+            ("hotkey", "Global hotkey runtime"),
+            ("update", "Update check (GitHub)"),
+        ]
+        frame = ttk.Frame(parent, padding=14, style="Surface.TFrame")
+        frame.pack(fill="both", expand=True)
+        self._perm_progress = ttk.Progressbar(frame, mode="determinate", style="App.Horizontal.TProgressbar")
+        self._perm_progress.pack(fill="x", pady=(0, 10))
+        self._perm_progress.configure(maximum=len(items), value=0)
+        grid = ttk.Frame(frame, style="Surface.TFrame")
+        grid.pack(fill="both", expand=True)
+        grid.columnconfigure(1, weight=1)
+        self._perm_rows = {}
+        for r, (key, label) in enumerate(items):
+            icon_var = tk.StringVar(value="...")
+            status_var = tk.StringVar(value="Pending")
+            ttk.Label(grid, textvariable=icon_var, width=6, font=("Segoe UI Semibold", 10)).grid(row=r, column=0, sticky="w", pady=8)
+            ttk.Label(grid, text=label).grid(row=r, column=1, sticky="w", pady=8, padx=(8, 12))
+            ttk.Label(grid, textvariable=status_var, style="Subhead.TLabel").grid(row=r, column=2, sticky="e", pady=8)
+            self._perm_rows[key] = (icon_var, status_var)
+        action_row = ttk.Frame(frame, style="Surface.TFrame")
+        action_row.pack(fill="x", pady=(8, 0))
+        ttk.Button(action_row, text=self._t("check_permissions"), command=self._run_permission_check, style="Ghost.TButton").pack(side="left")
+        ttk.Button(action_row, text=self._t("open_mic_settings"), command=self._open_mic_settings, style="Ghost.TButton").pack(side="left", padx=8)
+        ttk.Button(action_row, text=self._t("check_update"), command=self._check_update_ui, style="Ghost.TButton").pack(side="left")
+        self._checks_panel_ready = True
 
     def _on_language_change(self, _event=None) -> None:
         self._save_config()
@@ -1335,233 +1670,8 @@ class RefineApp:
         self.term_note_var = None
 
     def _open_settings_window(self) -> None:
-        if self._settings_window is not None and self._settings_window.winfo_exists():
-            self._settings_window.lift()
-            self._settings_window.focus_force()
-            return
-
-        win = tk.Toplevel(self.root)
-        win.title(self._t("settings"))
-        win.geometry("980x720")
-        win.minsize(900, 660)
-        self._apply_app_icon(win)
-        win.transient(self.root)
-        win.protocol("WM_DELETE_WINDOW", self._close_settings_window)
-        self._settings_window = win
-        win.configure(bg=self.colors["surface"])
-
-        container = ttk.Frame(win, padding=16, style="Surface.TFrame")
-        container.pack(fill="both", expand=True)
-
-        notebook = ttk.Notebook(container, style="App.TNotebook")
-        notebook.pack(fill="both", expand=True)
-
-        stt_tab = ttk.Frame(notebook, padding=14, style="Surface.TFrame")
-        notebook.add(stt_tab, text=self._t("local_stt"))
-        stt_tab.columnconfigure(0, weight=0)
-        stt_tab.columnconfigure(1, weight=1)
-        stt_tab.columnconfigure(2, weight=0)
-        stt_tab.columnconfigure(3, weight=1)
-
-        ttk.Checkbutton(stt_tab, text=self._t("enable_local_stt"), variable=self.enable_local_stt_var).grid(
-            row=0, column=0, sticky="w", pady=4
-        )
-        ttk.Checkbutton(stt_tab, text=self._t("auto_refine"), variable=self.auto_refine_after_stt_var).grid(
-            row=0, column=1, sticky="w", pady=4, padx=(12, 0)
-        )
-        ttk.Checkbutton(stt_tab, text=self._t("append_buffer"), variable=self.append_input_var).grid(
-            row=0, column=2, sticky="w", pady=4, padx=(12, 0)
-        )
-        ttk.Checkbutton(stt_tab, text=self._t("auto_paste"), variable=self.auto_paste_var).grid(
-            row=1, column=0, sticky="w", pady=4
-        )
-        ttk.Checkbutton(stt_tab, text=self._t("show_overlay"), variable=self.show_recording_overlay_var).grid(
-            row=1, column=1, sticky="w", pady=4, padx=(12, 0)
-        )
-        ttk.Label(stt_tab, text=self._t("overlay_position")).grid(row=1, column=2, sticky="e", pady=4, padx=(12, 6))
-        ttk.Combobox(
-            stt_tab,
-            textvariable=self.overlay_position_var,
-            values=OVERLAY_POSITION_OPTIONS,
-            state="readonly",
-            width=14,
-            style="App.TCombobox",
-        ).grid(row=1, column=3, sticky="w", pady=4)
-
-        ttk.Checkbutton(
-            stt_tab,
-            text=self._t("voice_lang_cmd_enable"),
-            variable=self.voice_lang_command_enabled_var,
-        ).grid(row=2, column=0, columnspan=2, sticky="w", pady=4)
-        ttk.Label(stt_tab, text=self._t("voice_lang_cmd_target")).grid(row=2, column=2, sticky="e", pady=4, padx=(12, 6))
-        ttk.Combobox(
-            stt_tab,
-            textvariable=self.voice_lang_target_var,
-            values=TARGET_OUTPUT_LANGUAGE_OPTIONS,
-            state="readonly",
-            width=18,
-            style="App.TCombobox",
-        ).grid(row=2, column=3, sticky="w", pady=4)
-        ttk.Label(stt_tab, text=self._t("voice_lang_cmd_hotkey")).grid(row=3, column=2, sticky="e", pady=4, padx=(12, 6))
-        translate_hotkey_combo = ttk.Combobox(
-            stt_tab,
-            textvariable=self.voice_lang_modifier_hotkey_var,
-            values=list(TRANSLATE_HOTKEY_OPTIONS.keys()),
-            state="readonly",
-            width=18,
-            style="App.TCombobox",
-        )
-        translate_hotkey_combo.grid(row=3, column=3, sticky="w", pady=4)
-        translate_hotkey_combo.bind("<<ComboboxSelected>>", self._on_translate_hotkey_change)
-        ttk.Label(
-            stt_tab,
-            text=self._t("voice_lang_cmd_hint"),
-            style="Subhead.TLabel",
-            justify="left",
-            wraplength=820,
-        ).grid(row=4, column=0, columnspan=4, sticky="w", pady=(0, 6))
-
-        ttk.Label(stt_tab, text=self._t("stt_model")).grid(row=5, column=0, sticky="w", pady=4)
-        ttk.Combobox(
-            stt_tab,
-            textvariable=self.stt_model_var,
-            values=LOCAL_STT_MODELS,
-            state="readonly",
-            width=16,
-            style="App.TCombobox",
-        ).grid(row=5, column=1, sticky="w", pady=4)
-        self._stt_preload_btn = ttk.Button(
-            stt_tab,
-            text=self._t("preload_model"),
-            command=self._preload_stt_model,
-            style="Ghost.TButton",
-        )
-        self._stt_preload_btn.grid(row=5, column=2, sticky="w", padx=(12, 0), pady=4)
-        self._set_preload_button_state(self._is_preloading_stt)
-        ttk.Label(
-            stt_tab,
-            text=self._t("preload_model_help"),
-            style="Subhead.TLabel",
-            justify="left",
-            wraplength=820,
-        ).grid(row=6, column=0, columnspan=4, sticky="w", pady=(0, 8))
-
-        ttk.Label(stt_tab, text=self._t("primary_language")).grid(row=7, column=0, sticky="w", pady=4)
-        ttk.Combobox(
-            stt_tab,
-            textvariable=self.stt_primary_language_var,
-            values=STT_PRIMARY_LANGUAGE_OPTIONS,
-            state="readonly",
-            width=16,
-            style="App.TCombobox",
-        ).grid(row=7, column=1, sticky="w", pady=4)
-        ttk.Label(stt_tab, text=self._t("secondary_languages")).grid(
-            row=7, column=2, sticky="e", pady=4, padx=(12, 8)
-        )
-        ttk.Entry(stt_tab, textvariable=self.stt_secondary_languages_var, style="App.TEntry").grid(
-            row=7, column=3, sticky="ew", pady=4
-        )
-        ttk.Label(
-            stt_tab,
-            text=self._t("secondary_languages_help"),
-            style="Subhead.TLabel",
-            justify="left",
-            wraplength=820,
-        ).grid(row=8, column=0, columnspan=4, sticky="w", pady=(0, 6))
-
-        prompt_tab = ttk.Frame(notebook, padding=14, style="Surface.TFrame")
-        notebook.add(prompt_tab, text=self._t("refine_prompt"))
-        ttk.Label(prompt_tab, text=self._t("system_prompt")).pack(anchor="w")
-        self._settings_prompt_text = tk.Text(
-            prompt_tab,
-            height=18,
-            wrap="word",
-            bg="#ffffff",
-            fg=self.colors["ink"],
-            insertbackground=self.colors["ink"],
-            relief="flat",
-            padx=12,
-            pady=12,
-        )
-        self._settings_prompt_text.pack(fill="both", expand=True, pady=(6, 6))
-        self._settings_prompt_text.insert("1.0", self.system_prompt_cache)
-        action_row = ttk.Frame(prompt_tab, style="Surface.TFrame")
-        action_row.pack(fill="x")
-        ttk.Button(action_row, text=self._t("use_strict_prompt"), command=self._reset_refi_prompt, style="Ghost.TButton").pack(side="left")
-        self._prompt_save_btn = ttk.Button(action_row, text=self._t("save_prompt"), command=self._save_prompt_with_feedback, style="Ghost.TButton")
-        self._prompt_save_btn.pack(side="left", padx=8)
-
-        scanner_tab = ttk.Frame(notebook, padding=14, style="Surface.TFrame")
-        notebook.add(scanner_tab, text=self._t("term_scanner"))
-        scanner_tab.columnconfigure(0, weight=1)
-        scanner_tab.rowconfigure(1, weight=1)
-
-        prompt_frame = ttk.LabelFrame(scanner_tab, text=self._t("scan_sources"), padding=10, style="Card.TLabelframe")
-        prompt_frame.grid(row=0, column=0, sticky="nsew", pady=(0, 10))
-        prompt_frame.columnconfigure(0, weight=1)
-        ttk.Label(
-            prompt_frame,
-            text=self._t("scanner_hint"),
-            style="Subhead.TLabel",
-            wraplength=800,
-            justify="left",
-        ).grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 8))
-        prompt_text = tk.Text(
-            prompt_frame,
-            height=10,
-            wrap="word",
-            bg="#ffffff",
-            fg=self.colors["ink"],
-            insertbackground=self.colors["ink"],
-            relief="flat",
-            padx=12,
-            pady=12,
-        )
-        prompt_text.grid(row=1, column=0, sticky="nsew", pady=(0, 6))
-        prompt_text.insert("1.0", VOCABULARY_EXPORT_PROMPT)
-        prompt_text.configure(state="disabled")
-        prompt_scroll = ttk.Scrollbar(prompt_frame, orient="vertical", command=prompt_text.yview)
-        prompt_scroll.grid(row=1, column=1, sticky="ns", pady=(0, 6))
-        prompt_text.configure(yscrollcommand=prompt_scroll.set)
-        prompt_frame.rowconfigure(1, weight=1)
-        ttk.Button(
-            prompt_frame,
-            text=self._t("copy_prompt"),
-            command=lambda: (self.root.clipboard_clear(), self.root.clipboard_append(VOCABULARY_EXPORT_PROMPT), self._scanner_status_var.set(self._t("prompt_copied"))),
-            style="Ghost.TButton",
-        ).grid(row=2, column=0, sticky="w", pady=(4, 0))
-
-        import_frame = ttk.LabelFrame(scanner_tab, text=self._t("candidate_terms"), padding=10, style="Card.TLabelframe")
-        import_frame.grid(row=1, column=0, sticky="nsew", pady=(0, 8))
-        import_frame.columnconfigure(0, weight=1)
-        import_frame.rowconfigure(1, weight=1)
-
-        import_btn_row = ttk.Frame(import_frame, style="Card.TLabelframe")
-        import_btn_row.grid(row=0, column=0, sticky="ew", pady=(0, 6))
-        ttk.Button(import_btn_row, text=self._t("open_md"), command=self._scanner_open_md_file, style="Ghost.TButton").pack(side="left")
-        ttk.Button(import_btn_row, text=self._t("import_vocab"), command=self._scanner_import_terms, style="Ghost.TButton").pack(side="left", padx=8)
-
-        self._scanner_term_tree = ttk.Treeview(
-            import_frame, columns=("term", "preferred", "note"), show="headings", height=8, style="App.Treeview"
-        )
-        self._scanner_term_tree.heading("term", text=self._t("term"))
-        self._scanner_term_tree.heading("preferred", text=self._t("preferred"))
-        self._scanner_term_tree.heading("note", text=self._t("note"))
-        self._scanner_term_tree.column("term", width=200, anchor="w")
-        self._scanner_term_tree.column("preferred", width=200, anchor="w")
-        self._scanner_term_tree.column("note", width=360, anchor="w")
-        self._scanner_term_tree.grid(row=1, column=0, sticky="nsew")
-        import_scroll = ttk.Scrollbar(import_frame, orient="vertical", command=self._scanner_term_tree.yview)
-        import_scroll.grid(row=1, column=1, sticky="ns")
-        self._scanner_term_tree.configure(yscrollcommand=import_scroll.set)
-
-        self._scanner_status_var = tk.StringVar(value="Copy the prompt, run it in your AI agent, save as .md, then import.")
-        ttk.Label(scanner_tab, textvariable=self._scanner_status_var, style="Status.TLabel").grid(row=2, column=0, sticky="w", pady=(4, 0))
-
-        footer = ttk.Frame(container, style="Surface.TFrame")
-        footer.pack(fill="x", pady=(8, 0))
-        self._settings_save_btn = ttk.Button(footer, text=self._t("save_all"), command=self._save_settings_from_window, style="Ghost.TButton")
-        self._settings_save_btn.pack(side="right")
+        if self._settings_main_tab is not None:
+            self._switch_main_tab(self._settings_main_tab)
 
     def _scanner_open_md_file(self) -> None:
         from tkinter import filedialog
@@ -1948,6 +2058,8 @@ class RefineApp:
         cfg = PROVIDERS.get(provider, PROVIDERS["OpenAI Compatible"])
         models = cfg.get("models", [])
         default_model = str(models[0] if models else "")
+        if provider == "OpenRouter":
+            default_model = OPENROUTER_DEFAULT_MODEL
         if provider == "NVIDIA NIM":
             default_model = NVIDIA_DEFAULT_MODEL
         return {
@@ -2028,6 +2140,9 @@ class RefineApp:
             str(profile.get("api_base", "")).strip() or default_profile["api_base"],
         )
         model = str(profile.get("model", "")).strip() or default_profile["model"]
+        if provider == "OpenRouter":
+            if not model or model not in self._all_provider_models.get(provider, PROVIDERS[provider]["models"]):
+                model = OPENROUTER_DEFAULT_MODEL
         if provider == "NVIDIA NIM":
             models = self._all_provider_models.get(provider, PROVIDERS[provider]["models"])
             if NVIDIA_DEFAULT_MODEL in models:
@@ -2536,81 +2651,26 @@ class RefineApp:
             self.status_var.set(self._t("checks_completed"))
 
     def _run_permission_check(self) -> None:
+        if self._checks_main_tab is not None:
+            self._switch_main_tab(self._checks_main_tab)
         self._create_permission_dialog()
         self.status_var.set(self._t("running_checks"))
         thread = threading.Thread(target=self._permission_check_worker, daemon=True)
         thread.start()
 
     def _create_permission_dialog(self) -> None:
-        items = [
-            ("deps", "Local STT dependencies"),
-            ("model", "Local STT model installed"),
-            ("api", "Provider API connectivity"),
-            ("mic", "Microphone permission/runtime"),
-            ("voice_stream", "Voice stream (exclusive access)"),
-            ("hotkey", "Global hotkey runtime"),
-            ("update", "Update check (GitHub)"),
-        ]
-        if self._perm_dialog is not None and self._perm_dialog.winfo_exists():
-            self._perm_dialog.lift()
-            self._perm_dialog.focus_force()
-            for _, (icon_var, status_var) in self._perm_rows.items():
-                icon_var.set("...")
-                status_var.set("Pending")
-            if self._perm_progress is not None:
-                self._perm_progress.configure(mode="determinate", maximum=len(items), value=0)
-            return
-
-        dlg = tk.Toplevel(self.root)
-        dlg.title(self._t("check_permissions"))
-        dlg.geometry("760x480")
-        dlg.minsize(700, 440)
-        dlg.transient(self.root)
-        dlg.attributes("-topmost", True)
-        dlg.configure(bg=self.colors["surface"])
-        self._apply_app_icon(dlg)
-        self._perm_dialog = dlg
-        dlg.protocol("WM_DELETE_WINDOW", self._close_permission_dialog)
-
-        frame = ttk.Frame(dlg, padding=16, style="Surface.TFrame")
-        frame.pack(fill="both", expand=True)
-
-        self._perm_progress = ttk.Progressbar(frame, mode="determinate", style="App.Horizontal.TProgressbar")
-        self._perm_progress.pack(fill="x", pady=(0, 10))
-        self._perm_progress.configure(maximum=len(items), value=0)
-
-        grid = ttk.Frame(frame, style="Surface.TFrame")
-        grid.pack(fill="both", expand=True)
-        grid.columnconfigure(1, weight=1)
-        self._perm_rows = {}
-        for r, (key, label) in enumerate(items):
-            icon_var = tk.StringVar(value="...")
-            status_var = tk.StringVar(value="Pending")
-            ttk.Label(grid, textvariable=icon_var, width=6, font=("Segoe UI Semibold", 10)).grid(row=r, column=0, sticky="w", pady=8)
-            ttk.Label(grid, text=label).grid(row=r, column=1, sticky="w", pady=8, padx=(8, 12))
-            ttk.Label(grid, textvariable=status_var, style="Subhead.TLabel").grid(row=r, column=2, sticky="e", pady=8)
-            self._perm_rows[key] = (icon_var, status_var)
-
-        action_row = ttk.Frame(frame, style="Surface.TFrame")
-        action_row.pack(fill="x", pady=(8, 0))
-        ttk.Button(action_row, text=self._t("open_mic_settings"), command=self._open_mic_settings, style="Ghost.TButton").pack(side="left")
-        ttk.Button(action_row, text=self._t("check_update"), command=self._check_update_ui, style="Ghost.TButton").pack(side="left", padx=8)
-        ttk.Button(action_row, text=self._t("self_update"), command=self._self_update_ui, style="Ghost.TButton").pack(side="left")
-        ttk.Button(action_row, text=self._t("close"), command=self._close_permission_dialog, style="Ghost.TButton").pack(side="right")
+        if not self._checks_panel_ready and self._checks_main_tab is not None:
+            self._build_system_check_main_tab(self._checks_main_tab)
+        for _, (icon_var, status_var) in self._perm_rows.items():
+            icon_var.set("...")
+            status_var.set("Pending")
+        if self._perm_progress is not None:
+            self._perm_progress.configure(mode="determinate", maximum=max(1, len(self._perm_rows)), value=0)
 
     def _close_permission_dialog(self) -> None:
-        if self._perm_dialog is not None and self._perm_dialog.winfo_exists():
-            try:
-                self._perm_dialog.destroy()
-            except Exception:
-                pass
         self._perm_dialog = None
-        self._perm_progress = None
-        self._perm_rows = {}
 
     def _set_perm_row(self, key: str, ok: bool, detail: str) -> None:
-        if self._perm_dialog is None or not self._perm_dialog.winfo_exists():
-            return
         if key not in self._perm_rows:
             return
         icon_var, status_var = self._perm_rows[key]
@@ -3079,6 +3139,7 @@ class RefineApp:
     def _save_config_with_feedback(self) -> None:
         self._save_config()
         self._animate_save_button(self._main_save_btn, "save_settings")
+        self._set_workspace_settings_collapsed(True)
 
     def _save_prompt_with_feedback(self) -> None:
         if self._save_prompt_from_settings():
@@ -3494,8 +3555,8 @@ class RefineApp:
             self._overlay_window.configure(bg="#1c1c1e")
             self._overlay_canvas = tk.Canvas(
                 self._overlay_window,
-                width=260,
-                height=80,
+                width=320,
+                height=104,
                 highlightthickness=0,
                 bg="#1c1c1e",
             )
@@ -3505,17 +3566,17 @@ class RefineApp:
 
         sw = self.root.winfo_screenwidth()
         sh = self.root.winfo_screenheight()
-        width, height = 260, 80
+        width, height = 320, 104
         pos = self.overlay_position_var.get().strip()
         if pos == "Left Bottom":
             x = 24
-            y = sh - height - 56
+            y = sh - height - 48
         elif pos == "Center Bottom":
             x = max(0, (sw - width) // 2)
-            y = sh - height - 56
+            y = sh - height - 48
         else:
             x = sw - width - 24
-            y = sh - height - 56
+            y = sh - height - 48
         self._overlay_window.geometry(f"{width}x{height}+{x}+{y}")
         self._overlay_window.deiconify()
         self._update_recording_overlay()
@@ -3537,29 +3598,34 @@ class RefineApp:
             return
         c = self._overlay_canvas
         c.delete("all")
-        w, h = 260, 80
+        w = max(1, int(c.winfo_width()))
+        h = max(1, int(c.winfo_height()))
         import math
 
         if self._overlay_mode == "recording":
             rec_title = self._t("recording_title")
             rec_hint = self._t("recording_hint")
+            title_y = 34
+            hint_y = 58
             if self._translate_hotkey_active:
                 rec_title = "Translating, Listening ..."
                 rec_hint = "Release to translate"
-                c.create_rectangle(12, 10, 124, 28, fill="#1f3f6b", outline="")
-                c.create_text(68, 19, text="TRANSLATE", fill="#9fd0ff", font=("TkDefaultFont", 8, "bold"))
-            c.create_text(16, 22, anchor="w", text=rec_title, fill="#ffffff", font=("TkDefaultFont", 13, "bold"))
-            c.create_text(16, 44, anchor="w", text=rec_hint, fill="#98989d", font=("TkDefaultFont", 9))
+                c.create_rectangle(16, 10, 132, 30, fill="#214975", outline="")
+                c.create_text(74, 20, text="TRANSLATE", fill="#b8deff", font=("TkDefaultFont", 8, "bold"))
+                title_y = 48
+                hint_y = 70
+            c.create_text(16, title_y, anchor="w", text=rec_title, fill="#ffffff", font=("TkDefaultFont", 13, "bold"))
+            c.create_text(16, hint_y, anchor="w", text=rec_hint, fill="#b0b0b5", font=("TkDefaultFont", 9))
 
             # Frosted glass wave animation
             level = self._current_input_level
             t = time.time()
             num_bars = 8
-            bar_w = 4
-            gap = 4
+            bar_w = 5
+            gap = 5
             total_w = num_bars * (bar_w + gap) - gap
-            base_x = w - 20 - total_w
-            base_y = 62
+            base_x = w - 22 - total_w
+            base_y = h - 16
             for i in range(num_bars):
                 phase = t * 4.0 + i * 0.6
                 wave = (math.sin(phase) + 1.0) / 2.0
@@ -3584,8 +3650,8 @@ class RefineApp:
         else:
             t = time.time()
             model_name = self.model_var.get().strip() or "-"
-            c.create_text(16, 22, anchor="w", text=self._t("processing_title"), fill="#ffffff", font=("TkDefaultFont", 13, "bold"))
-            c.create_text(16, 44, anchor="w", text=model_name, fill="#98989d", font=("TkDefaultFont", 9))
+            c.create_text(16, 34, anchor="w", text=self._t("processing_title"), fill="#ffffff", font=("TkDefaultFont", 13, "bold"))
+            c.create_text(16, 56, anchor="w", text=model_name, fill="#b0b0b5", font=("TkDefaultFont", 9))
 
             # Pulsing dots animation
             num_dots = 4
@@ -3593,8 +3659,8 @@ class RefineApp:
                 phase = t * 3.0 - i * 0.5
                 pulse = (math.sin(phase) + 1.0) / 2.0
                 r = 6 + int(3 * pulse)
-                cx = w - 80 + i * 18
-                cy = 56
+                cx = w - 92 + i * 20
+                cy = h - 24
                 alpha_val = int(80 + 175 * pulse)
                 color = f"#{alpha_val:02x}{alpha_val:02x}ff"
                 c.create_oval(cx - r, cy - r, cx + r, cy + r, fill=color, outline="")
