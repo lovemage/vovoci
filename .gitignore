@@ -1,4 +1,6 @@
 ﻿site/
+.claude/
+CLAUDE.md
 
 # Local/runtime artifacts
 __pycache__/
