@@ -14,7 +14,7 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 import tkinter as tk
-from tkinter import messagebox, simpledialog, ttk
+from tkinter import messagebox, ttk
 from urllib import error, request
 
 try:
@@ -159,8 +159,9 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
     ],
     "output_policy": [
         "Return only transformed text result.",
-        "Output as bullet list.",
-        "One bullet = one semantic unit or action item.",
+        "Choose output format by content complexity.",
+        "Use plain paragraph text for simple single-intent content.",
+        "Use bullet list only when there are multiple distinct action items, requirements, or steps.",
         "No headings, no notes, no metadata.",
     ],
 }
@@ -372,6 +373,8 @@ UI_STRINGS = {
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "Set Default",
         "history_label": "Input text history (latest first)",
+        "history_copied": "Copied input text from history.",
+        "history_copied_short": "Copied",
         "clear_history": "Clear History",
         "copy": "Copy",
         "close": "Close",
@@ -384,6 +387,7 @@ UI_STRINGS = {
         "language": "Language",
         "subtitle": "Voice capture, refinement, and vocabulary control in one focused desktop workspace.",
         "date": "Date",
+        "date_time": "Date / Time",
         "time": "Time",
         "input_text": "Input Text",
         "scanner_hint": "Copy the prompt below and paste it into your AI agent (Claude, ChatGPT, Gemini, etc.).\nThe agent will analyze your environment and export a vocabulary table.\nSave the output as a .md file, then import it here.",
@@ -448,7 +452,7 @@ UI_STRINGS = {
         "model_search": "模型搜尋",
         "hotkey": "按住說話熱鍵",
         "show": "顯示",
-        "open_console": "開啟控制台",
+        "open_console": "開啟網站",
         "term": "詞彙",
         "preferred": "偏好寫法",
         "note": "備註（可選）",
@@ -477,6 +481,7 @@ UI_STRINGS = {
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "設為預設",
         "history_label": "輸入文字歷史（最新在前）",
+        "history_copied_short": "已複製",
         "clear_history": "清空歷史",
         "copy": "複製",
         "close": "關閉",
@@ -489,6 +494,7 @@ UI_STRINGS = {
         "language": "語言",
         "subtitle": "語音擷取、語意整理與詞彙管理的一站式桌面工具。",
         "date": "日期",
+        "date_time": "日期 / 時間",
         "time": "時間",
         "input_text": "輸入文字",
         "scanner_hint": "複製下方 Prompt 並貼到你的 AI 助手（Claude、ChatGPT、Gemini 等）。\n助手會分析環境並輸出詞彙表。\n將結果存成 .md 後回到此處匯入。",
@@ -501,6 +507,7 @@ UI_STRINGS = {
         "no_terms_loaded": "尚未載入詞彙，請先開啟 .md 檔。",
         "default_prompt_applied": "已套用預設 Prompt。",
         "history_cleared": "歷史已清空。",
+        "history_copied": "已複製歷史中的輸入文字。",
         "recording_title": "Listening ...",
         "recording_hint": "放開以轉寫",
         "processing_title": "vovocing",
@@ -553,7 +560,7 @@ UI_STRINGS = {
         "model_search": "モデル検索",
         "hotkey": "プッシュトゥトーク ホットキー",
         "show": "表示",
-        "open_console": "コンソールを開く",
+        "open_console": "サイトを開く",
         "term": "用語",
         "preferred": "優先表記",
         "note": "メモ（任意）",
@@ -582,6 +589,7 @@ UI_STRINGS = {
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "デフォルトに戻す",
         "history_label": "入力履歴（新しい順）",
+        "history_copied_short": "コピー済み",
         "clear_history": "履歴をクリア",
         "copy": "コピー",
         "close": "閉じる",
@@ -594,6 +602,7 @@ UI_STRINGS = {
         "language": "言語",
         "subtitle": "音声入力、整形、用語管理を 1 つに。",
         "date": "日付",
+        "date_time": "日付 / 時刻",
         "time": "時刻",
         "input_text": "入力テキスト",
         "scanner_hint": "下の Prompt をコピーして AI（Claude/ChatGPT/Gemini など）に貼り付けます。\nAI が環境を分析し、用語表を出力します。\n結果を .md で保存してここにインポートしてください。",
@@ -606,6 +615,7 @@ UI_STRINGS = {
         "no_terms_loaded": "用語が未読込です。先に .md を開いてください。",
         "default_prompt_applied": "デフォルト Prompt を適用しました。",
         "history_cleared": "履歴をクリアしました。",
+        "history_copied": "履歴の入力テキストをコピーしました。",
         "recording_title": "Listening ...",
         "recording_hint": "離して文字起こし",
         "processing_title": "vovocing",
@@ -658,7 +668,7 @@ UI_STRINGS = {
         "model_search": "모델 검색",
         "hotkey": "푸시투토크 단축키",
         "show": "표시",
-        "open_console": "콘솔 열기",
+        "open_console": "사이트 열기",
         "term": "용어",
         "preferred": "선호 표기",
         "note": "메모(선택)",
@@ -687,6 +697,7 @@ UI_STRINGS = {
         "system_prompt": "System Prompt JSON for Refi",
         "use_strict_prompt": "기본값 적용",
         "history_label": "입력 텍스트 기록(최신순)",
+        "history_copied_short": "복사됨",
         "clear_history": "기록 지우기",
         "copy": "복사",
         "close": "닫기",
@@ -699,6 +710,7 @@ UI_STRINGS = {
         "language": "언어",
         "subtitle": "음성 입력, 구조화, 용어 관리를 한 곳에서.",
         "date": "날짜",
+        "date_time": "날짜 / 시간",
         "time": "시간",
         "input_text": "입력 텍스트",
         "scanner_hint": "아래 Prompt를 복사해 AI(Claude/ChatGPT/Gemini 등)에 붙여넣으세요.\nAI가 환경을 분석해 용어 표를 만듭니다.\n결과를 .md로 저장한 뒤 여기서 가져오세요.",
@@ -711,6 +723,7 @@ UI_STRINGS = {
         "no_terms_loaded": "불러온 용어가 없습니다. 먼저 .md 파일을 여세요.",
         "default_prompt_applied": "기본 Prompt를 적용했습니다.",
         "history_cleared": "기록을 지웠습니다.",
+        "history_copied": "기록의 입력 텍스트를 복사했습니다.",
         "recording_title": "Listening ...",
         "recording_hint": "놓으면 전사",
         "processing_title": "vovocing",
@@ -879,6 +892,9 @@ class RefineApp:
         self._pipeline_token = 0
         self._scanner_term_tree = None
         self._scanner_status_var = None
+        self._refine_quick_output_mode = None
+        self._history_status_var = tk.StringVar(value="")
+        self._history_status_after_id = None
 
         self._configure_styles()
         self._build_ui()
@@ -1143,22 +1159,20 @@ class RefineApp:
 
         history_frame = ttk.LabelFrame(main, text=self._t("history"), padding=12, style="Card.TLabelframe")
         history_frame.pack(fill="both", expand=True, pady=(10, 0))
-        ttk.Label(history_frame, text=self._t("history_label")).pack(anchor="w")
-        history_tree = ttk.Treeview(history_frame, columns=("date", "time", "text"), show="headings", height=8, style="App.Treeview")
-        history_tree.heading("date", text=self._t("date"))
-        history_tree.heading("time", text=self._t("time"))
+        history_toolbar = ttk.Frame(history_frame, style="Card.TLabelframe")
+        history_toolbar.pack(fill="x", pady=(0, 6))
+        ttk.Button(history_toolbar, text=self._t("clear_history"), command=self._clear_history, style="Ghost.TButton").pack(side="left")
+        ttk.Label(history_toolbar, textvariable=self._history_status_var, style="Status.TLabel").pack(side="left", padx=(10, 0))
+        ttk.Label(history_toolbar, textvariable=self.status_var, style="Status.TLabel").pack(side="right")
+        history_tree = ttk.Treeview(history_frame, columns=("datetime", "text"), show="headings", height=8, style="App.Treeview")
+        history_tree.heading("datetime", text=self._t("date_time"))
         history_tree.heading("text", text=f"⌨ {self._t('input_text')}")
-        history_tree.column("date", width=110, anchor="w")
-        history_tree.column("time", width=70, anchor="w")
-        history_tree.column("text", width=620, anchor="w")
-        history_tree.pack(fill="both", expand=True, pady=(8, 8))
+        history_tree.column("datetime", width=170, anchor="w")
+        history_tree.column("text", width=630, anchor="w")
+        history_tree.pack(fill="both", expand=True, pady=(2, 8))
+        history_tree.bind("<ButtonRelease-1>", self._on_history_click_copy)
         self._history_tree = history_tree
         self._refresh_history_tree()
-        history_action = ttk.Frame(history_frame, style="Card.TLabelframe")
-        history_action.pack(fill="x")
-        ttk.Button(history_action, text=self._t("clear_history"), command=self._clear_history, style="Ghost.TButton").pack(side="left")
-
-        ttk.Label(main, textvariable=self.status_var, style="Status.TLabel").pack(anchor="w", pady=(10, 0))
 
     def _on_language_change(self, _event=None) -> None:
         self._save_config()
@@ -1173,6 +1187,13 @@ class RefineApp:
         self._main_save_btn = None
         self._floating_text_window = None
         self._floating_text_widget = None
+        if self._history_status_after_id is not None:
+            try:
+                self.root.after_cancel(self._history_status_after_id)
+            except Exception:
+                pass
+            self._history_status_after_id = None
+        self._history_status_var.set("")
         self._overlay_window = None
         self._overlay_canvas = None
         self._build_ui()
@@ -1201,6 +1222,7 @@ class RefineApp:
         self._preferred_paste_hwnd = 0
         self._is_transcribing = False
         self._translate_hotkey_active = False
+        self._refine_quick_output_mode = None
         if self._is_recording and self._recording_stream is not None:
             try:
                 self._recording_stream.stop()
@@ -1817,8 +1839,15 @@ class RefineApp:
             "If input mixes languages, keep mixed-language output naturally; do not force monolingual output.",
             "Use user's perspective only; do not add objective or subjective angles.",
             "Do not generate long-form expansions or additional paragraphs.",
-            "Output must be a bullet list. One bullet per semantic unit or action item.",
+            "Use adaptive formatting: plain paragraph for simple single-intent text; bullet list only for multi-item or multi-step content.",
             "Preserve model names, IDs, versions, and codes exactly (e.g., QW1203, GPT-5).",
+        ]
+        base_obj["output_policy"] = [
+            "Return only transformed text result.",
+            "Choose output format by content complexity.",
+            "Use plain paragraph text for simple single-intent content.",
+            "Use bullet list only when there are multiple distinct action items, requirements, or steps.",
+            "No headings, no notes, no metadata.",
         ]
         if self.custom_terms:
             vocab = []
@@ -1868,17 +1897,45 @@ class RefineApp:
         self._history_tree.tag_configure("odd", background="#f0f3f8")
         for idx, row in enumerate(reversed(self.conversation_history)):
             tag = "even" if idx % 2 == 0 else "odd"
+            date_text = str(row.get("date", "")).strip()
+            time_text = str(row.get("time", "")).strip()
+            dt_text = f"{date_text} {time_text}".strip()
             self._history_tree.insert(
                 "",
                 "end",
                 iid=f"h{idx}",
                 values=(
-                    row.get("date", ""),
-                    row.get("time", ""),
+                    dt_text,
                     row.get("text", ""),
                 ),
                 tags=(tag,),
             )
+
+    def _on_history_click_copy(self, event=None) -> None:
+        if self._history_tree is None or not self._history_tree.winfo_exists():
+            return
+        row_id = self._history_tree.identify_row(getattr(event, "y", 0))
+        if not row_id:
+            return
+        values = self._history_tree.item(row_id, "values")
+        if not values or len(values) < 2:
+            return
+        text = str(values[1]).strip()
+        if not text:
+            return
+        try:
+            self.root.clipboard_clear()
+            self.root.clipboard_append(text)
+            self.status_var.set(self._t("history_copied"))
+            self._history_status_var.set(self._t("history_copied_short"))
+            if self._history_status_after_id is not None:
+                try:
+                    self.root.after_cancel(self._history_status_after_id)
+                except Exception:
+                    pass
+            self._history_status_after_id = self.root.after(1200, lambda: self._history_status_var.set(""))
+        except Exception as exc:
+            self.status_var.set(f"Copy failed: {str(exc)[:100]}")
 
     def _clear_history(self) -> None:
         self.conversation_history = []
@@ -2075,8 +2132,6 @@ class RefineApp:
         self.model_search_var.set("")
         self._apply_provider_profile_to_ui(provider)
         self._active_provider = provider
-        if provider == "Google Gemini API" and not self.api_key_var.get().strip():
-            self._trigger_google_auth_flow()
         self._refresh_dynamic_provider_models_async(provider=provider)
         self._save_config()
 
@@ -2423,6 +2478,12 @@ class RefineApp:
         self._translate_hotkey_active = False
         self.status_var.set(self._t("stt_completed"))
         if auto_refine or trigger_forced:
+            if self.auto_paste_var.get():
+                self._refine_quick_output_mode = "paste"
+            else:
+                self._hide_recording_overlay()
+                self._show_floating_text(transcript)
+                self._refine_quick_output_mode = "popup"
             self._run_refine_from_hotkey()
         elif self.auto_paste_var.get():
             self._paste_text_to_active_window(transcript)
@@ -2818,33 +2879,6 @@ class RefineApp:
         except Exception as exc:
             messagebox.showerror("Open Settings Error", str(exc))
 
-    def _trigger_google_auth_flow(self) -> None:
-        # Gemini OpenAI-compatible usage normally relies on GOOGLE_API_KEY.
-        key = (os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY") or "").strip()
-        if key:
-            self.api_key_var.set(key)
-            self.status_var.set("Google provider selected. Loaded GOOGLE_API_KEY from environment.")
-            return
-        try:
-            webbrowser.open("https://aistudio.google.com/apikey")
-        except Exception:
-            pass
-        entered = simpledialog.askstring(
-            "Google API Key",
-            "GOOGLE_API_KEY not found in environment.\n"
-            "Browser opened to Google AI Studio.\n\n"
-            "Paste your Google Gemini API key here:",
-            parent=self.root,
-        )
-        if entered and entered.strip():
-            self.api_key_var.set(entered.strip())
-            self._persist_active_provider_profile()
-            self._save_config()
-            self.status_var.set("Google API key set for Gemini provider.")
-        else:
-            self.status_var.set("Google provider selected. API key not set.")
-
-
     def _load_config(self) -> None:
         if not CONFIG_PATH.exists():
             self.model_combo.configure(values=PROVIDERS["OpenAI Compatible"]["models"])
@@ -3166,6 +3200,14 @@ class RefineApp:
         if self.refine_btn is not None:
             self.refine_btn.config(state="normal")
         self._hide_recording_overlay()
+        if self._refine_quick_output_mode == "paste":
+            self._refine_quick_output_mode = None
+            self._paste_text_to_active_window(text)
+            return
+        if self._refine_quick_output_mode == "popup":
+            self._refine_quick_output_mode = None
+            self._show_floating_text(text)
+            return
         if self.auto_paste_var.get():
             self._paste_text_to_active_window(text)
         else:
@@ -3174,6 +3216,7 @@ class RefineApp:
     def _set_error(self, pipeline_token, message: str) -> None:
         if pipeline_token is not None and pipeline_token != self._pipeline_token:
             return
+        self._refine_quick_output_mode = None
         self.status_var.set(self._t("refine_failed"))
         if self.refine_btn is not None:
             self.refine_btn.config(state="normal")
@@ -3341,10 +3384,54 @@ class RefineApp:
 
             user32 = ctypes.windll.user32
             WM_PASTE = 0x0302
-            user32.SetForegroundWindow(int(hwnd))
-            time.sleep(0.03)
-            user32.SendMessageW(int(hwnd), WM_PASTE, 0, 0)
-            return True
+            SMTO_ABORTIFHUNG = 0x0002
+
+            class RECT(ctypes.Structure):
+                _fields_ = [
+                    ("left", ctypes.c_long),
+                    ("top", ctypes.c_long),
+                    ("right", ctypes.c_long),
+                    ("bottom", ctypes.c_long),
+                ]
+
+            class GUITHREADINFO(ctypes.Structure):
+                _fields_ = [
+                    ("cbSize", ctypes.c_ulong),
+                    ("flags", ctypes.c_ulong),
+                    ("hwndActive", ctypes.c_void_p),
+                    ("hwndFocus", ctypes.c_void_p),
+                    ("hwndCapture", ctypes.c_void_p),
+                    ("hwndMenuOwner", ctypes.c_void_p),
+                    ("hwndMoveSize", ctypes.c_void_p),
+                    ("hwndCaret", ctypes.c_void_p),
+                    ("rcCaret", RECT),
+                ]
+
+            target_hwnd = int(hwnd)
+            user32.SetForegroundWindow(target_hwnd)
+            time.sleep(0.05)
+
+            # Prefer sending WM_PASTE to focused child control in the target thread.
+            thread_id = user32.GetWindowThreadProcessId(target_hwnd, None)
+            if thread_id:
+                info = GUITHREADINFO()
+                info.cbSize = ctypes.sizeof(GUITHREADINFO)
+                if user32.GetGUIThreadInfo(thread_id, ctypes.byref(info)):
+                    focus_hwnd = int(info.hwndFocus or 0)
+                    if focus_hwnd:
+                        target_hwnd = focus_hwnd
+
+            result = ctypes.c_ulong()
+            ok = user32.SendMessageTimeoutW(
+                target_hwnd,
+                WM_PASTE,
+                0,
+                0,
+                SMTO_ABORTIFHUNG,
+                300,
+                ctypes.byref(result),
+            )
+            return bool(ok)
         except Exception:
             return False
 
@@ -3352,6 +3439,7 @@ class RefineApp:
         hwnd = self._get_top_level_window_handle(self._get_foreground_window_handle())
         root_hwnd = self._get_top_level_window_handle(int(self.root.winfo_id()))
         preferred = self._get_top_level_window_handle(int(self._preferred_paste_hwnd or 0))
+        has_caret = self._has_foreground_text_caret()
         target_hwnd = 0
         if self._is_valid_hwnd(preferred) and preferred != root_hwnd:
             target_hwnd = preferred
@@ -3362,7 +3450,7 @@ class RefineApp:
             self.status_var.set(self._t("paste_no_target"))
             self._show_floating_text(text)
             return
-        if not self._has_foreground_text_caret():
+        if not has_caret and preferred == 0:
             self.status_var.set("No text caret detected. Showing editable output window.")
             self._show_floating_text(text)
             return
@@ -3370,10 +3458,19 @@ class RefineApp:
             self.root.clipboard_clear()
             self.root.clipboard_append(text)
             self.root.update_idletasks()
-            pasted = self._paste_via_winapi(target_hwnd)
-            if not pasted and keyboard is not None:
-                self.root.after(80, lambda: keyboard.send("ctrl+v"))
-                pasted = True
+            pasted = False
+            if keyboard is not None:
+                try:
+                    import ctypes
+
+                    ctypes.windll.user32.SetForegroundWindow(int(target_hwnd))
+                    time.sleep(0.05)
+                    keyboard.send("ctrl+v")
+                    pasted = True
+                except Exception:
+                    pasted = False
+            if not pasted:
+                pasted = self._paste_via_winapi(target_hwnd)
             if not pasted:
                 self.status_var.set(self._t("paste_no_keyboard"))
                 self._show_floating_text(text)
