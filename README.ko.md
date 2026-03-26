@@ -4,7 +4,7 @@
   <p>Windows에서 사용할 수 있는 vibecoding 및 일상 대화를 위한 구조화 음성 비서.</p>
 </div>
 
-언어: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
+언어: [English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
 
 ## 버전
 
@@ -13,6 +13,10 @@
 ## 개요
 
 VOVOCI는 음성을 로컬 `faster-whisper`로 전사한 뒤, 사용자가 선택한 LLM으로 의미를 구조화합니다. 사용자 의도는 바꾸지 않습니다.
+
+## 앱 스크린샷
+
+![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
 
 ## 특징
 
@@ -59,4 +63,5 @@ python app.py
 ## 라이선스
 
 Apache 2.0. 자세한 내용은 [LICENSE](./LICENSE)를 참고하세요.
+
 

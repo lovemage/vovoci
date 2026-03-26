@@ -4,7 +4,7 @@
   <p>面向 Windows 的 vibecoding 与日常对话结构化语音秘书。</p>
 </div>
 
-语言版本：[English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
+语言版本：[English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
 
 ## 版本
 
@@ -13,6 +13,10 @@
 ## 项目简介
 
 VOVOCI 先用本地 `faster-whisper` 做语音转文字，再交给你选择的 LLM 做语义结构化，不改变用户原意。
+
+## APP 截图
+
+![VOVOCI APP 截图](./docs/images/app-screenshot.png)
 
 ## 特色
 
@@ -59,4 +63,5 @@ python app.py
 ## 许可证
 
 Apache 2.0，详见 [LICENSE](./LICENSE)。
+
 

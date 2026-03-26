@@ -4,7 +4,7 @@
   <p>Windows 上的 vibecoding 與日常對話結構化語音秘書。</p>
 </div>
 
-語言版本：[English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
+語言版本：[English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
 
 ## 版本
 
@@ -13,6 +13,10 @@
 ## 專案簡介
 
 VOVOCI 會先用本機 `faster-whisper` 做語音轉文字，再交給你選擇的 LLM 進行語義結構化，不改變使用者原意。
+
+## APP 截圖
+
+![VOVOCI APP 截圖](./docs/images/app-screenshot.png)
 
 ## 特色
 

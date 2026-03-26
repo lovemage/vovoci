@@ -4,7 +4,7 @@
   <p>Structured voice secretary for vibecoding and everyday conversation on Windows.</p>
 </div>
 
-Languages: [English](./README.md) | [繁體中文](./README.zh-TW.md) | [简体中文](./README.zh-CN.md) | [日本語](./README.ja.md) | [한국어](./README.ko.md)
+Languages: [English](https://github.com/lovemage/vovoci/blob/main/README.md#readme) | [繁體中文](https://github.com/lovemage/vovoci/blob/main/README.zh-TW.md#readme) | [简体中文](https://github.com/lovemage/vovoci/blob/main/README.zh-CN.md#readme) | [日本語](https://github.com/lovemage/vovoci/blob/main/README.ja.md#readme) | [한국어](https://github.com/lovemage/vovoci/blob/main/README.ko.md#readme)
 
 ## Version
 
@@ -13,6 +13,10 @@ Current version: `0.1.4`
 ## Overview
 
 VOVOCI captures your speech, transcribes it locally with `faster-whisper`, then uses your selected LLM to structure semantics while preserving your intent.
+
+## App Screenshot
+
+![VOVOCI App Screenshot](./docs/images/app-screenshot.png)
 
 ## Highlights
 
