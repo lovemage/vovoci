@@ -8,10 +8,10 @@
 
 Speak naturally, get clean structured text in any Windows app — powered by local STT and your choice of LLM.
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci/releases)
+[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
-[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
 
 Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
@@ -46,7 +46,7 @@ graph LR
 
 ### Portable (Recommended)
 
-1. Download `VOVOCI-portable-0.1.4.zip` from [Releases](https://github.com/lovemage/vovoci/releases/latest)
+1. Download `VOVOCI-portable-0.1.4.zip` from [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)
 2. Extract and run `Run-VOVOCI-First-Time.cmd`
 3. Launch `VOVOCI.exe`
 

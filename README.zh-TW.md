@@ -8,10 +8,10 @@
 
 自然說話，在任何 Windows 應用程式中取得乾淨的結構化文字 — 由本機 STT 與你選擇的 LLM 驅動。
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci/releases)
+[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
-[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
 
 Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
@@ -46,7 +46,7 @@ graph LR
 
 ### 免安裝版（推薦）
 
-1. 從 [Releases](https://github.com/lovemage/vovoci/releases/latest) 下載 `VOVOCI-portable-0.1.4.zip`
+1. 從 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下載 `VOVOCI-portable-0.1.4.zip`
 2. 解壓縮後執行 `Run-VOVOCI-First-Time.cmd`
 3. 啟動 `VOVOCI.exe`
 

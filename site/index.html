@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOVOCI — Structured Voice Secretary for Vibecoding and Everyday Conversation</title>
+  <meta name="description" content="VOVOCI is a structured voice secretary built for vibecoding and daily conversation. Turn speech into clean, usable text for notes, social posts, and any Windows app.">
+  <meta property="og:title" content="VOVOCI — Structured Voice Secretary for Vibecoding and Everyday Conversation">
+  <meta property="og:description" content="VOVOCI is a structured voice secretary built for vibecoding and daily conversation. Turn speech into clean, usable text for notes, social posts, and any Windows app.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="hero_image.jpg">
+  <meta property="og:url" content="https://vovoci.com/">
+  <link rel="canonical" href="https://vovoci.com/">
+  <link rel="alternate" hreflang="en" href="https://vovoci.com/?lang=en">
+  <link rel="alternate" hreflang="zh-TW" href="https://vovoci.com/?lang=zh-TW">
+  <link rel="alternate" hreflang="ko" href="https://vovoci.com/?lang=ko">
+  <link rel="alternate" hreflang="ja" href="https://vovoci.com/?lang=ja">
+  <link rel="alternate" hreflang="th" href="https://vovoci.com/?lang=th">
+  <link rel="alternate" hreflang="x-default" href="https://vovoci.com/">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Skip to content (accessibility) -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="logo.png" alt="VOVOCI logo" width="32" height="32">
+        <span>VOVOCI</span>
+      </a>
+      <!-- Desktop nav links (6 items) -->
+      <div class="nav-links">
+        <a href="#how-it-works" class="nav-link" data-i18n="nav.how">How It Works</a>
+        <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+        <a href="#providers" class="nav-link" data-i18n="nav.providers">Providers</a>
+        <a href="#real-world-cost" class="nav-link" data-i18n="nav.cost">Cost</a>
+        <a href="#quickstart" class="nav-link" data-i18n="nav.quickstart">Quick Start</a>
+        <a href="#faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-current" aria-label="Switch language" aria-expanded="false">
+          <span class="lang-current-label">EN</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="lang-dropdown" role="menu">
+          <button class="lang-option" data-lang="en" role="menuitem">English</button>
+          <button class="lang-option" data-lang="zh-TW" role="menuitem">繁體中文</button>
+          <button class="lang-option" data-lang="ko" role="menuitem">한국어</button>
+          <button class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+          <button class="lang-option" data-lang="th" role="menuitem">ไทย</button>
+        </div>
+      </div>
+      <a href="https://github.com/lovemage/vovoci" class="nav-github" target="_blank" rel="noopener noreferrer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        <span data-i18n="nav.github">GitHub</span>
+      </a>
+      <!-- Hamburger button (mobile/tablet only) -->
+      <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile-menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+    <!-- Mobile menu panel -->
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+      <a href="#how-it-works" class="nav-mobile-link" data-i18n="nav.how">How It Works</a>
+      <a href="#features" class="nav-mobile-link" data-i18n="nav.features">Features</a>
+      <a href="#providers" class="nav-mobile-link" data-i18n="nav.providers">Providers</a>
+      <a href="#model-performance" class="nav-mobile-link" data-i18n="nav.model">Model Performance</a>
+      <a href="#real-world-cost" class="nav-mobile-link" data-i18n="nav.cost">Cost</a>
+      <a href="#translation-mode" class="nav-mobile-link" data-i18n="nav.translation">Translation</a>
+      <a href="#quickstart" class="nav-mobile-link" data-i18n="nav.quickstart">Quick Start</a>
+      <a href="#faq" class="nav-mobile-link" data-i18n="nav.faq">FAQ</a>
+      <a href="https://github.com/lovemage/vovoci" class="nav-mobile-github" target="_blank" rel="noopener noreferrer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        <span data-i18n="nav.github">GitHub</span>
+      </a>
+      <div class="nav-mobile-lang">
+        <button class="lang-option nav-mobile-lang-opt" data-lang="en">English</button>
+        <button class="lang-option nav-mobile-lang-opt" data-lang="zh-TW">繁體中文</button>
+        <button class="lang-option nav-mobile-lang-opt" data-lang="ko">한국어</button>
+        <button class="lang-option nav-mobile-lang-opt" data-lang="ja">日本語</button>
+        <button class="lang-option nav-mobile-lang-opt" data-lang="th">ไทย</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+  <!-- Hero -->
+  <section id="hero" aria-label="VOVOCI overview">
+    <!-- Animated SVG background -->
+    <svg class="hero-bg-svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(31, 107, 99, 0.15)"/>
+          <stop offset="100%" stop-color="rgba(31, 107, 99, 0)"/>
+        </radialGradient>
+        <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(200, 111, 74, 0.12)"/>
+          <stop offset="100%" stop-color="rgba(200, 111, 74, 0)"/>
+        </radialGradient>
+      </defs>
+      <!-- Floating orbs -->
+      <circle class="orb orb-1" cx="15%" cy="20%" r="120" fill="url(#glow1)"/>
+      <circle class="orb orb-2" cx="85%" cy="35%" r="90" fill="url(#glow2)"/>
+      <circle class="orb orb-3" cx="50%" cy="80%" r="150" fill="url(#glow1)"/>
+    </svg>
+
+    <!-- Hero image -->
+    <div class="hero-banner">
+      <img src="hero_image.jpg" alt="VOVOCI — Talk to Your Computer, Get Clean Text Back" class="hero-banner-img" width="960" height="536">
+    </div>
+
+    <!-- Text below image -->
+    <div class="container hero-content">
+      <h1 data-i18n-html="hero.title">Your Structured Secretary for<br>Vibecoding and Real Conversation.</h1>
+      <p class="hero-sub" data-i18n="hero.sub">VOVOCI is built for fast idea-to-text workflows: coding thoughts, daily notes, social media drafts, and everyday chat. Speak naturally, let VOVOCI structure your meaning, then send clean output to the app you're already using.</p>
+      <p class="hero-small" data-i18n="hero.small">One voice workflow. Many scenarios. Works across Windows software.</p>
+      <div class="hero-buttons">
+        <a href="https://github.com/lovemage/vovoci-packaging/releases/download/v0.1.4/VOVOCI-portable-0.1.4.zip" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+          <span data-i18n="hero.download">Download Portable ZIP</span>
+        </a>
+        <a href="https://github.com/lovemage/vovoci" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span data-i18n="hero.github">View on GitHub</span>
+        </a>
+      </div>
+      <p class="hero-version">Latest version: <strong>v0.1.4</strong></p>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how-it-works" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="how.title">How It Works</h2>
+      <p class="section-intro" data-i18n="how.intro">VOVOCI is a structured voice workflow: set up once, then speak and ship clean text for vibecoding, conversation, notes, and content creation.</p>
+
+      <!-- Setup Phase -->
+      <div class="phase-label">
+        <span class="phase-tag" data-i18n="how.phase1">Phase 1</span>
+        <span class="phase-name" data-i18n="how.phase1Name">One-Time Setup</span>
+      </div>
+      <div class="setup-flow">
+        <div class="setup-step">
+          <div class="setup-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <h3 data-i18n="how.installTitle">Install VOVOCI</h3>
+          <p data-i18n="how.installDesc">Download and run the app. No account required, no sign-up forms, no telemetry.</p>
+        </div>
+        <div class="setup-arrow" aria-hidden="true">
+          <svg width="40" height="16" viewBox="0 0 40 16"><path d="M0 8h36M30 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="setup-step">
+          <div class="setup-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3 data-i18n="how.connectTitle">Connect an LLM</h3>
+          <p data-i18n="how.connectDesc">Pick any supported provider and add your API key. Start with NVIDIA NIM for free access.</p>
+        </div>
+      </div>
+
+      <!-- App Screenshot -->
+      <div class="setup-screenshot">
+        <img src="clip1.png" alt="VOVOCI settings — OpenRouter provider with x-ai/grok-4.1-fast model and Custom Vocabulary panel" class="setup-screenshot-img" loading="lazy" width="1098" height="800">
+      </div>
+
+      <!-- Daily Use Phase -->
+      <div class="phase-label">
+        <span class="phase-tag phase-tag--active" data-i18n="how.phase2">Phase 2</span>
+        <span class="phase-name" data-i18n="how.phase2Name">Daily Use</span>
+      </div>
+      <div class="daily-section">
+        <div class="daily-image">
+          <img src="daily_use.jpg" alt="VOVOCI in action — voice input at your desktop" class="daily-img" loading="lazy" width="640" height="640">
+        </div>
+        <div class="daily-steps stagger-in">
+          <div class="daily-step">
+            <div class="daily-step-num">1</div>
+            <div class="daily-step-body">
+              <h3 data-i18n="how.speakTitle">Speak</h3>
+              <p data-i18n="how.speakDesc">Hold your hotkey and talk naturally — coding thoughts, personal notes, social copy ideas, or plain conversation.</p>
+            </div>
+          </div>
+          <div class="daily-step">
+            <div class="daily-step-num">2</div>
+            <div class="daily-step-body">
+              <h3 data-i18n="how.transcribeTitle">Transcribe</h3>
+              <p data-i18n="how.transcribeDesc">faster-whisper converts your speech to text on your machine. Nothing leaves your computer.</p>
+            </div>
+          </div>
+          <div class="daily-step">
+            <div class="daily-step-num">3</div>
+            <div class="daily-step-body">
+              <h3 data-i18n="how.refineTitle">Refine</h3>
+              <p data-i18n="how.refineDesc">Your LLM fixes grammar, smooths phrasing, and preserves your original meaning.</p>
+            </div>
+          </div>
+          <div class="daily-step">
+            <div class="daily-step-num">4</div>
+            <div class="daily-step-body">
+              <h3 data-i18n="how.outputTitle">Output</h3>
+              <p data-i18n="how.outputDesc">Structured text appears in your active app, ready to use in any Windows software.</p>
+              <div class="output-apps">
+                <div class="app-icon" title="VS Code">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M23.15 2.587L18.21.21a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>
+                  <span>VS Code</span>
+                </div>
+                <div class="app-icon" title="Notion">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>
+                  <span>Notion</span>
+                </div>
+                <div class="app-icon" title="Obsidian">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M19.355 18.538a68.967 68.959 0 0 0 1.858-2.954.81.81 0 0 0-.062-.9c-.516-.685-1.504-2.075-2.042-3.362-.553-1.321-.636-3.375-.64-4.377a1.707 1.707 0 0 0-.358-1.05l-3.198-4.064a3.744 3.744 0 0 1-.076.543c-.106.503-.307 1.004-.536 1.5-.134.29-.29.6-.446.914l-.31.626c-.516 1.068-.997 2.227-1.132 3.59-.124 1.26.046 2.73.815 4.481.128.011.257.025.386.044a6.363 6.363 0 0 1 3.326 1.505c.916.79 1.744 1.922 2.415 3.5zM8.199 22.569c.073.012.146.02.22.02.78.024 2.095.092 3.16.29.87.16 2.593.64 4.01 1.055 1.083.316 2.198-.548 2.355-1.664.114-.814.33-1.735.725-2.58l-.01.005c-.67-1.87-1.522-3.078-2.416-3.849a5.295 5.295 0 0 0-2.778-1.257c-1.54-.216-2.952.19-3.84.45.532 2.218.368 4.829-1.425 7.531zM5.533 9.938c-.023.1-.056.197-.098.29L2.82 16.059a1.602 1.602 0 0 0 .313 1.772l4.116 4.24c2.103-3.101 1.796-6.02.836-8.3-.728-1.73-1.832-3.081-2.55-3.831zM9.32 14.01c.615-.183 1.606-.465 2.745-.534-.683-1.725-.848-3.233-.716-4.577.154-1.552.7-2.847 1.235-3.95.113-.235.223-.454.328-.664.149-.297.288-.577.419-.86.217-.47.379-.885.46-1.27.08-.38.08-.72-.014-1.043-.095-.325-.297-.675-.68-1.06a1.6 1.6 0 0 0-1.475.36l-4.95 4.452a1.602 1.602 0 0 0-.513.952l-.427 2.83c.672.59 2.328 2.316 3.335 4.711.09.21.175.43.253.653z"/></svg>
+                  <span>Obsidian</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NVIDIA Callout -->
+      <div class="nvidia-callout">
+        <div class="nvidia-icon">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>
+        </div>
+        <div class="nvidia-text" data-i18n-html="how.nvidiaCallout">
+          <strong>We recommend NVIDIA NIM for getting started.</strong> Their free API tier gives you access to capable models at no cost — no credit card needed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="feat.title">Use Cases & Features</h2>
+      <div class="features-grid stagger-in">
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3 data-i18n="feat.vibecodeTitle">Built for Vibecoding</h3>
+          <p data-i18n="feat.vibecodeDesc">Capture implementation ideas, architecture notes, and quick TODO logic by voice, then drop structured text straight into your coding workflow.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <h3 data-i18n="feat.notesTitle">Voice Notes</h3>
+          <p data-i18n="feat.notesDesc">Turn fragmented speech into clean notes for planning, journaling, meetings, and daily thought capture without breaking your flow.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <h3 data-i18n="feat.socialTitle">Social Media Drafting</h3>
+          <p data-i18n="feat.socialDesc">Speak rough ideas for posts and captions, then get structured, publish-ready drafts you can quickly review and post.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3 data-i18n="feat.chatTitle">Everyday Conversation</h3>
+          <p data-i18n="feat.chatDesc">Use VOVOCI as your language-structuring secretary for daily communication: clearer replies, cleaner messages, and faster writing.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <h3 data-i18n="feat.windowsTitle">Works in Any Windows App</h3>
+          <p data-i18n="feat.windowsDesc">From IDEs to docs, chat tools, browsers, and forms — VOVOCI can output directly where your cursor is.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+          <h3 data-i18n="feat.sttTitle">Local STT + Your LLM Choice</h3>
+          <p data-i18n="feat.sttDesc">Keep speech transcription local with faster-whisper, then choose your preferred LLM provider for final semantic structuring.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <h3 data-i18n="feat.vocabTitle">Custom Vocabulary</h3>
+          <p data-i18n="feat.vocabDesc">Keep technical terms, product names, and preferred wording consistent across coding, conversation, and content writing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real-World Cost -->
+  <section id="real-world-cost" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="cost.title">What Does It Actually Cost?</h2>
+      <p class="section-intro" data-i18n="cost.intro">Voice-to-text tools charge monthly subscriptions. VOVOCI is free — you only pay for the LLM API tokens you actually use. Here's what heavy daily usage looks like with OpenRouter.</p>
+
+      <div class="cost-layout">
+        <!-- Animated Chart -->
+        <div class="cost-chart-wrap">
+          <div class="cost-chart" aria-label="Chart: Monthly cost by model speed. Grok 4.1 Fast delivers the fastest speed at $3.80 per month.">
+            <svg class="cost-svg" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid meet">
+              <!-- Grid lines -->
+              <line class="chart-grid" x1="60" y1="40" x2="60" y2="260"/>
+              <line class="chart-grid" x1="60" y1="260" x2="460" y2="260"/>
+              <line class="chart-grid-h" x1="60" y1="205" x2="460" y2="205"/>
+              <line class="chart-grid-h" x1="60" y1="150" x2="460" y2="150"/>
+              <line class="chart-grid-h" x1="60" y1="95" x2="460" y2="95"/>
+              <line class="chart-grid-h" x1="60" y1="40" x2="460" y2="40"/>
+
+              <!-- Y-axis labels (Cost) -->
+              <text class="chart-axis-label" x="52" y="264" text-anchor="end">$0</text>
+              <text class="chart-axis-label" x="52" y="209" text-anchor="end">$3</text>
+              <text class="chart-axis-label" x="52" y="154" text-anchor="end">$6</text>
+              <text class="chart-axis-label" x="52" y="99" text-anchor="end">$9</text>
+              <text class="chart-axis-label" x="52" y="44" text-anchor="end">$12</text>
+
+              <!-- Y-axis title -->
+              <text class="chart-title-label" x="16" y="150" text-anchor="middle" transform="rotate(-90 16 150)" data-i18n="cost.chartYTitle">Cost / Month (USD)</text>
+
+              <!-- X-axis title -->
+              <text class="chart-title-label" x="260" y="305" text-anchor="middle" data-i18n="cost.chartXTitle">Speed (ms / token) — lower is faster</text>
+
+              <!-- Bars with animation targets -->
+              <!-- mistral-small-24b: ~$10.20/mo, ~16ms -->
+              <rect class="chart-bar bar-1" x="90" y="260" width="52" height="0" rx="4" data-target-y="73" data-target-h="187"/>
+              <text class="chart-bar-label bar-label-1" x="116" y="68" text-anchor="middle" opacity="0">$10.20</text>
+              <text class="chart-x-label" x="116" y="278" text-anchor="middle">Mistral 24B</text>
+
+              <!-- nemotron-nano-9b: ~$6.80/mo, ~9ms -->
+              <rect class="chart-bar bar-2" x="170" y="260" width="52" height="0" rx="4" data-target-y="135" data-target-h="125"/>
+              <text class="chart-bar-label bar-label-2" x="196" y="130" text-anchor="middle" opacity="0">$6.80</text>
+              <text class="chart-x-label" x="196" y="278" text-anchor="middle">Nemotron 9B</text>
+
+              <!-- gpt-oss-20b: ~$7.50/mo, ~10ms -->
+              <rect class="chart-bar bar-3" x="250" y="260" width="52" height="0" rx="4" data-target-y="122" data-target-h="138"/>
+              <text class="chart-bar-label bar-label-3" x="276" y="117" text-anchor="middle" opacity="0">$7.50</text>
+              <text class="chart-x-label" x="276" y="278" text-anchor="middle">GPT-oss 20B</text>
+
+              <!-- gemini-2.5-flash: ~$4.50/mo, ~6ms -->
+              <rect class="chart-bar bar-4" x="330" y="260" width="52" height="0" rx="4" data-target-y="177" data-target-h="83"/>
+              <text class="chart-bar-label bar-label-4" x="356" y="172" text-anchor="middle" opacity="0">$4.50</text>
+              <text class="chart-x-label" x="356" y="278" text-anchor="middle">Gemini Flash</text>
+
+              <!-- grok-4.1-fast: ~$3.80/mo, ~5ms — HIGHLIGHT -->
+              <rect class="chart-bar chart-bar--highlight bar-5" x="410" y="260" width="52" height="0" rx="4" data-target-y="190" data-target-h="70"/>
+              <text class="chart-bar-label chart-bar-label--highlight bar-label-5" x="436" y="185" text-anchor="middle" opacity="0">$3.80</text>
+              <text class="chart-x-label chart-x-label--highlight" x="436" y="278" text-anchor="middle">Grok 4.1 Fast</text>
+
+              <!-- $3 reference line -->
+              <line class="chart-ref-line" x1="60" y1="205" x2="460" y2="205" opacity="0"/>
+              <text class="chart-ref-text" x="462" y="202" opacity="0" data-i18n="cost.chartRef">← $3/mo</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="cost-copy">
+          <div class="cost-example-card">
+            <div class="cost-example-header">
+              <span class="cost-model-tag" data-i18n="cost.modelTag">x-ai/grok-4.1-fast via OpenRouter</span>
+            </div>
+            <div class="cost-headline">
+              <span class="cost-price">$3.80</span>
+              <span class="cost-period" data-i18n="cost.period">/ month</span>
+            </div>
+            <p class="cost-desc" data-i18n="cost.desc">Based on ~60 voice refinements per day, every day, for a full month. That's roughly 1,800 API calls — enough for power users who dictate constantly through their workday.</p>
+            <ul class="cost-breakdown">
+              <li>
+                <span class="cost-breakdown-label" data-i18n="cost.labelTokens">Avg. tokens per call</span>
+                <span class="cost-breakdown-value" data-i18n="cost.valueTokens">~280 (input + output)</span>
+              </li>
+              <li>
+                <span class="cost-breakdown-label" data-i18n="cost.labelMonthly">Monthly tokens</span>
+                <span class="cost-breakdown-value" data-i18n="cost.valueMonthly">~504,000</span>
+              </li>
+              <li>
+                <span class="cost-breakdown-label" data-i18n="cost.labelLatency">First-token latency</span>
+                <span class="cost-breakdown-value" data-i18n="cost.valueLatency">~200–500 ms</span>
+              </li>
+              <li>
+                <span class="cost-breakdown-label" data-i18n="cost.labelLicense">VOVOCI license</span>
+                <span class="cost-breakdown-value" data-i18n="cost.valueLicense">Free, forever</span>
+              </li>
+            </ul>
+          </div>
+          <p class="cost-note" data-i18n="cost.note">Prices based on OpenRouter's published per-token rates. Actual costs vary by prompt length and output complexity. No markup from VOVOCI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Term Scanner -->
+  <section id="term-scanner" class="section section--surface section--left fade-in">
+    <div class="container">
+      <h2 data-i18n="scan.title">Term Scanner</h2>
+      <p class="section-intro" data-i18n="scan.intro">Your AI agent already knows your codebase. VOVOCI gives it a prompt — it gives you back a vocabulary table. Import it, and every voice dictation uses the right spelling automatically.</p>
+
+      <div class="scanner-flow stagger-in">
+        <div class="scanner-step">
+          <div class="scanner-step-num">1</div>
+          <div class="scanner-step-body">
+            <h3 data-i18n="scan.copyTitle">Copy the Prompt</h3>
+            <p data-i18n="scan.copyDesc">VOVOCI includes a built-in prompt inside the Term Scanner tab. One click copies it to your clipboard.</p>
+          </div>
+        </div>
+        <div class="scanner-arrow" aria-hidden="true">
+          <svg width="40" height="16" viewBox="0 0 40 16"><path d="M0 8h36M30 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="scanner-step">
+          <div class="scanner-step-num">2</div>
+          <div class="scanner-step-body">
+            <h3 data-i18n="scan.pasteTitle">Paste into Your AI Agent</h3>
+            <p data-i18n="scan.pasteDesc">Feed the prompt to Claude, ChatGPT, Gemini, or any AI assistant. It analyzes your environment — tools, frameworks, APIs, domain jargon — and outputs a Markdown vocabulary table.</p>
+          </div>
+        </div>
+        <div class="scanner-arrow" aria-hidden="true">
+          <svg width="40" height="16" viewBox="0 0 40 16"><path d="M0 8h36M30 2l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="scanner-step">
+          <div class="scanner-step-num">3</div>
+          <div class="scanner-step-body">
+            <h3 data-i18n="scan.importTitle">Import &amp; Done</h3>
+            <p data-i18n-html="scan.importDesc">Save the agent's output as a <code>.md</code> file, open it in VOVOCI's scanner, and import. Every term is now applied to future voice refinements — no manual entry needed.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="scanner-prompt-preview">
+        <div class="scanner-prompt-header">
+          <span class="scanner-prompt-tag" data-i18n="scan.promptTag">Built-in Prompt (preview)</span>
+        </div>
+        <pre class="scanner-prompt-code"><code>Please analyze my development environment, codebase, and frequently used
+tools, frameworks, APIs, and domain-specific terminology.
+Export a vocabulary catalog as a Markdown table:
+
+| Term | Preferred | Note |
+|---|---|---|
+| Example Term | Preferred Form | Brief description |</code></pre>
+        <p class="scanner-prompt-note" data-i18n="scan.promptNote">The full prompt includes instructions for tool names, API services, domain jargon, project-specific proper nouns, and terms a speech-to-text engine might misrecognize.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Providers -->
+  <section id="providers" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="prov.title">Providers</h2>
+      <p class="section-intro" data-i18n="prov.intro">VOVOCI works with five LLM providers out of the box. Each connects through a standard API — you're never locked into a single vendor.</p>
+      <div class="providers-grid">
+        <div class="provider-item">
+          <div class="provider-icon">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg>
+          </div>
+          <span class="provider-name">OpenAI Compatible</span>
+        </div>
+        <div class="provider-item">
+          <div class="provider-icon">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M16.778 1.844v1.919q-.569-.026-1.138-.032-.708-.008-1.415.037c-1.93.126-4.023.728-6.149 2.237-2.911 2.066-2.731 1.95-4.14 2.75-.396.223-1.342.574-2.185.798-.841.225-1.753.333-1.751.333v4.229s.768.108 1.61.333c.842.224 1.789.575 2.185.799 1.41.798 1.228.683 4.14 2.75 2.126 1.509 4.22 2.11 6.148 2.236.88.058 1.716.041 2.555.005v1.918l7.222-4.168-7.222-4.17v2.176c-.86.038-1.611.065-2.278.021-1.364-.09-2.417-.357-3.979-1.465-2.244-1.593-2.866-2.027-3.68-2.508.889-.518 1.449-.906 3.822-2.59 1.56-1.109 2.614-1.377 3.978-1.466.667-.044 1.418-.017 2.278.02v2.176L24 6.014Z"/></svg>
+          </div>
+          <span class="provider-name">OpenRouter</span>
+        </div>
+        <div class="provider-item">
+          <div class="provider-icon">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12 0C8.016 0 4.756.255 2.493 2.516.23 4.776 0 8.033 0 12.012c0 3.98.23 7.235 2.494 9.497C4.757 23.77 8.017 24 12 24c3.983 0 7.243-.23 9.506-2.491C23.77 19.247 24 15.99 24 12.012c0-3.984-.233-7.243-2.502-9.504C19.234.252 15.978 0 12 0zM4.906 7.405h5.624c1.47 0 3.007.068 3.764.827.746.746.827 2.233.83 3.676v4.54a.15.15 0 0 1-.152.147h-1.947a.15.15 0 0 1-.152-.148V11.83c-.002-.806-.048-1.634-.464-2.051-.358-.36-1.026-.441-1.72-.458H7.158a.15.15 0 0 0-.151.147v6.98a.15.15 0 0 1-.152.148H4.906a.15.15 0 0 1-.15-.148V7.554a.15.15 0 0 1 .15-.149zm12.131 0h1.949a.15.15 0 0 1 .15.15v8.892a.15.15 0 0 1-.15.148h-1.949a.15.15 0 0 1-.151-.148V7.554a.15.15 0 0 1 .151-.149zM8.92 10.948h2.046c.083 0 .15.066.15.147v5.352a.15.15 0 0 1-.15.148H8.92a.15.15 0 0 1-.152-.148v-5.352a.15.15 0 0 1 .152-.147Z"/></svg>
+          </div>
+          <span class="provider-name">Xiaomi MiMo</span>
+        </div>
+        <div class="provider-item">
+          <div class="provider-icon">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>
+          </div>
+          <span class="provider-name">Google Gemini</span>
+        </div>
+        <div class="provider-item provider-item--highlight">
+          <div class="provider-icon">
+            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>
+          </div>
+          <span class="provider-name">NVIDIA NIM</span>
+          <span class="provider-badge" data-i18n="prov.freeTier">Free tier</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Model Performance -->
+  <section id="model-performance" class="section section--hero-like fade-in">
+    <div class="container">
+      <h2 data-i18n="model.title">Model Performance (Speed & Latency Focus)</h2>
+      <p class="section-intro" data-i18n="model.intro">Prioritize lower first-token latency and faster token throughput for real-time voice structuring. Data below is based on provider benchmarks and public evaluations.</p>
+
+      <div class="table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th data-i18n="model.thModel">Model</th>
+              <th data-i18n="model.thSpeed">Speed (ms/token)</th>
+              <th data-i18n="model.thLatency">Latency (ms)</th>
+              <th data-i18n="model.thUseCase">Best Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Gemini 2.5 Flash</td>
+              <td>~5-8</td>
+              <td>~300-600</td>
+              <td data-i18n="model.geminiUse">Default choice for fast mixed-language structuring</td>
+            </tr>
+            <tr>
+              <td>OpenAI gpt-oss-20b (NVIDIA)</td>
+              <td>~8-12</td>
+              <td>~500-900</td>
+              <td data-i18n="model.gptUse">Balanced cost/perf for real-time assistant output</td>
+            </tr>
+            <tr>
+              <td>Qwen2.5-Coder-7B-Instruct</td>
+              <td>~10-16</td>
+              <td>~700-1200</td>
+              <td data-i18n="model.qwenUse">Coding-oriented structuring and command rewrites</td>
+            </tr>
+            <tr>
+              <td>nvidia/nemotron-nano-9b-v2</td>
+              <td>~7-11</td>
+              <td>~400-800</td>
+              <td data-i18n="model.nemotronUse">Low-latency multilingual structure polishing</td>
+            </tr>
+            <tr>
+              <td>mistralai/mistral-small-24b-instruct</td>
+              <td>~12-20</td>
+              <td>~900-1600</td>
+              <td data-i18n="model.mistralUse">Higher quality long responses when latency is less critical</td>
+            </tr>
+            <tr>
+              <td>x-ai/grok-4.1-fast</td>
+              <td>~4-7</td>
+              <td>~200-500</td>
+              <td data-i18n="model.grokUse">Ultra-fast reasoning with strong multilingual structuring</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card card--dark">
+        <h3 data-i18n="model.interpTitle">Quick Interpretation</h3>
+        <p data-i18n="model.interpDesc">If your priority is instant interaction, choose lower latency models first, then optimize for ms/token. For most VOVOCI users, Gemini 2.5 Flash or NVIDIA gpt-oss-20b offers the strongest real-time experience.</p>
+      </div>
+
+      <div class="card card--dark card--dark-gap">
+        <h3 data-i18n="model.refTitle">References</h3>
+        <p>
+          <a href="https://artificialanalysis.ai" target="_blank" rel="noopener noreferrer">Artificial Analysis</a> |
+          <a href="https://build.nvidia.com/models" target="_blank" rel="noopener noreferrer">NVIDIA Build Model Cards</a> |
+          <a href="https://huggingface.co/models" target="_blank" rel="noopener noreferrer">Hugging Face Model Hub</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Translation Mode -->
+  <section id="translation-mode" class="section section--surface fade-in">
+    <div class="container">
+      <h2 data-i18n="trans.title">Dual-Hotkey Translation</h2>
+      <p class="section-intro" data-i18n="trans.intro">Assign a second hotkey dedicated to translation. Press it instead of the regular dictation hotkey, and VOVOCI translates your speech into your configured target language automatically.</p>
+
+      <div class="steps">
+        <div class="step">
+          <h3><span class="step-num">1</span><span data-i18n="trans.setupTitle">Set up your translation hotkey</span></h3>
+          <p data-i18n-html="trans.setupDesc">Go to Settings and assign a <strong>second hotkey</strong> for translation mode — separate from your regular dictation hotkey.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">2</span><span data-i18n="trans.speakTitle">Hold the translation hotkey and speak</span></h3>
+          <p data-i18n="trans.speakDesc">Press and hold the translation hotkey, then speak naturally in any language or mixed-language format.</p>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">3</span><span data-i18n="trans.outputTitle">Get translated, structured output</span></h3>
+          <p data-i18n="trans.outputDesc">VOVOCI automatically translates and structures the result into your configured target language, ready for immediate use in any app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section id="quickstart" class="section fade-in">
+    <div class="container">
+      <h2 data-i18n="qs.title">Quick Start</h2>
+      <div class="steps">
+        <div class="step">
+          <h3><span class="step-num">1</span><span data-i18n="qs.cloneTitle">Clone and set up</span></h3>
+          <div class="code-wrapper">
+            <pre class="code-block"><code>git clone https://github.com/lovemage/vovoci.git
+cd vovoci
+python -m venv .venv
+.venv\Scripts\activate</code></pre>
+            <button class="copy-btn" aria-label="Copy to clipboard">
+              <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">2</span><span data-i18n="qs.depsTitle">Install dependencies</span></h3>
+          <div class="code-wrapper">
+            <pre class="code-block"><code>pip install keyboard numpy sounddevice faster-whisper ctranslate2 pystray pillow</code></pre>
+            <button class="copy-btn" aria-label="Copy to clipboard">
+              <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="step">
+          <h3><span class="step-num">3</span><span data-i18n="qs.runTitle">Run</span></h3>
+          <div class="code-wrapper">
+            <pre class="code-block"><code>python app.py</code></pre>
+            <button class="copy-btn" aria-label="Copy to clipboard">
+              <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg class="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="note" data-i18n-html="qs.note">Portable ZIP users: run <code>Run-VOVOCI-First-Time.cmd</code> first. STT models are downloaded automatically on first use (internet required once), then cached locally for offline reuse.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section section--surface fade-in">
+    <div class="container">
+      <h2 data-i18n="faq.title">Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+            <span data-i18n="faq.q1">Is VOVOCI free?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-1">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a1">Completely. The app is open source under the Apache 2.0 license. No paid tiers, no feature gates, no usage limits on the app itself. LLM API costs depend on the provider you choose — but several offer generous free tiers.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+            <span data-i18n="faq.q2">Do I need an internet connection?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-2">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a2">For speech-to-text, no. Transcription runs locally. You do need internet for LLM refinement, since that calls your chosen provider's API. Skip refinement and VOVOCI works fully offline.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+            <span data-i18n="faq.q3">What languages does it support?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-3">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a3">Any language faster-whisper can transcribe — dozens including English, Chinese, Japanese, Spanish, French, German, Korean, and more. Set a primary and secondary language for mixed-language dictation.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+            <span data-i18n="faq.q4">Do I need a GPU?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-4">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a4">No, but it helps. faster-whisper runs on CPU fine, especially with smaller models. A CUDA-compatible GPU speeds up transcription if you're using larger models.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+            <span data-i18n="faq.q5">Will the LLM API cost me money?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-5">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a5">Depends on the provider. NVIDIA NIM offers free-tier endpoints. OpenRouter has pay-per-token with low-cost options. Google Gemini has a free tier. VOVOCI doesn't add any fees on top.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
+            <span data-i18n="faq.q6">Does it work on macOS or Linux?</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-answer" id="faq-6">
+            <div class="faq-answer-inner">
+              <p data-i18n="faq.a6">Not today. VOVOCI relies on Windows-specific APIs for hotkey hooks, window detection, and auto-paste. The project is open source — contributions are welcome.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <span class="footer-brand">VOVOCI</span>
+        <p data-i18n="footer.desc">Built by oceanads.org — open source, no strings attached.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#how-it-works" data-i18n="nav.how">How It Works</a>
+        <a href="#features" data-i18n="nav.features">Features</a>
+        <a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a>
+        <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      </nav>
+      <nav class="footer-right" aria-label="Footer links">
+        <a href="https://github.com/lovemage/vovoci" class="footer-github" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span>GitHub</span>
+        </a>
+        <p data-i18n="footer.license">Apache 2.0</p>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

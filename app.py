@@ -18,11 +18,6 @@ from tkinter import messagebox, ttk
 from urllib import error, request
 
 try:
-    import keyboard  # type: ignore
-except Exception:
-    keyboard = None
-
-try:
     import numpy as np  # type: ignore
 except Exception:
     np = None
@@ -36,14 +31,15 @@ try:
     from faster_whisper import WhisperModel  # type: ignore
 except Exception:
     WhisperModel = None
+
 try:
-    import pystray  # type: ignore
     from PIL import Image, ImageDraw, ImageTk  # type: ignore
 except Exception:
-    pystray = None
     Image = None
     ImageDraw = None
     ImageTk = None
+
+from platforms.factory import create_platform_adapter
 
 if getattr(sys, "frozen", False):
     APP_DIR = Path(sys.executable).resolve().parent
@@ -83,16 +79,17 @@ CONFIG_PATH = DATA_DIR / "config.json"
 SYSTEM_PROMPT_JSON_PATH = DATA_DIR / "system_prompt.json"
 LEGACY_CONFIG_PATH = APP_DIR / "config.json"
 LEGACY_SYSTEM_PROMPT_JSON_PATH = APP_DIR / "system_prompt.json"
-AGENT_META_PATH = APP_DIR / ".agent"
 MODEL_CACHE_DIR = DATA_DIR / "models"
 TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
 APP_VERSION = "0.1.4"
-GITHUB_REPO = "lovemage/vovoci"
-GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
-GITHUB_REPO_URL = f"https://github.com/{GITHUB_REPO}"
+GITHUB_SOURCE_REPO = "lovemage/vovoci"
+GITHUB_RELEASE_REPO = "lovemage/vovoci-packaging"
+GITHUB_API = f"https://api.github.com/repos/{GITHUB_RELEASE_REPO}"
+GITHUB_REPO_URL = f"https://github.com/{GITHUB_SOURCE_REPO}"
+GITHUB_RELEASES_URL = f"https://github.com/{GITHUB_RELEASE_REPO}/releases"
 OPENROUTER_DEFAULT_MODEL = "x-ai/grok-4.1-fast"
 _SINGLE_INSTANCE_MUTEX = None
 VOCABULARY_EXPORT_PROMPT = (
@@ -397,6 +394,8 @@ UI_STRINGS = {
         "input_text": "Original Text",
         "scanner_hint": "Copy the prompt below and paste it into your AI agent (Claude, ChatGPT, Gemini, etc.).\nThe agent will analyze your environment and export a vocabulary table.\nSave the output as a .md file, then import it here.",
         "open_mic_settings": "Open Microphone Settings",
+        "open_accessibility_settings": "Open Accessibility Settings",
+        "open_input_monitoring_settings": "Open Input Monitoring Settings",
         "check_update": "Check Update",
         "self_update": "Self Update",
         "prompt_copied": "Prompt copied to clipboard.",
@@ -407,6 +406,8 @@ UI_STRINGS = {
         "history_cleared": "History cleared.",
         "recording_title": "Listening ...",
         "recording_hint": "Release to transcribe",
+        "translate_recording_title": "Translating, Listening ...",
+        "translate_recording_hint": "Release to translate",
         "processing_title": "vovocing",
         "processing_hint": "Transcribing your speech",
         "output_window": "VOVOCI Output",
@@ -419,7 +420,7 @@ UI_STRINGS = {
         "checks_completed": "System check completed.",
         "refine_running": "Running refine...",
         "refine_failed": "Refine failed.",
-        "hotkey_disabled": "Hotkey disabled: install `keyboard` package.",
+        "hotkey_disabled": "Hotkey disabled: install hotkey dependency (`keyboard` on Windows / `pynput` on macOS).",
         "stt_requires": "Local STT requires `sounddevice` and `numpy`.",
         "no_input_device": "No input device found. Check microphone settings.",
         "no_audio": "No audio captured.",
@@ -428,8 +429,9 @@ UI_STRINGS = {
         "self_update_done": "Self update completed.",
         "self_update_failed": "Self update failed.",
         "mic_settings_opened": "Opened microphone settings.",
+        "settings_open_failed": "Unable to open requested system settings.",
         "config_load_failed": "Failed to load config.",
-        "paste_no_keyboard": "Auto paste skipped: install `keyboard` package.",
+        "paste_no_keyboard": "Auto paste skipped: hotkey/input runtime unavailable.",
         "paste_no_target": "No active input target. Showing output.",
         "paste_done": "Text pasted to active window.",
         "window_restored": "Window restored.",
@@ -507,6 +509,8 @@ UI_STRINGS = {
         "input_text": "原始文字",
         "scanner_hint": "複製下方 Prompt 並貼到你的 AI 助手（Claude、ChatGPT、Gemini 等）。\n助手會分析環境並輸出詞彙表。\n將結果存成 .md 後回到此處匯入。",
         "open_mic_settings": "開啟麥克風設定",
+        "open_accessibility_settings": "開啟輔助使用設定",
+        "open_input_monitoring_settings": "開啟輸入監控設定",
         "check_update": "檢查更新",
         "self_update": "自動更新",
         "prompt_copied": "Prompt 已複製到剪貼簿。",
@@ -518,6 +522,8 @@ UI_STRINGS = {
         "history_copied": "已複製歷史中的原始文字。",
         "recording_title": "Listening ...",
         "recording_hint": "放開以轉寫",
+        "translate_recording_title": "Translating, Listening ...",
+        "translate_recording_hint": "放開以翻譯",
         "processing_title": "vovocing",
         "processing_hint": "正在轉寫語音",
         "output_window": "VOVOCI 輸出",
@@ -530,7 +536,7 @@ UI_STRINGS = {
         "checks_completed": "系統檢查完成。",
         "refine_running": "Refi 執行中...",
         "refine_failed": "Refi 失敗。",
-        "hotkey_disabled": "熱鍵不可用：請安裝 `keyboard` 套件。",
+        "hotkey_disabled": "熱鍵不可用：請安裝熱鍵相依（Windows 用 `keyboard`，macOS 用 `pynput`）。",
         "stt_requires": "本機 STT 需要 `sounddevice` 與 `numpy`。",
         "no_input_device": "找不到輸入裝置，請檢查麥克風設定。",
         "no_audio": "未擷取到音訊。",
@@ -539,8 +545,9 @@ UI_STRINGS = {
         "self_update_done": "自動更新完成。",
         "self_update_failed": "自動更新失敗。",
         "mic_settings_opened": "已開啟麥克風設定。",
+        "settings_open_failed": "無法開啟指定的系統設定。",
         "config_load_failed": "讀取設定失敗。",
-        "paste_no_keyboard": "自動貼上略過：請安裝 `keyboard` 套件。",
+        "paste_no_keyboard": "自動貼上略過：熱鍵/輸入執行環境不可用。",
         "paste_no_target": "找不到可貼上的目標視窗，改為顯示輸出。",
         "paste_done": "文字已貼到目前視窗。",
         "window_restored": "視窗已還原。",
@@ -618,6 +625,8 @@ UI_STRINGS = {
         "input_text": "原文テキスト",
         "scanner_hint": "下の Prompt をコピーして AI（Claude/ChatGPT/Gemini など）に貼り付けます。\nAI が環境を分析し、用語表を出力します。\n結果を .md で保存してここにインポートしてください。",
         "open_mic_settings": "マイク設定を開く",
+        "open_accessibility_settings": "アクセシビリティ設定を開く",
+        "open_input_monitoring_settings": "入力監視設定を開く",
         "check_update": "更新確認",
         "self_update": "自動更新",
         "prompt_copied": "Prompt をコピーしました。",
@@ -629,6 +638,8 @@ UI_STRINGS = {
         "history_copied": "履歴の原文テキストをコピーしました。",
         "recording_title": "Listening ...",
         "recording_hint": "離して文字起こし",
+        "translate_recording_title": "Translating, Listening ...",
+        "translate_recording_hint": "離して翻訳",
         "processing_title": "vovocing",
         "processing_hint": "音声を文字起こし中",
         "output_window": "VOVOCI 出力",
@@ -641,7 +652,7 @@ UI_STRINGS = {
         "checks_completed": "システムチェック完了。",
         "refine_running": "Refi 実行中...",
         "refine_failed": "Refi 失敗。",
-        "hotkey_disabled": "ホットキー無効: `keyboard` パッケージをインストールしてください。",
+        "hotkey_disabled": "ホットキー無効: 依存関係をインストールしてください（Windows は `keyboard`、macOS は `pynput`）。",
         "stt_requires": "ローカル STT には `sounddevice` と `numpy` が必要です。",
         "no_input_device": "入力デバイスが見つかりません。マイク設定を確認してください。",
         "no_audio": "音声が取得されませんでした。",
@@ -650,8 +661,9 @@ UI_STRINGS = {
         "self_update_done": "自動更新完了。",
         "self_update_failed": "自動更新失敗。",
         "mic_settings_opened": "マイク設定を開きました。",
+        "settings_open_failed": "指定したシステム設定を開けませんでした。",
         "config_load_failed": "設定の読み込みに失敗しました。",
-        "paste_no_keyboard": "自動貼り付けをスキップ: `keyboard` パッケージをインストールしてください。",
+        "paste_no_keyboard": "自動貼り付けをスキップ: ホットキー/入力ランタイムが利用できません。",
         "paste_no_target": "貼り付け先が見つからないため、出力表示に切り替えます。",
         "paste_done": "テキストをアクティブウィンドウに貼り付けました。",
         "window_restored": "ウィンドウを復元しました。",
@@ -729,6 +741,8 @@ UI_STRINGS = {
         "input_text": "원문 텍스트",
         "scanner_hint": "아래 Prompt를 복사해 AI(Claude/ChatGPT/Gemini 등)에 붙여넣으세요.\nAI가 환경을 분석해 용어 표를 만듭니다.\n결과를 .md로 저장한 뒤 여기서 가져오세요.",
         "open_mic_settings": "마이크 설정 열기",
+        "open_accessibility_settings": "손쉬운 사용 설정 열기",
+        "open_input_monitoring_settings": "입력 모니터링 설정 열기",
         "check_update": "업데이트 확인",
         "self_update": "자동 업데이트",
         "prompt_copied": "Prompt를 클립보드에 복사했습니다.",
@@ -740,6 +754,8 @@ UI_STRINGS = {
         "history_copied": "기록의 원문 텍스트를 복사했습니다.",
         "recording_title": "Listening ...",
         "recording_hint": "놓으면 전사",
+        "translate_recording_title": "Translating, Listening ...",
+        "translate_recording_hint": "놓으면 번역",
         "processing_title": "vovocing",
         "processing_hint": "음성 전사 중",
         "output_window": "VOVOCI 출력",
@@ -752,7 +768,7 @@ UI_STRINGS = {
         "checks_completed": "시스템 점검 완료.",
         "refine_running": "Refi 실행 중...",
         "refine_failed": "Refi 실패.",
-        "hotkey_disabled": "단축키 비활성: `keyboard` 패키지를 설치하세요.",
+        "hotkey_disabled": "단축키 비활성: 의존성을 설치하세요 (Windows `keyboard`, macOS `pynput`).",
         "stt_requires": "로컬 STT에는 `sounddevice`와 `numpy`가 필요합니다.",
         "no_input_device": "입력 장치를 찾을 수 없습니다. 마이크 설정을 확인하세요.",
         "no_audio": "녹음된 오디오가 없습니다.",
@@ -761,8 +777,9 @@ UI_STRINGS = {
         "self_update_done": "자동 업데이트 완료.",
         "self_update_failed": "자동 업데이트 실패.",
         "mic_settings_opened": "마이크 설정을 열었습니다.",
+        "settings_open_failed": "요청한 시스템 설정을 열 수 없습니다.",
         "config_load_failed": "설정 불러오기 실패.",
-        "paste_no_keyboard": "자동 붙여넣기 건너뜀: `keyboard` 패키지를 설치하세요.",
+        "paste_no_keyboard": "자동 붙여넣기 건너뜀: 단축키/입력 런타임을 사용할 수 없습니다.",
         "paste_no_target": "붙여넣을 대상 창이 없어 출력 창으로 표시합니다.",
         "paste_done": "텍스트를 활성 창에 붙여넣었습니다.",
         "window_restored": "창을 복원했습니다.",
@@ -815,6 +832,7 @@ class RefineApp:
         self.app_version = APP_VERSION
         self._set_window_title()
         self._write_agent_meta()
+        self.platform = create_platform_adapter(sys.platform)
 
         self.provider_var = tk.StringVar(value="OpenAI Compatible")
         self.api_key_var = tk.StringVar()
@@ -848,8 +866,7 @@ class RefineApp:
         self.overlay_position_var = tk.StringVar(value="Center Bottom")
         self.system_prompt_cache = DEFAULT_SYSTEM_PROMPT
 
-        self._hotkey_press_hook = None
-        self._hotkey_release_hook = None
+        self._hotkey_binding = None
         self._bound_hotkey_name = ""
         self._last_hotkey_ts = 0.0
 
@@ -894,8 +911,7 @@ class RefineApp:
         self._perm_rows = {}
         self._perm_progress = None
         self._update_info = None
-        self._tray_icon = None
-        self._tray_thread = None
+        self._tray_handle = None
         self._is_quitting = False
         self._window_hidden_to_tray = False
         self._overlay_mode = "idle"
@@ -1013,28 +1029,6 @@ class RefineApp:
     def _set_window_title(self) -> None:
         version = str(self.app_version or APP_VERSION).strip() or APP_VERSION
         self.root.title(f"VOVOCI v{version}")
-
-    def _write_agent_meta(self) -> None:
-        existing = {}
-        try:
-            if AGENT_META_PATH.exists():
-                raw = json.loads(AGENT_META_PATH.read_text(encoding="utf-8"))
-                if isinstance(raw, dict):
-                    existing = raw
-        except Exception:
-            existing = {}
-        payload = {
-            "name": "VOVOCI",
-            "version": str(self.app_version or APP_VERSION).strip() or APP_VERSION,
-            "updated_at": datetime.now().isoformat(timespec="seconds"),
-        }
-        for k, v in existing.items():
-            if k not in payload:
-                payload[k] = v
-        try:
-            AGENT_META_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        except Exception:
-            pass
 
     def _set_edit_button_idle(self, btn) -> None:
         if btn is None:
@@ -1482,6 +1476,9 @@ class RefineApp:
             ("model", "Local STT model installed"),
             ("api", "Provider API connectivity"),
             ("mic", "Microphone permission/runtime"),
+            ("perm_mic", "Privacy: Microphone"),
+            ("perm_accessibility", "Privacy: Accessibility"),
+            ("perm_input_monitoring", "Privacy: Input Monitoring"),
             ("voice_stream", "Voice stream (exclusive access)"),
             ("hotkey", "Global hotkey runtime"),
             ("update", "Update check (GitHub)"),
@@ -1506,6 +1503,19 @@ class RefineApp:
         action_row.pack(fill="x", pady=(8, 0))
         ttk.Button(action_row, text=self._t("check_permissions"), command=self._run_permission_check, style="Ghost.TButton").pack(side="left")
         ttk.Button(action_row, text=self._t("open_mic_settings"), command=self._open_mic_settings, style="Ghost.TButton").pack(side="left", padx=8)
+        if sys.platform == "darwin":
+            ttk.Button(
+                action_row,
+                text=self._t("open_accessibility_settings"),
+                command=self._open_accessibility_settings,
+                style="Ghost.TButton",
+            ).pack(side="left", padx=8)
+            ttk.Button(
+                action_row,
+                text=self._t("open_input_monitoring_settings"),
+                command=self._open_input_monitoring_settings,
+                style="Ghost.TButton",
+            ).pack(side="left", padx=8)
         ttk.Button(action_row, text=self._t("check_update"), command=self._check_update_ui, style="Ghost.TButton").pack(side="left")
         self._checks_panel_ready = True
 
@@ -2260,48 +2270,37 @@ class RefineApp:
     def _is_translate_combo_pressed(self) -> bool:
         if not self.voice_lang_command_enabled_var.get():
             return False
-        if keyboard is None:
+        if not self.platform.hotkeys_available():
             return False
         modifier_name = self.voice_lang_modifier_hotkey_var.get().strip()
         modifier_key = TRANSLATE_HOTKEY_OPTIONS.get(modifier_name, TRANSLATE_HOTKEY_OPTIONS["Right Shift"])
         if modifier_key == self._bound_hotkey_name:
             return False
-        try:
-            return bool(keyboard.is_pressed(modifier_key))
-        except Exception:
-            return False
+        return self.platform.is_modifier_pressed(modifier_key)
 
     def _remove_hotkey_binding(self) -> None:
-        if keyboard is None:
-            return
-        if self._hotkey_press_hook is not None:
-            try:
-                keyboard.unhook(self._hotkey_press_hook)
-            except Exception:
-                pass
-            self._hotkey_press_hook = None
-        if self._hotkey_release_hook is not None:
-            try:
-                keyboard.unhook(self._hotkey_release_hook)
-            except Exception:
-                pass
-            self._hotkey_release_hook = None
+        self.platform.unregister_hotkeys(self._hotkey_binding)
+        self._hotkey_binding = None
 
     def _apply_hotkey_binding(self) -> None:
-        if keyboard is None:
+        if not self.platform.hotkeys_available():
             self.status_var.set(self._t("hotkey_disabled"))
             return
         self._remove_hotkey_binding()
         selected_name = self.hotkey_var.get().strip()
         hotkey_name = HOTKEY_OPTIONS.get(selected_name, HOTKEY_OPTIONS["Right Alt"])
         self._bound_hotkey_name = hotkey_name
-        self._hotkey_press_hook = keyboard.on_press_key(hotkey_name, self._on_hotkey_pressed, suppress=False)
-        self._hotkey_release_hook = keyboard.on_release_key(hotkey_name, self._on_hotkey_released, suppress=False)
+        self._hotkey_binding = self.platform.register_hotkeys(
+            main_hotkey=hotkey_name,
+            on_press=self._on_hotkey_pressed,
+            on_release=self._on_hotkey_released,
+        )
+        if self._hotkey_binding is None:
+            self.status_var.set(self._t("hotkey_disabled"))
+            return
         self.status_var.set(f"Hotkey ready: hold {selected_name} to record.")
 
     def _on_hotkey_pressed(self, _event=None) -> None:
-        if _event is not None and hasattr(_event, "name") and _event.name != self._bound_hotkey_name:
-            return
         now_ts = time.time()
         if now_ts - self._last_hotkey_ts < 0.35:
             return
@@ -2317,8 +2316,6 @@ class RefineApp:
         self.root.after(0, self._run_refine_from_hotkey)
 
     def _on_hotkey_released(self, _event=None) -> None:
-        if _event is not None and hasattr(_event, "name") and _event.name != self._bound_hotkey_name:
-            return
         if not self.enable_local_stt_var.get():
             return
         self.root.after(0, self._stop_recording_if_needed)
@@ -2330,9 +2327,9 @@ class RefineApp:
             self.status_var.set(self._t("stt_requires"))
             return
         self._pipeline_token += 1
-        fg_hwnd = self._get_foreground_window_handle()
-        root_hwnd = self._get_top_level_window_handle(int(self.root.winfo_id()))
-        fg_top_hwnd = self._get_top_level_window_handle(fg_hwnd)
+        fg_hwnd = self.platform.get_foreground_window_handle()
+        root_hwnd = self.platform.get_top_level_window_handle(int(self.root.winfo_id()))
+        fg_top_hwnd = self.platform.get_top_level_window_handle(fg_hwnd)
         if fg_top_hwnd and fg_top_hwnd != root_hwnd:
             self._preferred_paste_hwnd = fg_top_hwnd
         else:
@@ -2357,7 +2354,10 @@ class RefineApp:
             if self.show_recording_overlay_var.get():
                 self._overlay_mode = "recording"
                 self._show_recording_overlay()
-            self.status_var.set("Recording... release hotkey to transcribe.")
+            if self._translate_hotkey_active:
+                self.status_var.set(self._t("translate_recording_title"))
+            else:
+                self.status_var.set(self._t("recording_title"))
         except Exception as exc:
             self._is_recording = False
             self._recording_stream = None
@@ -2375,6 +2375,7 @@ class RefineApp:
             # Latch translate mode if combo becomes active during recording.
             if not self._translate_hotkey_active and self._is_translate_combo_pressed():
                 self._translate_hotkey_active = True
+                self.root.after(0, lambda: self.status_var.set(self._t("translate_recording_title")))
             if np is not None and len(chunk) > 0:
                 level = float(np.sqrt(np.mean(np.square(chunk))))
                 self._current_input_level = max(0.0, min(1.0, level * 6.0))
@@ -2623,9 +2624,16 @@ class RefineApp:
             return False
 
     def _check_permissions(self, startup: bool = False) -> None:
+        platform_perms = self.platform.check_permissions()
         notes = []
         notes.append("Admin: Yes" if self._is_admin() else "Admin: No")
-        notes.append("Keyboard: OK" if keyboard is not None else "Keyboard: missing (`pip install keyboard`)")
+        notes.append("Hotkey runtime: OK" if self.platform.hotkeys_available() else "Hotkey runtime: unavailable")
+        mic_perm_ok, _ = platform_perms.get("microphone", (False, "Unavailable"))
+        ax_perm_ok, _ = platform_perms.get("accessibility", (False, "Unavailable"))
+        im_perm_ok, _ = platform_perms.get("input_monitoring", (False, "Unavailable"))
+        notes.append("Privacy Mic: OK" if mic_perm_ok else "Privacy Mic: Check required")
+        notes.append("Accessibility: OK" if ax_perm_ok else "Accessibility: Check required")
+        notes.append("Input Monitoring: OK" if im_perm_ok else "Input Monitoring: Check required")
         notes.append("NumPy: OK" if np is not None else "NumPy: missing (`pip install numpy`)")
         notes.append("SoundDevice: OK" if sd is not None else "SoundDevice: missing (`pip install sounddevice`)")
         notes.append(
@@ -2692,11 +2700,10 @@ class RefineApp:
 
     def _permission_check_worker(self) -> None:
         checks = []
+        platform_perms = self.platform.check_permissions()
 
-        deps_ok = keyboard is not None and np is not None and sd is not None and WhisperModel is not None
+        deps_ok = np is not None and sd is not None and WhisperModel is not None
         missing = []
-        if keyboard is None:
-            missing.append("keyboard")
         if np is None:
             missing.append("numpy")
         if sd is None:
@@ -2727,6 +2734,12 @@ class RefineApp:
             except Exception as exc:
                 mic_detail = str(exc)[:120]
         checks.append(("mic", mic_ok, mic_detail))
+        mic_perm_ok, mic_perm_detail = platform_perms.get("microphone", (False, "Unavailable"))
+        checks.append(("perm_mic", mic_perm_ok, mic_perm_detail))
+        ax_perm_ok, ax_perm_detail = platform_perms.get("accessibility", (False, "Unavailable"))
+        checks.append(("perm_accessibility", ax_perm_ok, ax_perm_detail))
+        im_perm_ok, im_perm_detail = platform_perms.get("input_monitoring", (False, "Unavailable"))
+        checks.append(("perm_input_monitoring", im_perm_ok, im_perm_detail))
 
         # Voice stream exclusive access check
         voice_ok = False
@@ -2769,8 +2782,8 @@ class RefineApp:
                     voice_detail = f"FAIL ??{err_msg[:100]}"
         checks.append(("voice_stream", voice_ok, voice_detail))
 
-        hotkey_ok = keyboard is not None
-        checks.append(("hotkey", hotkey_ok, "OK" if hotkey_ok else "keyboard module unavailable"))
+        hotkey_ok = self.platform.hotkeys_available()
+        checks.append(("hotkey", hotkey_ok, "OK" if hotkey_ok else "hotkey runtime unavailable"))
 
         update_ok, update_detail = self._check_update()
         checks.append(("update", update_ok, update_detail))
@@ -2843,7 +2856,6 @@ class RefineApp:
             return
         self.app_version = ver
         self._set_window_title()
-        self._write_agent_meta()
 
     def _check_update(self) -> tuple[bool, str]:
         current_version = str(self.app_version or APP_VERSION).strip() or APP_VERSION
@@ -2853,7 +2865,7 @@ class RefineApp:
             with request.urlopen(req, timeout=12) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
             latest_tag = data.get("tag_name", "").strip()
-            html_url = data.get("html_url", GITHUB_REPO_URL)
+            html_url = data.get("html_url", GITHUB_RELEASES_URL)
             if not latest_tag:
                 raise RuntimeError("No release tag found")
             self._update_info = {"latest_tag": latest_tag, "html_url": html_url}
@@ -2870,7 +2882,7 @@ class RefineApp:
                 if not tags:
                     return False, "No tags/releases found"
                 latest_tag = str(tags[0].get("name", "")).strip()
-                self._update_info = {"latest_tag": latest_tag, "html_url": f"{GITHUB_REPO_URL}/tags"}
+                self._update_info = {"latest_tag": latest_tag, "html_url": f"{GITHUB_RELEASES_URL}/tag/{latest_tag}"}
                 if self._parse_version(latest_tag) > self._parse_version(current_version):
                     return True, f"Update available: {latest_tag}"
                 return True, f"Up to date ({current_version})"
@@ -2891,9 +2903,9 @@ class RefineApp:
         if not git_dir.exists():
             messagebox.showwarning(
                 "Self Update",
-                "Self update requires a git clone. Opening repository page for manual update.",
+                "Self update requires a git clone. Opening release page for manual update.",
             )
-            webbrowser.open(GITHUB_REPO_URL)
+            webbrowser.open(GITHUB_RELEASES_URL)
             return
         try:
             self.status_var.set(self._t("self_update_running"))
@@ -2933,9 +2945,21 @@ class RefineApp:
             messagebox.showerror("Self Update", str(exc))
 
     def _open_mic_settings(self) -> None:
+        self._open_system_settings_target("microphone", self._t("mic_settings_opened"))
+
+    def _open_accessibility_settings(self) -> None:
+        self._open_system_settings_target("accessibility", self._t("open_accessibility_settings"))
+
+    def _open_input_monitoring_settings(self) -> None:
+        self._open_system_settings_target("input_monitoring", self._t("open_input_monitoring_settings"))
+
+    def _open_system_settings_target(self, target: str, success_message: str) -> None:
         try:
-            os.system("start ms-settings:privacy-microphone")
-            self.status_var.set(self._t("mic_settings_opened"))
+            ok = self.platform.open_system_settings(target)
+            if ok:
+                self.status_var.set(success_message)
+                return
+            messagebox.showerror("Open Settings Error", self._t("settings_open_failed"))
         except Exception as exc:
             messagebox.showerror("Open Settings Error", str(exc))
 
@@ -3312,71 +3336,6 @@ class RefineApp:
                 )
         messagebox.showerror("Refine Error", user_msg)
 
-    @staticmethod
-    def _get_foreground_window_handle() -> int:
-        try:
-            import ctypes
-
-            return int(ctypes.windll.user32.GetForegroundWindow())
-        except Exception:
-            return 0
-
-    @staticmethod
-    def _get_top_level_window_handle(hwnd: int) -> int:
-        if not hwnd:
-            return 0
-        try:
-            import ctypes
-
-            GA_ROOT = 2
-            top = int(ctypes.windll.user32.GetAncestor(int(hwnd), GA_ROOT))
-            return top or int(hwnd)
-        except Exception:
-            return int(hwnd)
-
-    @staticmethod
-    def _has_foreground_text_caret() -> bool:
-        try:
-            import ctypes
-            from ctypes import wintypes
-
-            class RECT(ctypes.Structure):
-                _fields_ = [
-                    ("left", wintypes.LONG),
-                    ("top", wintypes.LONG),
-                    ("right", wintypes.LONG),
-                    ("bottom", wintypes.LONG),
-                ]
-
-            class GUITHREADINFO(ctypes.Structure):
-                _fields_ = [
-                    ("cbSize", wintypes.DWORD),
-                    ("flags", wintypes.DWORD),
-                    ("hwndActive", wintypes.HWND),
-                    ("hwndFocus", wintypes.HWND),
-                    ("hwndCapture", wintypes.HWND),
-                    ("hwndMenuOwner", wintypes.HWND),
-                    ("hwndMoveSize", wintypes.HWND),
-                    ("hwndCaret", wintypes.HWND),
-                    ("rcCaret", RECT),
-                ]
-
-            user32 = ctypes.windll.user32
-            fg = user32.GetForegroundWindow()
-            if not fg:
-                return False
-            tid = user32.GetWindowThreadProcessId(fg, None)
-            if not tid:
-                return False
-            info = GUITHREADINFO()
-            info.cbSize = ctypes.sizeof(GUITHREADINFO)
-            ok = user32.GetGUIThreadInfo(tid, ctypes.byref(info))
-            if not ok:
-                return False
-            return bool(info.hwndCaret)
-        except Exception:
-            return False
-
     def _show_floating_text(self, text: str) -> None:
         if self._floating_text_window is not None and self._floating_text_window.winfo_exists():
             win = self._floating_text_window
@@ -3427,111 +3386,28 @@ class RefineApp:
         except Exception:
             pass
 
-    @staticmethod
-    def _is_valid_hwnd(hwnd: int) -> bool:
-        if not hwnd:
-            return False
-        try:
-            import ctypes
-
-            return bool(ctypes.windll.user32.IsWindow(int(hwnd)))
-        except Exception:
-            return True
-
-    @staticmethod
-    def _paste_via_winapi(hwnd: int) -> bool:
-        try:
-            import ctypes
-
-            user32 = ctypes.windll.user32
-            WM_PASTE = 0x0302
-            SMTO_ABORTIFHUNG = 0x0002
-
-            class RECT(ctypes.Structure):
-                _fields_ = [
-                    ("left", ctypes.c_long),
-                    ("top", ctypes.c_long),
-                    ("right", ctypes.c_long),
-                    ("bottom", ctypes.c_long),
-                ]
-
-            class GUITHREADINFO(ctypes.Structure):
-                _fields_ = [
-                    ("cbSize", ctypes.c_ulong),
-                    ("flags", ctypes.c_ulong),
-                    ("hwndActive", ctypes.c_void_p),
-                    ("hwndFocus", ctypes.c_void_p),
-                    ("hwndCapture", ctypes.c_void_p),
-                    ("hwndMenuOwner", ctypes.c_void_p),
-                    ("hwndMoveSize", ctypes.c_void_p),
-                    ("hwndCaret", ctypes.c_void_p),
-                    ("rcCaret", RECT),
-                ]
-
-            target_hwnd = int(hwnd)
-            user32.SetForegroundWindow(target_hwnd)
-            time.sleep(0.05)
-
-            # Prefer sending WM_PASTE to focused child control in the target thread.
-            thread_id = user32.GetWindowThreadProcessId(target_hwnd, None)
-            if thread_id:
-                info = GUITHREADINFO()
-                info.cbSize = ctypes.sizeof(GUITHREADINFO)
-                if user32.GetGUIThreadInfo(thread_id, ctypes.byref(info)):
-                    focus_hwnd = int(info.hwndFocus or 0)
-                    if focus_hwnd:
-                        target_hwnd = focus_hwnd
-
-            result = ctypes.c_ulong()
-            ok = user32.SendMessageTimeoutW(
-                target_hwnd,
-                WM_PASTE,
-                0,
-                0,
-                SMTO_ABORTIFHUNG,
-                300,
-                ctypes.byref(result),
-            )
-            return bool(ok)
-        except Exception:
-            return False
-
     def _paste_text_to_active_window(self, text: str) -> None:
-        hwnd = self._get_top_level_window_handle(self._get_foreground_window_handle())
-        root_hwnd = self._get_top_level_window_handle(int(self.root.winfo_id()))
-        preferred = self._get_top_level_window_handle(int(self._preferred_paste_hwnd or 0))
-        has_caret = self._has_foreground_text_caret()
         target_hwnd = 0
-        if self._is_valid_hwnd(preferred) and preferred != root_hwnd:
-            target_hwnd = preferred
-        elif self._is_valid_hwnd(hwnd) and hwnd != root_hwnd:
-            target_hwnd = hwnd
+        if self.platform.paste_requires_window_target():
+            hwnd = self.platform.get_top_level_window_handle(self.platform.get_foreground_window_handle())
+            root_hwnd = self.platform.get_top_level_window_handle(int(self.root.winfo_id()))
+            preferred = self.platform.get_top_level_window_handle(int(self._preferred_paste_hwnd or 0))
+            has_caret = self.platform.has_foreground_text_caret()
+            if self.platform.is_valid_window_handle(preferred) and preferred != root_hwnd:
+                target_hwnd = preferred
+            elif self.platform.is_valid_window_handle(hwnd) and hwnd != root_hwnd:
+                target_hwnd = hwnd
 
-        if target_hwnd == 0:
-            self.status_var.set(self._t("paste_no_target"))
-            self._show_floating_text(text)
-            return
-        if not has_caret and preferred == 0:
-            self.status_var.set("No text caret detected. Showing editable output window.")
-            self._show_floating_text(text)
-            return
+            if target_hwnd == 0:
+                self.status_var.set(self._t("paste_no_target"))
+                self._show_floating_text(text)
+                return
+            if not has_caret and preferred == 0:
+                self.status_var.set("No text caret detected. Showing editable output window.")
+                self._show_floating_text(text)
+                return
         try:
-            self.root.clipboard_clear()
-            self.root.clipboard_append(text)
-            self.root.update_idletasks()
-            pasted = False
-            if keyboard is not None:
-                try:
-                    import ctypes
-
-                    ctypes.windll.user32.SetForegroundWindow(int(target_hwnd))
-                    time.sleep(0.05)
-                    keyboard.send("ctrl+v")
-                    pasted = True
-                except Exception:
-                    pasted = False
-            if not pasted:
-                pasted = self._paste_via_winapi(target_hwnd)
+            pasted = self.platform.paste_to_active_app(text=text, root=self.root, target_hwnd=target_hwnd)
             if not pasted:
                 self.status_var.set(self._t("paste_no_keyboard"))
                 self._show_floating_text(text)
@@ -3608,8 +3484,8 @@ class RefineApp:
             title_y = 34
             hint_y = 58
             if self._translate_hotkey_active:
-                rec_title = "Translating, Listening ..."
-                rec_hint = "Release to translate"
+                rec_title = self._t("translate_recording_title")
+                rec_hint = self._t("translate_recording_hint")
                 c.create_rectangle(16, 10, 132, 30, fill="#214975", outline="")
                 c.create_text(74, 20, text="TRANSLATE", fill="#b8deff", font=("TkDefaultFont", 8, "bold"))
                 title_y = 48
@@ -3728,50 +3604,38 @@ class RefineApp:
         self._on_close()
 
     def _start_tray_icon(self) -> None:
-        if pystray is None:
+        if not self.platform.tray_available():
             return
-        if self._tray_icon is not None:
+        if self._tray_handle is not None:
             return
         tray_image = self._create_tray_image()
         if tray_image is None:
             return
 
-        def on_primary(icon, item):
+        def on_primary() -> None:
             self.root.after(0, self._on_tray_primary_activate)
 
-        def on_settings(icon, item):
+        def on_settings() -> None:
             self.root.after(0, self._open_settings_from_tray)
 
-        def on_exit(icon, item):
+        def on_exit() -> None:
             self.root.after(0, self._exit_from_tray)
 
-        menu = pystray.Menu(
-            pystray.MenuItem("Settings", on_settings),
-            pystray.MenuItem("Exit", on_exit),
-            pystray.MenuItem("_OpenHidden", on_primary, default=True, visible=False),
+        self._tray_handle = self.platform.create_tray(
+            name="VOVOCI",
+            title="VOVOCI",
+            image=tray_image,
+            on_primary=on_primary,
+            on_settings=on_settings,
+            on_exit=on_exit,
         )
-        self._tray_icon = pystray.Icon("VOVOCI", tray_image, "VOVOCI", menu)
-
-        def run_icon():
-            try:
-                self._tray_icon.run()
-            except Exception:
-                pass
-
-        self._tray_thread = threading.Thread(target=run_icon, daemon=True)
-        self._tray_thread.start()
 
     def _stop_tray_icon(self) -> None:
-        if self._tray_icon is not None:
-            try:
-                self._tray_icon.stop()
-            except Exception:
-                pass
-            self._tray_icon = None
-        self._tray_thread = None
+        self.platform.stop_tray(self._tray_handle)
+        self._tray_handle = None
 
     def _minimize_to_tray(self) -> None:
-        if pystray is None:
+        if not self.platform.tray_available():
             self.root.iconify()
             self._window_hidden_to_tray = False
             self.status_var.set(self._t("minimized_taskbar"))
@@ -3779,10 +3643,17 @@ class RefineApp:
         self.root.withdraw()
         self._window_hidden_to_tray = True
         self._start_tray_icon()
+        if self._tray_handle is None:
+            # Fallback when tray runtime exists but icon creation fails.
+            self.root.deiconify()
+            self.root.iconify()
+            self._window_hidden_to_tray = False
+            self.status_var.set(self._t("minimized_taskbar"))
+            return
         self.status_var.set(self._t("minimized_tray"))
 
     def _on_close(self) -> None:
-        if not self._is_quitting and pystray is None and self.root.state() == "iconic":
+        if not self._is_quitting and not self.platform.tray_available() and self.root.state() == "iconic":
             self._is_quitting = True
         if not self._is_quitting:
             self._save_prompt_from_settings()
