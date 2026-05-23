@@ -119,6 +119,8 @@ PROVIDER_PORTALS = {
     "NVIDIA NIM": "https://build.nvidia.com/",
 }
 
+LOCAL_MODEL_PROVIDER = "Local Model"
+
 
 DEFAULT_SYSTEM_PROMPT_JSON = {
     "role": "VOVOCI",
@@ -248,6 +250,10 @@ PROVIDERS = {
             "minimaxai/minimax-m2.5",
             "minimaxai/minimax-m2.1",
         ],
+    },
+    LOCAL_MODEL_PROVIDER: {
+        "api_base": "http://localhost:11434/v1",
+        "models": ["llama3.1"],
     },
 }
 
