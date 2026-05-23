@@ -1,6 +1,6 @@
 name: windows-release
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       version:
