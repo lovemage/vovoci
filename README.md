@@ -8,7 +8,7 @@
 
 Speak naturally, get clean structured text in any Windows app — powered by local STT and your choice of LLM.
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -44,9 +44,16 @@ graph LR
 
 ## Quick Start
 
+### Release Packages
+
+| Platform | Package | Release | How to use |
+|:---|:---|:---|:---|
+| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Extract, run `Run-VOVOCI-First-Time.cmd`, then launch `VOVOCI.exe`. |
+| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Open the DMG, move `VOVOCI.app` to `Applications`, then right-click `Open` on first launch if Gatekeeper warns. |
+
 ### Portable (Recommended)
 
-1. Download `VOVOCI-portable-0.1.4.zip` from [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)
+1. Download `VOVOCI-portable-0.1.5.zip` from [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)
 2. Extract and run `Run-VOVOCI-First-Time.cmd`
 3. Launch `VOVOCI.exe`
 
@@ -64,11 +71,11 @@ python app.py
 
 ## Providers
 
-VOVOCI works with five LLM providers out of the box — you're never locked in.
+VOVOCI works with six LLM providers out of the box, including local OpenAI-compatible model servers, so you're never locked in.
 
-**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(free tier)*
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(free tier)* · **Local Model**
 
-> New to LLM APIs? Start with NVIDIA NIM — free access, no credit card needed.
+> Running your own model server? Select Local Model, then enter your local API base URL, API key, and model name.
 
 ## App Screenshot
 

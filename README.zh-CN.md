@@ -8,7 +8,7 @@
 
 自然说话，在任意 Windows 应用中获得干净的结构化文本 — 由本地 STT 和你选择的 LLM 驱动。
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -44,9 +44,16 @@ graph LR
 
 ## 快速开始
 
+### 发布文件
+
+| 平台 | 文件 | Release | 使用方式 |
+|:---|:---|:---|:---|
+| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 解压后运行 `Run-VOVOCI-First-Time.cmd`，然后启动 `VOVOCI.exe`。 |
+| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 打开 DMG，把 `VOVOCI.app` 拖到 `Applications`，首次启动如果被 Gatekeeper 拦截，请右键选择“打开”。 |
+
 ### 便携版（推荐）
 
-1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.4.zip`
+1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.5.zip`
 2. 解压并运行 `Run-VOVOCI-First-Time.cmd`
 3. 启动 `VOVOCI.exe`
 
@@ -64,11 +71,11 @@ python app.py
 
 ## 服务商
 
-VOVOCI 开箱即用支持五个 LLM 服务商 — 绝不锁定。
+VOVOCI 开箱即用支持六个 LLM 服务商，也支持本地 OpenAI-compatible 模型服务 — 绝不锁定。
 
-**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（免费额度）*
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（免费额度）* · **Local Model**
 
-> LLM API 新手？从 NVIDIA NIM 开始 — 免费使用，无需信用卡。
+> 已经有自己的本地模型服务？选择 Local Model，填入本地 API Base URL、API Key 和模型名称即可。
 
 ## 应用截图
 

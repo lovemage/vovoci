@@ -8,7 +8,7 @@
 
 자연스럽게 말하면, 깔끔하게 정리된 텍스트가 Windows 앱에 바로 입력됩니다 — 로컬 STT와 원하는 LLM으로 구동됩니다.
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -44,9 +44,16 @@ graph LR
 
 ## 빠른 시작
 
+### 배포 패키지
+
+| 플랫폼 | 패키지 | Release | 사용 방법 |
+|:---|:---|:---|:---|
+| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행한 뒤 `VOVOCI.exe`를 시작합니다. |
+| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG를 열어 `VOVOCI.app`을 `Applications`로 옮기고, 첫 실행 때 Gatekeeper 경고가 나오면 앱을 우클릭해 `열기`를 선택합니다. |
+
 ### 포터블 (권장)
 
-1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)에서 `VOVOCI-portable-0.1.4.zip`을 다운로드합니다
+1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)에서 `VOVOCI-portable-0.1.5.zip`을 다운로드합니다
 2. 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행합니다
 3. `VOVOCI.exe`를 실행합니다
 
@@ -64,11 +71,11 @@ python app.py
 
 ## 프로바이더
 
-VOVOCI는 다섯 가지 LLM 프로바이더를 기본 지원합니다 — 특정 서비스에 종속되지 않습니다.
+VOVOCI는 여섯 가지 LLM 프로바이더를 기본 지원하며 로컬 OpenAI-compatible 모델 서버도 사용할 수 있습니다 — 특정 서비스에 종속되지 않습니다.
 
-**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(무료 티어)*
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(무료 티어)* · **Local Model**
 
-> LLM API가 처음이신가요? NVIDIA NIM으로 시작해 보세요 — 무료 이용 가능, 신용카드 불필요합니다.
+> 자체 로컬 모델 서버가 있다면 Local Model을 선택하고 API Base URL, API Key, 모델 이름을 입력하세요.
 
 ## 앱 스크린샷
 

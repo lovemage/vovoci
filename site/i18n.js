@@ -31,7 +31,7 @@ const translations = {
     "how.installTitle": "Install VOVOCI",
     "how.installDesc": "Download and run the app. No account required, no sign-up forms, no telemetry.",
     "how.connectTitle": "Connect an LLM",
-    "how.connectDesc": "Pick any supported provider and add your API key. Start with NVIDIA NIM for free access.",
+    "how.connectDesc": "Pick any supported provider and add your API key. Use Local Model when you already run an OpenAI-compatible server on your machine.",
     "how.phase2": "Phase 2",
     "how.phase2Name": "Daily Use",
     "how.speakTitle": "Speak",
@@ -75,8 +75,9 @@ const translations = {
 
     // Providers
     "prov.title": "Providers",
-    "prov.intro": "VOVOCI works with five LLM providers out of the box. Each connects through a standard API — you're never locked into a single vendor.",
+    "prov.intro": "VOVOCI works with six LLM providers out of the box, including local OpenAI-compatible model servers. Each connects through a standard API, so you're never locked into a single vendor.",
     "prov.freeTier": "Free tier",
+    "prov.local": "Local API",
 
     // Model Performance
     "model.title": "Model Performance (Speed & Latency Focus)",
@@ -136,13 +137,13 @@ const translations = {
     "faq.q1": "Is VOVOCI free?",
     "faq.a1": "Completely. The app is open source under the Apache 2.0 license. No paid tiers, no feature gates, no usage limits on the app itself. LLM API costs depend on the provider you choose — but several offer generous free tiers.",
     "faq.q2": "Do I need an internet connection?",
-    "faq.a2": "For speech-to-text, no. Transcription runs locally. You do need internet for LLM refinement, since that calls your chosen provider's API. Skip refinement and VOVOCI works fully offline.",
+    "faq.a2": "For speech-to-text, no. Transcription runs locally. LLM refinement needs whatever your selected provider needs: internet for hosted APIs, or a running local server when using Local Model.",
     "faq.q3": "What languages does it support?",
     "faq.a3": "Any language faster-whisper can transcribe — dozens including English, Chinese, Japanese, Spanish, French, German, Korean, and more. Set a primary and secondary language for mixed-language dictation.",
     "faq.q4": "Do I need a GPU?",
     "faq.a4": "No, but it helps. faster-whisper runs on CPU fine, especially with smaller models. A CUDA-compatible GPU speeds up transcription if you're using larger models.",
     "faq.q5": "Will the LLM API cost me money?",
-    "faq.a5": "Depends on the provider. NVIDIA NIM offers free-tier endpoints. OpenRouter has pay-per-token with low-cost options. Google Gemini has a free tier. VOVOCI doesn't add any fees on top.",
+    "faq.a5": "Depends on the provider. NVIDIA NIM offers free-tier endpoints, OpenRouter has low-cost pay-per-token options, Google Gemini has a free tier, and Local Model uses your own server. VOVOCI doesn't add any fees on top.",
     "faq.q6": "Does it work on macOS or Linux?",
     "faq.a6": "Not today. VOVOCI relies on Windows-specific APIs for hotkey hooks, window detection, and auto-paste. The project is open source — contributions are welcome.",
 
@@ -182,7 +183,7 @@ const translations = {
     "how.installTitle": "安裝 VOVOCI",
     "how.installDesc": "下載並執行應用程式。無需帳號、無需填寫表單、無遙測資料收集。",
     "how.connectTitle": "連接 LLM",
-    "how.connectDesc": "選擇任一支援的供應商並輸入 API 金鑰。建議從 NVIDIA NIM 開始，免費使用。",
+    "how.connectDesc": "選擇任一支援的供應商並輸入 API 金鑰。如果你已在本機執行 OpenAI-compatible 服務，請使用 Local Model。",
     "how.phase2": "第二階段",
     "how.phase2Name": "日常使用",
     "how.speakTitle": "說話",
@@ -226,8 +227,9 @@ const translations = {
 
     // Providers
     "prov.title": "支援供應商",
-    "prov.intro": "VOVOCI 內建支援五大 LLM 供應商，每家均透過標準 API 連接——你永遠不會被綁定在單一廠商。",
+    "prov.intro": "VOVOCI 內建支援六大 LLM 供應商，也支援本機 OpenAI-compatible 模型服務。每家均透過標準 API 連接，你永遠不會被綁定在單一廠商。",
     "prov.freeTier": "免費方案",
+    "prov.local": "本機 API",
 
     // Model Performance
     "model.title": "模型效能（速度與延遲重點評估）",
@@ -287,13 +289,13 @@ const translations = {
     "faq.q1": "VOVOCI 是免費的嗎？",
     "faq.a1": "完全免費。本應用程式以 Apache 2.0 授權開源發布，無付費方案、無功能限制、應用程式本身無使用量限制。LLM API 費用取決於你選擇的供應商——但多家提供慷慨的免費方案。",
     "faq.q2": "需要網路連線嗎？",
-    "faq.a2": "語音轉文字不需要。語音辨識在本機執行。LLM 精煉需要網路，因為這會呼叫你選擇的供應商 API。跳過精煉步驟，VOVOCI 即可完全離線使用。",
+    "faq.a2": "語音轉文字不需要。語音辨識在本機執行。LLM 精煉取決於你選擇的供應商：雲端 API 需要網路，Local Model 則需要本機模型服務正在執行。",
     "faq.q3": "支援哪些語言？",
     "faq.a3": "任何 faster-whisper 能辨識的語言——包括英文、中文、日文、西班牙文、法文、德文、韓文等數十種語言。可設定主要和次要語言以支援混合語言聽寫。",
     "faq.q4": "需要 GPU 嗎？",
     "faq.a4": "不需要，但有 GPU 更好。faster-whisper 在 CPU 上也能正常運行，尤其使用較小的模型時。若使用較大模型，CUDA 相容的 GPU 可加速語音辨識。",
     "faq.q5": "LLM API 會產生費用嗎？",
-    "faq.a5": "取決於供應商。NVIDIA NIM 提供免費端點。OpenRouter 採按 token 計費，有低成本選項。Google Gemini 有免費方案。VOVOCI 不收取任何額外費用。",
+    "faq.a5": "取決於供應商。NVIDIA NIM 提供免費端點，OpenRouter 有低成本按 token 計費選項，Google Gemini 有免費方案，Local Model 則使用你自己的本機服務。VOVOCI 不收取任何額外費用。",
     "faq.q6": "支援 macOS 或 Linux 嗎？",
     "faq.a6": "目前不支援。VOVOCI 依賴 Windows 專用 API 進行快捷鍵鉤取、視窗偵測和自動貼上。本專案為開源——歡迎貢獻。",
 
@@ -333,7 +335,7 @@ const translations = {
     "how.installTitle": "VOVOCI 설치",
     "how.installDesc": "앱을 다운로드하고 실행하세요. 계정 불필요, 가입 양식 없음, 원격 측정 없음.",
     "how.connectTitle": "LLM 연결",
-    "how.connectDesc": "지원되는 제공업체를 선택하고 API 키를 입력하세요. 무료 이용을 위해 NVIDIA NIM으로 시작하세요.",
+    "how.connectDesc": "지원되는 제공업체를 선택하고 API 키를 입력하세요. 로컬에서 OpenAI-compatible 서버를 실행 중이라면 Local Model을 사용하세요.",
     "how.phase2": "2단계",
     "how.phase2Name": "일상 사용",
     "how.speakTitle": "말하기",
@@ -377,8 +379,9 @@ const translations = {
 
     // Providers
     "prov.title": "제공업체",
-    "prov.intro": "VOVOCI는 기본적으로 5개의 LLM 제공업체와 작동합니다. 각각 표준 API를 통해 연결됩니다 — 단일 벤더에 종속되지 않습니다.",
+    "prov.intro": "VOVOCI는 기본적으로 6개의 LLM 제공업체와 작동하며 로컬 OpenAI-compatible 모델 서버도 지원합니다. 각각 표준 API를 통해 연결되므로 단일 벤더에 종속되지 않습니다.",
     "prov.freeTier": "무료 티어",
+    "prov.local": "로컬 API",
 
     // Model Performance
     "model.title": "모델 성능 (속도 및 지연 시간 중심)",
@@ -438,13 +441,13 @@ const translations = {
     "faq.q1": "VOVOCI는 무료인가요?",
     "faq.a1": "완전히 무료입니다. 앱은 Apache 2.0 라이선스 하에 오픈 소스로 제공됩니다. 유료 티어, 기능 제한, 앱 자체의 사용량 제한이 없습니다. LLM API 비용은 선택한 제공업체에 따라 다르지만 — 여러 곳에서 넉넉한 무료 티어를 제공합니다.",
     "faq.q2": "인터넷 연결이 필요한가요?",
-    "faq.a2": "음성-텍스트 변환에는 필요하지 않습니다. 변환은 로컬에서 실행됩니다. LLM 정제에는 인터넷이 필요합니다 — 선택한 제공업체의 API를 호출하기 때문입니다. 정제를 건너뛰면 VOVOCI가 완전 오프라인으로 작동합니다.",
+    "faq.a2": "음성-텍스트 변환에는 필요하지 않습니다. 변환은 로컬에서 실행됩니다. LLM 정제는 선택한 제공업체에 따라 다릅니다: 호스팅 API는 인터넷이 필요하고 Local Model은 로컬 서버가 실행 중이어야 합니다.",
     "faq.q3": "어떤 언어를 지원하나요?",
     "faq.a3": "faster-whisper가 변환할 수 있는 모든 언어 — 영어, 중국어, 일본어, 스페인어, 프랑스어, 독일어, 한국어 등 수십 개 언어가 포함됩니다. 혼합 언어 받아쓰기를 위해 기본 및 보조 언어를 설정하세요.",
     "faq.q4": "GPU가 필요한가요?",
     "faq.a4": "필요하지 않지만 도움이 됩니다. faster-whisper는 CPU에서도 잘 실행됩니다, 특히 소형 모델의 경우. CUDA 호환 GPU가 있으면 대형 모델 사용 시 변환 속도가 빨라집니다.",
     "faq.q5": "LLM API 비용이 발생하나요?",
-    "faq.a5": "제공업체에 따라 다릅니다. NVIDIA NIM은 무료 티어 엔드포인트를 제공합니다. OpenRouter는 저렴한 옵션의 토큰당 결제 방식입니다. Google Gemini에는 무료 티어가 있습니다. VOVOCI는 추가 수수료를 부과하지 않습니다.",
+    "faq.a5": "제공업체에 따라 다릅니다. NVIDIA NIM은 무료 티어 엔드포인트를 제공하고, OpenRouter는 저렴한 토큰당 결제 옵션이 있으며, Google Gemini에는 무료 티어가 있고, Local Model은 자체 서버를 사용합니다. VOVOCI는 추가 수수료를 부과하지 않습니다.",
     "faq.q6": "macOS나 Linux에서 작동하나요?",
     "faq.a6": "현재는 작동하지 않습니다. VOVOCI는 단축키 훅, 창 감지, 자동 붙여넣기를 위해 Windows 전용 API에 의존합니다. 프로젝트는 오픈 소스입니다 — 기여를 환영합니다.",
 
@@ -484,7 +487,7 @@ const translations = {
     "how.installTitle": "VOVOCIをインストール",
     "how.installDesc": "アプリをダウンロードして実行するだけです。アカウント不要、フォーム入力なし、テレメトリーなし。",
     "how.connectTitle": "LLMを接続",
-    "how.connectDesc": "対応プロバイダーを選択してAPIキーを入力してください。無料利用にはNVIDIA NIMから始めることをお勧めします。",
+    "how.connectDesc": "対応プロバイダーを選択してAPIキーを入力してください。ローカルで OpenAI-compatible サーバーを動かしている場合は Local Model を使えます。",
     "how.phase2": "フェーズ2",
     "how.phase2Name": "日常利用",
     "how.speakTitle": "話す",
@@ -528,8 +531,9 @@ const translations = {
 
     // Providers
     "prov.title": "プロバイダー",
-    "prov.intro": "VOVOCIは5つのLLMプロバイダーをすぐに利用できます。各プロバイダーは標準APIを通じて接続されます — 単一ベンダーに縛られることはありません。",
+    "prov.intro": "VOVOCIは6つのLLMプロバイダーをすぐに利用でき、ローカルの OpenAI-compatible モデルサーバーにも対応します。各プロバイダーは標準APIを通じて接続されるため、単一ベンダーに縛られることはありません。",
     "prov.freeTier": "無料ティア",
+    "prov.local": "ローカルAPI",
 
     // Model Performance
     "model.title": "モデル性能（速度とレイテンシー重点）",
@@ -589,13 +593,13 @@ const translations = {
     "faq.q1": "VOVOCIは無料ですか？",
     "faq.a1": "完全に無料です。アプリはApache 2.0ライセンスのオープンソースです。有料ティア、機能制限、アプリ自体の使用量制限はありません。LLM APIの費用は選択したプロバイダーによって異なりますが — 多くが寛大な無料ティアを提供しています。",
     "faq.q2": "インターネット接続が必要ですか？",
-    "faq.a2": "音声テキスト変換には必要ありません。変換はローカルで実行されます。LLMによる洗練にはインターネットが必要です — 選択したプロバイダーのAPIを呼び出すためです。洗練をスキップすると、VOVOCIは完全オフラインで動作します。",
+    "faq.a2": "音声テキスト変換には必要ありません。変換はローカルで実行されます。LLMによる洗練は選択したプロバイダー次第です。ホスト型APIにはインターネットが必要で、Local Model にはローカルサーバーの起動が必要です。",
     "faq.q3": "どの言語をサポートしていますか？",
     "faq.a3": "faster-whisperが文字起こしできる任意の言語 — 英語、中国語、日本語、スペイン語、フランス語、ドイツ語、韓国語など数十言語が含まれます。混合言語の口述のために、メインと補助の言語を設定できます。",
     "faq.q4": "GPUは必要ですか？",
     "faq.a4": "必要ありませんが、あると役立ちます。faster-whisperは特に小さいモデルの場合、CPUでも問題なく動作します。CUDA対応のGPUがあれば、大きいモデル使用時の変換速度が向上します。",
     "faq.q5": "LLM APIに費用はかかりますか？",
-    "faq.a5": "プロバイダーによって異なります。NVIDIA NIMは無料ティアのエンドポイントを提供します。OpenRouterには低コストオプションのトークン課金制があります。Google Geminiには無料ティアがあります。VOVOCIは追加料金を一切請求しません。",
+    "faq.a5": "プロバイダーによって異なります。NVIDIA NIMは無料ティアのエンドポイントを提供し、OpenRouterには低コストのトークン課金オプションがあり、Google Geminiには無料ティアがあります。Local Model は自分のサーバーを使います。VOVOCIは追加料金を一切請求しません。",
     "faq.q6": "macOSやLinuxでも動作しますか？",
     "faq.a6": "現在は対応していません。VOVOCIはホットキーフック、ウィンドウ検出、自動貼り付けのためにWindows固有のAPIに依存しています。プロジェクトはオープンソースです — コントリビューションを歓迎します。",
 
@@ -635,7 +639,7 @@ const translations = {
     "how.installTitle": "ติดตั้ง VOVOCI",
     "how.installDesc": "ดาวน์โหลดและรันแอป ไม่ต้องสร้างบัญชี ไม่มีแบบฟอร์มลงทะเบียน ไม่มีการเก็บข้อมูลระยะไกล",
     "how.connectTitle": "เชื่อมต่อ LLM",
-    "how.connectDesc": "เลือกผู้ให้บริการที่รองรับและเพิ่ม API key แนะนำเริ่มต้นด้วย NVIDIA NIM สำหรับการใช้งานฟรี",
+    "how.connectDesc": "เลือกผู้ให้บริการที่รองรับและเพิ่ม API key ใช้ Local Model เมื่อคุณมีเซิร์ฟเวอร์ OpenAI-compatible ทำงานอยู่ในเครื่อง",
     "how.phase2": "ระยะที่ 2",
     "how.phase2Name": "การใช้งานประจำวัน",
     "how.speakTitle": "พูด",
@@ -679,8 +683,9 @@ const translations = {
 
     // Providers
     "prov.title": "ผู้ให้บริการ",
-    "prov.intro": "VOVOCI ทำงานร่วมกับผู้ให้บริการ LLM ห้ารายในทันที แต่ละรายเชื่อมต่อผ่าน API มาตรฐาน — คุณไม่ถูกผูกติดกับผู้ขายรายเดียว",
+    "prov.intro": "VOVOCI ทำงานร่วมกับผู้ให้บริการ LLM หกรายในทันที รวมถึงเซิร์ฟเวอร์โมเดล OpenAI-compatible ในเครื่อง แต่ละรายเชื่อมต่อผ่าน API มาตรฐาน คุณจึงไม่ถูกผูกติดกับผู้ขายรายเดียว",
     "prov.freeTier": "ระดับฟรี",
+    "prov.local": "Local API",
 
     // Model Performance
     "model.title": "ประสิทธิภาพโมเดล (เน้นความเร็วและ Latency)",
@@ -740,13 +745,13 @@ const translations = {
     "faq.q1": "VOVOCI ฟรีหรือเปล่า?",
     "faq.a1": "ฟรีอย่างสมบูรณ์ แอปเป็นโอเพ่นซอร์สภายใต้ใบอนุญาต Apache 2.0 ไม่มีระดับแบบชำระเงิน ไม่มีการล็อคคุณสมบัติ ไม่มีขีดจำกัดการใช้งานในตัวแอป ค่าใช้จ่าย API ของ LLM ขึ้นอยู่กับผู้ให้บริการที่คุณเลือก — แต่หลายรายมีระดับฟรีที่ใจกว้าง",
     "faq.q2": "ต้องการการเชื่อมต่ออินเทอร์เน็ตหรือไม่?",
-    "faq.a2": "สำหรับการแปลงเสียงเป็นข้อความ ไม่ต้องการ การถอดเสียงทำงานในเครื่อง คุณต้องการอินเทอร์เน็ตสำหรับการปรับปรุงด้วย LLM เนื่องจากเรียก API ของผู้ให้บริการที่คุณเลือก ข้ามการปรับปรุงและ VOVOCI ทำงานได้อย่างสมบูรณ์แบบออฟไลน์",
+    "faq.a2": "สำหรับการแปลงเสียงเป็นข้อความ ไม่ต้องการ การถอดเสียงทำงานในเครื่อง การปรับปรุงด้วย LLM ขึ้นอยู่กับผู้ให้บริการที่เลือก: API แบบโฮสต์ต้องใช้อินเทอร์เน็ต ส่วน Local Model ต้องมีเซิร์ฟเวอร์ในเครื่องทำงานอยู่",
     "faq.q3": "รองรับภาษาอะไรบ้าง?",
     "faq.a3": "ภาษาใดก็ได้ที่ faster-whisper สามารถถอดเสียงได้ — หลายสิบภาษารวมถึงภาษาอังกฤษ จีน ญี่ปุ่น สเปน ฝรั่งเศส เยอรมัน เกาหลี และอื่นๆ ตั้งค่าภาษาหลักและภาษารองสำหรับการบอกเสียงแบบหลายภาษา",
     "faq.q4": "ต้องการ GPU หรือไม่?",
     "faq.a4": "ไม่จำเป็น แต่ช่วยได้ faster-whisper ทำงานบน CPU ได้ดี โดยเฉพาะกับโมเดลขนาดเล็ก GPU ที่รองรับ CUDA จะเร่งความเร็วการถอดเสียงหากคุณใช้โมเดลขนาดใหญ่",
     "faq.q5": "API ของ LLM จะมีค่าใช้จ่ายหรือไม่?",
-    "faq.a5": "ขึ้นอยู่กับผู้ให้บริการ NVIDIA NIM มี endpoint ระดับฟรี OpenRouter มีการชำระตาม token พร้อมตัวเลือกต้นทุนต่ำ Google Gemini มีระดับฟรี VOVOCI ไม่เพิ่มค่าธรรมเนียมใดๆ",
+    "faq.a5": "ขึ้นอยู่กับผู้ให้บริการ NVIDIA NIM มี endpoint ระดับฟรี OpenRouter มีตัวเลือกจ่ายตาม token ที่ต้นทุนต่ำ Google Gemini มีระดับฟรี และ Local Model ใช้เซิร์ฟเวอร์ของคุณเอง VOVOCI ไม่เพิ่มค่าธรรมเนียมใดๆ",
     "faq.q6": "ทำงานบน macOS หรือ Linux ได้หรือไม่?",
     "faq.a6": "ยังไม่ได้ในปัจจุบัน VOVOCI ขึ้นอยู่กับ API เฉพาะ Windows สำหรับ hotkey hook การตรวจจับหน้าต่าง และการวางอัตโนมัติ โปรเจกต์เป็นโอเพ่นซอร์ส — ยินดีรับการมีส่วนร่วม",
 

@@ -8,7 +8,7 @@
 
 自然に話すだけで、整った構造化テキストがWindowsアプリに届きます — ローカルSTTとお好みのLLMで動作します。
 
-[![Version](https://img.shields.io/badge/version-0.1.4-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -44,9 +44,16 @@ graph LR
 
 ## クイックスタート
 
+### 配布パッケージ
+
+| プラットフォーム | パッケージ | Release | 使い方 |
+|:---|:---|:---|:---|
+| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 展開して `Run-VOVOCI-First-Time.cmd` を実行し、その後 `VOVOCI.exe` を起動します。 |
+| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG を開いて `VOVOCI.app` を `Applications` に移動し、初回起動時に Gatekeeper が警告した場合は右クリックして「開く」を選びます。 |
+
 ### ポータブル版（推奨）
 
-1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) から `VOVOCI-portable-0.1.4.zip` をダウンロード
+1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) から `VOVOCI-portable-0.1.5.zip` をダウンロード
 2. 解凍して `Run-VOVOCI-First-Time.cmd` を実行
 3. `VOVOCI.exe` を起動
 
@@ -64,11 +71,11 @@ python app.py
 
 ## プロバイダー
 
-VOVOCIは5つのLLMプロバイダーにすぐ対応しています — ロックインはありません。
+VOVOCIは6つのLLMプロバイダーにすぐ対応し、ローカルの OpenAI-compatible モデルサーバーも使えます — ロックインはありません。
 
-**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（無料枠あり）*
+**OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（無料枠あり）* · **Local Model**
 
-> LLM APIが初めての方は、NVIDIA NIMから始めるのがおすすめです — 無料でアクセスでき、クレジットカードも不要です。
+> 独自のローカルモデルサーバーがある場合は、Local Model を選択し、API Base URL、API Key、モデル名を入力してください。
 
 ## アプリのスクリーンショット
 
