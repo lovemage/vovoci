@@ -30,7 +30,7 @@ jobs:
         shell: pwsh
         run: |
           if ("${{ github.event_name }}" -eq "workflow_dispatch") {
-            $version = "${{ inputs.version }}".Trim()
+            $version = "${{ github.event.inputs.version }}".Trim()
           } else {
             $version = "${{ github.ref_name }}".TrimStart([char]"v")
           }
@@ -114,7 +114,7 @@ jobs:
           $title = "VOVOCI v$version"
           if ("${{ github.event_name }}" -eq "workflow_dispatch") {
             $notes = @'
-${{ inputs.notes }}
+${{ github.event.inputs.notes }}
 '@
           } else {
             $notes = "Windows installer release"
