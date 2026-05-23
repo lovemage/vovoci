@@ -1036,6 +1036,18 @@ class RefineApp:
         version = str(self.app_version or APP_VERSION).strip() or APP_VERSION
         self.root.title(f"VOVOCI v{version}")
 
+    def _write_agent_meta(self) -> None:
+        version = str(self.app_version or APP_VERSION).strip() or APP_VERSION
+        payload = {"version": version}
+        meta_path = APP_DIR / ".agent"
+        try:
+            current = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else None
+            if current == payload:
+                return
+            meta_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        except Exception:
+            pass
+
     def _set_edit_button_idle(self, btn) -> None:
         if btn is None:
             return
