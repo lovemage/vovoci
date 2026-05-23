@@ -1,17 +1,16 @@
 name: windows-release
 
-"on":
+on:
   workflow_dispatch:
     inputs:
       version:
         description: "Release version without v prefix, for example 0.1.5"
         required: true
-        type: string
+        default: "0.1.5"
       notes:
         description: "GitHub Release notes"
         required: false
         default: "Windows installer release"
-        type: string
   push:
     tags:
       - "v*"
