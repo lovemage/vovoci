@@ -256,6 +256,7 @@ PROVIDERS = {
         "models": ["llama3.1"],
     },
 }
+DEFAULT_PROVIDER = LOCAL_MODEL_PROVIDER
 
 
 HOTKEY_OPTIONS = {
@@ -840,10 +841,10 @@ class RefineApp:
         self._write_agent_meta()
         self.platform = create_platform_adapter(sys.platform)
 
-        self.provider_var = tk.StringVar(value="OpenAI Compatible")
+        self.provider_var = tk.StringVar(value=DEFAULT_PROVIDER)
         self.api_key_var = tk.StringVar()
-        self.api_base_var = tk.StringVar(value=PROVIDERS["OpenAI Compatible"]["api_base"])
-        self.model_var = tk.StringVar(value=DEFAULT_MODELS[0])
+        self.api_base_var = tk.StringVar(value=PROVIDERS[DEFAULT_PROVIDER]["api_base"])
+        self.model_var = tk.StringVar(value=PROVIDERS[DEFAULT_PROVIDER]["models"][0])
         self.hotkey_var = tk.StringVar(value="Right Alt")
         self.status_var = tk.StringVar(value="Ready")
         self.ui_lang_var = tk.StringVar(value="English")
@@ -1188,7 +1189,7 @@ class RefineApp:
         self.provider_combo = ttk.Combobox(
             model_frame,
             textvariable=self.provider_var,
-            values=list(PROVIDERS.keys()),
+            values=self._provider_options(),
             state="readonly",
             style="App.TCombobox",
         )
@@ -1601,7 +1602,7 @@ class RefineApp:
             self.status_var.set(reason)
 
     def _open_provider_console(self) -> None:
-        provider = self.provider_var.get().strip() or "OpenAI Compatible"
+        provider = self.provider_var.get().strip() or DEFAULT_PROVIDER
         url = PROVIDER_PORTALS.get(provider, "")
         if not url:
             self.status_var.set(f"No console URL configured for {provider}.")
@@ -2083,7 +2084,7 @@ class RefineApp:
 
     @staticmethod
     def _default_provider_profile(provider: str) -> dict:
-        cfg = PROVIDERS.get(provider, PROVIDERS["OpenAI Compatible"])
+        cfg = PROVIDERS.get(provider, PROVIDERS[DEFAULT_PROVIDER])
         models = cfg.get("models", [])
         default_model = str(models[0] if models else "")
         if provider == "OpenRouter":
@@ -2095,6 +2096,14 @@ class RefineApp:
             "api_base": str(cfg.get("api_base", "")),
             "model": default_model,
         }
+
+    @staticmethod
+    def _provider_options() -> list[str]:
+        return [p for p in PROVIDERS.keys() if p != "OpenAI Compatible"]
+
+    @staticmethod
+    def _provider_requires_api_key(provider: str) -> bool:
+        return provider != LOCAL_MODEL_PROVIDER
 
     @staticmethod
     def _dedupe_model_ids(model_ids: list[str]) -> list[str]:
@@ -2124,17 +2133,17 @@ class RefineApp:
         self.model_combo.configure(values=filtered)
 
     def _on_model_search_change(self, _event=None) -> None:
-        provider = self.provider_var.get().strip() or "OpenAI Compatible"
+        provider = self.provider_var.get().strip() or DEFAULT_PROVIDER
         if provider not in PROVIDERS:
-            provider = "OpenAI Compatible"
+            provider = DEFAULT_PROVIDER
         self._update_model_combo_values(provider)
 
     def _persist_active_provider_profile(self) -> None:
-        provider = (self._active_provider or self.provider_var.get().strip() or "OpenAI Compatible").strip()
+        provider = (self._active_provider or self.provider_var.get().strip() or DEFAULT_PROVIDER).strip()
         if provider not in PROVIDERS:
-            provider = "OpenAI Compatible"
+            provider = DEFAULT_PROVIDER
         current = self.provider_profiles.get(provider, self._default_provider_profile(provider))
-        current["api_key"] = self._sanitize_api_key(self.api_key_var.get())
+        current["api_key"] = self._sanitize_api_key(self.api_key_var.get()) if self._provider_requires_api_key(provider) else ""
         current["api_base"] = self.api_base_var.get().strip() or self._default_provider_profile(provider)["api_base"]
         current["model"] = self.model_var.get().strip() or self._default_provider_profile(provider)["model"]
         self.provider_profiles[provider] = current
@@ -2159,7 +2168,7 @@ class RefineApp:
 
     def _apply_provider_profile_to_ui(self, provider: str) -> None:
         if provider not in PROVIDERS:
-            provider = "OpenAI Compatible"
+            provider = DEFAULT_PROVIDER
         default_profile = self._default_provider_profile(provider)
         profile = self.provider_profiles.get(provider, {}).copy()
         api_key = self._sanitize_api_key(profile.get("api_key", ""))
@@ -2179,6 +2188,7 @@ class RefineApp:
             list(self._all_provider_models.get(provider, PROVIDERS[provider]["models"]))
         )
 
+        api_key = api_key if self._provider_requires_api_key(provider) else ""
         self.api_key_var.set(api_key)
         self.api_base_var.set(api_base)
         self.model_var.set(model)
@@ -2257,7 +2267,7 @@ class RefineApp:
             elif prof.get("model") not in full_models:
                 prof["model"] = full_models[0]
             self.provider_profiles[provider] = prof
-        current = self.provider_var.get().strip() or "OpenAI Compatible"
+        current = self.provider_var.get().strip() or DEFAULT_PROVIDER
         if current in changed:
             self._apply_provider_profile_to_ui(current)
         if changed:
@@ -2266,9 +2276,9 @@ class RefineApp:
                 self.status_var.set("Provider model list refreshed.")
 
     def _on_provider_change(self, _event=None) -> None:
-        provider = self.provider_var.get().strip() or "OpenAI Compatible"
+        provider = self.provider_var.get().strip() or DEFAULT_PROVIDER
         if provider not in PROVIDERS:
-            provider = "OpenAI Compatible"
+            provider = DEFAULT_PROVIDER
             self.provider_var.set(provider)
 
         self._persist_active_provider_profile()
@@ -2820,12 +2830,14 @@ class RefineApp:
         self.root.after(0, lambda s=summary: self.status_var.set(f"{self._t('checks_completed')} {s}"))
 
     def _test_api_connectivity(self) -> tuple[bool, str]:
-        provider = self.provider_var.get().strip() or "OpenAI Compatible"
+        provider = self.provider_var.get().strip() or DEFAULT_PROVIDER
         api_key = self._sanitize_api_key(self.api_key_var.get())
         api_base = self._normalize_provider_api_base(provider, self.api_base_var.get().strip())
         model = self.model_var.get().strip()
-        if not api_key or not api_base or not model:
-            return False, "Missing API key/base/model"
+        if self._provider_requires_api_key(provider) and not api_key:
+            return False, "Missing API key"
+        if not api_base or not model:
+            return False, "Missing API base/model"
         try:
             endpoint = f"{api_base.rstrip('/')}/chat/completions"
             payload = {
@@ -2837,9 +2849,10 @@ class RefineApp:
             body = json.dumps(payload).encode("utf-8")
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}",
                 "User-Agent": "VOVOCI/desktop",
             }
+            if api_key:
+                headers["Authorization"] = f"Bearer {api_key}"
             if provider == "Xiaomi MiMo V2":
                 headers["api-key"] = api_key
             if provider == "OpenRouter":
@@ -2983,13 +2996,13 @@ class RefineApp:
 
     def _load_config(self) -> None:
         if not CONFIG_PATH.exists():
-            self.model_combo.configure(values=PROVIDERS["OpenAI Compatible"]["models"])
+            self.model_combo.configure(values=PROVIDERS[DEFAULT_PROVIDER]["models"])
             return
         try:
             data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-            provider = data.get("provider", "OpenAI Compatible")
-            if provider not in PROVIDERS:
-                provider = "OpenAI Compatible"
+            provider = data.get("provider", DEFAULT_PROVIDER)
+            if provider not in self._provider_options():
+                provider = DEFAULT_PROVIDER
             self.provider_var.set(provider)
             profiles = data.get("provider_profiles", {})
             if not isinstance(profiles, dict):
@@ -3118,19 +3131,19 @@ class RefineApp:
             self.conversation_history = history[-300:]
         except Exception:
             self.status_var.set(self._t("config_load_failed"))
-            self.provider_var.set("OpenAI Compatible")
-            self.model_combo.configure(values=PROVIDERS["OpenAI Compatible"]["models"])
+            self.provider_var.set(DEFAULT_PROVIDER)
+            self.model_combo.configure(values=PROVIDERS[DEFAULT_PROVIDER]["models"])
 
     def _save_config(self, silent: bool = False) -> None:
         self._save_prompt_from_settings()
-        current_provider = self.provider_var.get().strip() or "OpenAI Compatible"
+        current_provider = self.provider_var.get().strip() or DEFAULT_PROVIDER
         if current_provider not in PROVIDERS:
-            current_provider = "OpenAI Compatible"
+            current_provider = DEFAULT_PROVIDER
         self._active_provider = current_provider
         self._persist_active_provider_profile()
         data = {
             "provider": current_provider,
-            "api_key": self._sanitize_api_key(self.api_key_var.get()),
+            "api_key": self._sanitize_api_key(self.api_key_var.get()) if self._provider_requires_api_key(current_provider) else "",
             "provider_api_keys": self.provider_api_keys,
             "provider_profiles": self.provider_profiles,
             "api_base": self._normalize_provider_api_base(current_provider, self.api_base_var.get().strip()),
@@ -3214,7 +3227,7 @@ class RefineApp:
             except Exception:
                 input_text = ""
 
-        if not api_key:
+        if self._provider_requires_api_key(provider) and not api_key:
             self._hide_recording_overlay()
             messagebox.showwarning("Missing API Key", "Please enter your API key.")
             return
@@ -3269,9 +3282,10 @@ class RefineApp:
             body = json.dumps(payload).encode("utf-8")
             headers = {
                 "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}",
                 "User-Agent": "VOVOCI/desktop",
             }
+            if api_key:
+                headers["Authorization"] = f"Bearer {api_key}"
             if provider == "Xiaomi MiMo V2":
                 headers["api-key"] = api_key
             if provider == "OpenRouter":
