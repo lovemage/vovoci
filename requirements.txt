@@ -1,8 +1,8 @@
 keyboard
+pynput
 numpy
 sounddevice
 faster-whisper
 ctranslate2
 pystray
 pillow
-

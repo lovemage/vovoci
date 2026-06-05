@@ -50,6 +50,11 @@ class WindowsPlatformAdapter(PlatformAdapter):
             except Exception:
                 pass
 
+    def hotkey_binding_alive(self, binding: Any) -> bool:
+        if keyboard is None or not binding:
+            return False
+        return True
+
     def is_modifier_pressed(self, modifier_hotkey: str) -> bool:
         if keyboard is None:
             return False

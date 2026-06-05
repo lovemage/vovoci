@@ -51,6 +51,16 @@ graph LR
 | Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 解压后运行 `Run-VOVOCI-First-Time.cmd`，然后启动 `VOVOCI.exe`。 |
 | macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 打开 DMG，把 `VOVOCI.app` 拖到 `Applications`，首次启动如果被 Gatekeeper 拦截，请右键选择“打开”。 |
 
+### 维护者发布流程
+
+当本地变更准备更新到远端 release 与网站时，使用以下流程：
+
+1. 将 source 变更 commit 并 push 到 `lovemage/vovoci`，必须包含 `site/` 与所有语言 README。
+2. 确认 Cloudflare Pages 已设置为从推送分支的 `site/` 部署静态网站，或在 Cloudflare dashboard 手动触发 Pages 部署。
+3. 在 `lovemage/vovoci-packaging` 运行 `release` workflow，`source_ref` 填入已推送的 branch 或 tag，`release_version` 填入 `0.1.5`。
+4. 保持 `package_windows=true`、`package_macos=true`、`publish_release=true`，通过 GitHub Actions 构建并发布 Windows 与 macOS artifacts。Linux package 不由此 workflow 发布；当前 Linux build 已在本地测试完成。
+5. Workflow 完成后，确认 GitHub Release 包含 `VOVOCI-Setup-0.1.5.exe`、`VOVOCI-portable-0.1.5.zip`、`VOVOCI-macOS-0.1.5-unsigned.dmg`，再确认 `https://vovoci.com` 已显示最新静态网站。
+
 ### 便携版（推荐）
 
 1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.5.zip`

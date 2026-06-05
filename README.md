@@ -44,12 +44,27 @@ graph LR
 
 ## Quick Start
 
+### Linux Note
+
+- `Linux` refers to the Linux platform version (not `Lanus`).
+- The app now auto-saves and auto-loads the currently selected model on next launch, so you no longer need to re-select it every time.
+
 ### Release Packages
 
 | Platform | Package | Release | How to use |
 |:---|:---|:---|:---|
 | Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Extract, run `Run-VOVOCI-First-Time.cmd`, then launch `VOVOCI.exe`. |
 | macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Open the DMG, move `VOVOCI.app` to `Applications`, then right-click `Open` on first launch if Gatekeeper warns. |
+
+### Maintainer Release Workflow
+
+Use this flow when local changes are ready to update the remote release and website:
+
+1. Commit and push the source changes to `lovemage/vovoci`, including `site/` and all README language files.
+2. Confirm Cloudflare Pages is configured to deploy the static site from `site/` on the pushed branch, or trigger the Cloudflare Pages deploy from the Cloudflare dashboard.
+3. Run the `release` workflow in `lovemage/vovoci-packaging` with `source_ref` set to the pushed branch or tag and `release_version` set to `0.1.5`.
+4. Keep `package_windows=true`, `package_macos=true`, and `publish_release=true` to build and publish Windows and macOS artifacts. Linux packaging is not published by this workflow; the current Linux build has been tested locally.
+5. After the workflow finishes, confirm the GitHub Release contains `VOVOCI-Setup-0.1.5.exe`, `VOVOCI-portable-0.1.5.zip`, and `VOVOCI-macOS-0.1.5-unsigned.dmg`, then check that `https://vovoci.com` shows the latest static site.
 
 ### Portable (Recommended)
 

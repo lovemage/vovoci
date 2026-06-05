@@ -31,6 +31,9 @@ class PlatformAdapter(ABC):
     def unregister_hotkeys(self, binding: Any) -> None:
         raise NotImplementedError
 
+    def hotkey_binding_alive(self, binding: Any) -> bool:
+        return binding is not None
+
     @abstractmethod
     def is_modifier_pressed(self, modifier_hotkey: str) -> bool:
         raise NotImplementedError

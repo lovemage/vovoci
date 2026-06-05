@@ -51,6 +51,16 @@ graph LR
 | Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 展開して `Run-VOVOCI-First-Time.cmd` を実行し、その後 `VOVOCI.exe` を起動します。 |
 | macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG を開いて `VOVOCI.app` を `Applications` に移動し、初回起動時に Gatekeeper が警告した場合は右クリックして「開く」を選びます。 |
 
+### メンテナー向けリリース手順
+
+ローカル変更をリモート release とウェブサイトへ反映する場合は、次の手順を使います。
+
+1. source の変更を `lovemage/vovoci` に commit して push します。`site/` と全言語の README を必ず含めます。
+2. Cloudflare Pages が push された branch の `site/` から静的サイトをデプロイする設定になっていることを確認します。未設定の場合は Cloudflare dashboard から Pages deploy を手動実行します。
+3. `lovemage/vovoci-packaging` の `release` workflow を実行し、`source_ref` に push 済みの branch または tag、`release_version` に `0.1.5` を指定します。
+4. `package_windows=true`、`package_macos=true`、`publish_release=true` のままにして、GitHub Actions で Windows と macOS artifacts をビルドして公開します。Linux package はこの workflow では公開しません。現在の Linux build はローカルでテスト済みです。
+5. Workflow 完了後、GitHub Release に `VOVOCI-Setup-0.1.5.exe`、`VOVOCI-portable-0.1.5.zip`、`VOVOCI-macOS-0.1.5-unsigned.dmg` があることを確認し、`https://vovoci.com` が最新の静的サイトを表示していることを確認します。
+
 ### ポータブル版（推奨）
 
 1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) から `VOVOCI-portable-0.1.5.zip` をダウンロード

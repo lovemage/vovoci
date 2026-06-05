@@ -81,6 +81,13 @@ class MacOSPlatformAdapter(PlatformAdapter):
         self._pressed_keys = set()
         self._main_hotkey_down = False
 
+    def hotkey_binding_alive(self, binding: Any) -> bool:
+        listener = binding or self._listener
+        try:
+            return bool(listener is not None and listener.is_alive())
+        except Exception:
+            return False
+
     def is_modifier_pressed(self, modifier_hotkey: str) -> bool:
         token = self._resolve_key(modifier_hotkey)
         if token is None:

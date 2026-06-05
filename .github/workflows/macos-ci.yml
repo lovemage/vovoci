@@ -1,0 +1,80 @@
+name: macos-ci
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  test-build-macos:
+    runs-on: macos-14
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-build.txt
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-build.txt
+
+      - name: Run unit tests
+        run: |
+          python -m unittest \
+            tests/test_platform_factory.py \
+            tests/test_macos_adapter.py \
+            tests/test_windows_adapter.py
+
+      - name: Run syntax checks
+        run: |
+          python -m py_compile \
+            app.py \
+            platforms/base.py \
+            platforms/factory.py \
+            platforms/windows.py \
+            platforms/macos.py \
+            tests/test_platform_factory.py \
+            tests/test_macos_adapter.py \
+            tests/test_windows_adapter.py
+
+      - name: Build unsigned macOS app
+        run: |
+          ./scripts/build_macos_app.sh --python python3 --venv .venv-build
+
+      - name: Build unsigned macOS dmg
+        run: |
+          ./scripts/build_dmg.sh
+
+      - name: Verify build outputs
+        run: |
+          ls -la dist || true
+          ls -la release || true
+          test -d dist/VOVOCI.app
+          ls release/VOVOCI-macOS-*-unsigned.dmg
+
+      - name: Upload unsigned app artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: VOVOCI-macOS-app-unsigned
+          path: dist/VOVOCI.app
+          retention-days: 14
+
+      - name: Upload unsigned dmg artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: VOVOCI-macOS-dmg-unsigned
+          path: release/VOVOCI-macOS-*-unsigned.dmg
+          retention-days: 14

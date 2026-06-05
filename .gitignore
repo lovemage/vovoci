@@ -17,3 +17,9 @@ crash.log
 
 # Release assets should be uploaded to GitHub Releases
 release/*.exe
+
+# Packaged build outputs
+release/*.zip
+release/*.dmg
+VOVOCI-portable-*/
+vovoci-packaging/
