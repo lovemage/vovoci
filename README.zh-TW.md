@@ -63,7 +63,7 @@ graph LR
 1. 將 source 變更 commit 並 push 到 `lovemage/vovoci`，必須包含 `site/` 與全部語言 README。
 2. 確認 Cloudflare Pages 已設定從推送分支的 `site/` 部署靜態網站，或到 Cloudflare dashboard 手動觸發 Pages 部署。
 3. 在 `lovemage/vovoci-packaging` 執行 `release` workflow，`source_ref` 填入已推送的 branch 或 tag，`release_version` 填入 `0.1.5`。
-4. 保持 `package_windows=true`、`package_macos=true`、`publish_release=true`，用 GitHub Actions 編譯並發佈 Windows 與 macOS artifacts。Linux package 不由此 workflow 發佈；目前 Linux build 已在本地測試完成。
+4. 保持 `package_windows=true`、`package_macos=true`、`publish_release=true`，用 GitHub Actions 編譯並發佈 Windows 與 macOS artifacts。Linux package 不由此 workflow 發佈；Linux 支援目前已在本地以 source/Python app 方式測試完成。
 5. Workflow 完成後，確認 GitHub Release 內含 `VOVOCI-Setup-0.1.5.exe`、`VOVOCI-portable-0.1.5.zip`、`VOVOCI-macOS-0.1.5-unsigned.dmg`，再確認 `https://vovoci.com` 已顯示最新靜態網站。
 
 ### 免安裝版（推薦）

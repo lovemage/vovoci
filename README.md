@@ -63,7 +63,7 @@ Use this flow when local changes are ready to update the remote release and webs
 1. Commit and push the source changes to `lovemage/vovoci`, including `site/` and all README language files.
 2. Confirm Cloudflare Pages is configured to deploy the static site from `site/` on the pushed branch, or trigger the Cloudflare Pages deploy from the Cloudflare dashboard.
 3. Run the `release` workflow in `lovemage/vovoci-packaging` with `source_ref` set to the pushed branch or tag and `release_version` set to `0.1.5`.
-4. Keep `package_windows=true`, `package_macos=true`, and `publish_release=true` to build and publish Windows and macOS artifacts. Linux packaging is not published by this workflow; the current Linux build has been tested locally.
+4. Keep `package_windows=true`, `package_macos=true`, and `publish_release=true` to build and publish Windows and macOS artifacts. Linux packaging is not published by this workflow; Linux support has been tested locally from source with the Python app.
 5. After the workflow finishes, confirm the GitHub Release contains `VOVOCI-Setup-0.1.5.exe`, `VOVOCI-portable-0.1.5.zip`, and `VOVOCI-macOS-0.1.5-unsigned.dmg`, then check that `https://vovoci.com` shows the latest static site.
 
 ### Portable (Recommended)

@@ -58,7 +58,7 @@ graph LR
 1. source 변경 사항을 `lovemage/vovoci` 에 commit 하고 push 합니다. `site/` 와 모든 언어의 README 를 반드시 포함합니다.
 2. Cloudflare Pages 가 push 된 branch 의 `site/` 에서 정적 사이트를 배포하도록 설정되어 있는지 확인하거나, Cloudflare dashboard 에서 Pages deploy 를 수동으로 실행합니다.
 3. `lovemage/vovoci-packaging` 의 `release` workflow 를 실행하고, `source_ref` 에 push 된 branch 또는 tag, `release_version` 에 `0.1.5` 를 입력합니다.
-4. `package_windows=true`, `package_macos=true`, `publish_release=true` 를 유지하여 GitHub Actions 로 Windows 및 macOS artifacts 를 빌드하고 게시합니다. Linux package 는 이 workflow 에서 게시하지 않습니다. 현재 Linux build 는 로컬에서 테스트 완료되었습니다.
+4. `package_windows=true`, `package_macos=true`, `publish_release=true` 를 유지하여 GitHub Actions 로 Windows 및 macOS artifacts 를 빌드하고 게시합니다. Linux package 는 이 workflow 에서 게시하지 않습니다. Linux 지원은 현재 로컬에서 source/Python app 방식으로 테스트 완료되었습니다.
 5. Workflow 완료 후 GitHub Release 에 `VOVOCI-Setup-0.1.5.exe`, `VOVOCI-portable-0.1.5.zip`, `VOVOCI-macOS-0.1.5-unsigned.dmg` 가 있는지 확인하고, `https://vovoci.com` 이 최신 정적 사이트를 표시하는지 확인합니다.
 
 ### 포터블 (권장)
