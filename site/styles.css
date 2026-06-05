@@ -1953,3 +1953,47 @@ ul, ol { list-style: none; }
   opacity: 0.7;
   flex-shrink: 0;
 }
+
+
+.release-note-card {
+  margin: 28px auto 0;
+  max-width: 760px;
+  padding: 24px;
+  border: 1px solid rgba(31, 107, 99, 0.18);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 252, 244, 0.94), rgba(230, 244, 241, 0.9));
+  box-shadow: 0 20px 60px rgba(31, 107, 99, 0.12);
+  text-align: left;
+}
+
+.release-note-kicker {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: #1f6b63;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.release-note-card h2 {
+  margin: 0 0 10px;
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1;
+  color: #17211f;
+}
+
+.release-note-card p {
+  margin: 10px 0 0;
+  color: #3a4845;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 640px) {
+  .release-note-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+}
