@@ -8,7 +8,7 @@
 
 自然说话，在任意 Windows 应用中获得干净的结构化文本 — 由本地 STT 和你选择的 LLM 驱动。
 
-[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.6-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -38,9 +38,9 @@ graph LR
 
 ## 亮点
 
-| 💰 约 $3.80/月 | 📖 术语扫描器 | 🌐 双热键翻译 |
+| 💰 API 成本可选 | 📖 术语扫描器 | 🪟 语音结束检查窗口 |
 |:---:|:---:|:---:|
-| 无需订阅。你只为实际使用的 LLM API tokens 付费。通过 OpenRouter 使用 Grok 4.1 Fast 重度日用约 $3.80/月。 | 将内置提示词复制到你的 AI Agent 中 — 它会扫描你的代码库并导出词汇表。导入后，每次听写都能使用正确的拼写。 | 分配第二个热键用于翻译。按下它代替常规听写键，VOVOCI 会自动将你的语音翻译成目标语言。 |
+| 无需订阅。你可以使用付费网络 LLM API、免费额度服务商，或本地 OpenAI-compatible 大模型服务；不强制接入付费的网络 API。 | 将内置提示词复制到你的 AI Agent 中 — 它会扫描你的代码库并导出词汇表。导入后，每次听写都能使用正确的拼写。 | 语音结束时可弹出检查窗口：左侧显示原始输入语言转录，右侧显示 AI 重组后的语义内容，便于粘贴或复制前确认。 |
 
 ## 快速开始
 
@@ -48,8 +48,8 @@ graph LR
 
 | 平台 | 文件 | Release | 使用方式 |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 解压后运行 `Run-VOVOCI-First-Time.cmd`，然后启动 `VOVOCI.exe`。 |
-| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 打开 DMG，把 `VOVOCI.app` 拖到 `Applications`，首次启动如果被 Gatekeeper 拦截，请右键选择“打开”。 |
+| Windows | `VOVOCI-portable-0.1.6.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 解压后运行 `Run-VOVOCI-First-Time.cmd`，然后启动 `VOVOCI.exe`。 |
+| macOS | `VOVOCI-macOS-0.1.6-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 打开 DMG，把 `VOVOCI.app` 拖到 `Applications`，首次启动如果被 Gatekeeper 拦截，请右键选择“打开”。 |
 
 ### 维护者发布流程
 
@@ -57,13 +57,13 @@ graph LR
 
 1. 将 source 变更 commit 并 push 到 `lovemage/vovoci`，必须包含 `site/` 与所有语言 README。
 2. 确认 Cloudflare Pages 已设置为从推送分支的 `site/` 部署静态网站，或在 Cloudflare dashboard 手动触发 Pages 部署。
-3. 在 `lovemage/vovoci-packaging` 运行 `release` workflow，`source_ref` 填入已推送的 branch 或 tag，`release_version` 填入 `0.1.5`。
+3. 在 `lovemage/vovoci-packaging` 运行 `release` workflow，`source_ref` 填入已推送的 branch 或 tag，`release_version` 填入 `0.1.6`。
 4. 保持 `package_windows=true`、`package_macos=true`、`publish_release=true`，通过 GitHub Actions 构建并发布 Windows 与 macOS artifacts。Linux package 不由此 workflow 发布；Linux 支持目前已在本地以 source/Python app 方式测试完成。
-5. Workflow 完成后，确认 GitHub Release 包含 `VOVOCI-Setup-0.1.5.exe`、`VOVOCI-portable-0.1.5.zip`、`VOVOCI-macOS-0.1.5-unsigned.dmg`，再确认 `https://vovoci.com` 已显示最新静态网站。
+5. Workflow 完成后，确认 GitHub Release 包含 `VOVOCI-Setup-0.1.6.exe`、`VOVOCI-portable-0.1.6.zip`、`VOVOCI-macOS-0.1.6-unsigned.dmg`，再确认 `https://vovoci.com` 已显示最新静态网站。
 
 ### 便携版（推荐）
 
-1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.5.zip`
+1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.6.zip`
 2. 解压并运行 `Run-VOVOCI-First-Time.cmd`
 3. 启动 `VOVOCI.exe`
 
@@ -85,7 +85,7 @@ VOVOCI 开箱即用支持六个 LLM 服务商，也支持本地 OpenAI-compatibl
 
 **OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *（免费额度）* · **Local Model**
 
-> 已经有自己的本地模型服务？选择 Local Model，填入本地 API Base URL、API Key 和模型名称即可。
+> 已经有自己的本地大模型服务？选择 Local Model，填入本地 API Base URL、模型名称，以及服务器需要时才填写 API Key。这样可以使用本地大模型，不必强制接入付费网络 API。
 
 ## 应用截图
 

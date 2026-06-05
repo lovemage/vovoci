@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 import re
 import subprocess
@@ -84,7 +84,7 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.5"
+APP_VERSION = "0.1.6"
 GITHUB_SOURCE_REPO = "lovemage/vovoci"
 GITHUB_RELEASE_REPO = "lovemage/vovoci-packaging"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_RELEASE_REPO}"

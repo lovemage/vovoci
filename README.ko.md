@@ -8,7 +8,7 @@
 
 자연스럽게 말하면, 깔끔하게 정리된 텍스트가 Windows 앱에 바로 입력됩니다 — 로컬 STT와 원하는 LLM으로 구동됩니다.
 
-[![Version](https://img.shields.io/badge/version-0.1.5-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.6-blue)](https://github.com/lovemage/vovoci-packaging/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
@@ -38,9 +38,9 @@ graph LR
 
 ## 주요 특징
 
-| 💰 월 ~$3.80 | 📖 용어 스캐너 | 🌐 이중 단축키 번역 |
+| 💰 API 비용 선택 가능 | 📖 용어 스캐너 | 🪟 음성 종료 후 검토 창 |
 |:---:|:---:|:---:|
-| 구독료 없음. 실제로 사용한 LLM API 토큰만큼만 비용을 지불합니다. OpenRouter를 통해 Grok 4.1 Fast를 매일 많이 사용해도 월 ~$3.80 수준입니다. | 내장된 프롬프트를 AI 에이전트에 복사하면, 코드베이스를 스캔하여 용어 테이블을 추출합니다. 이를 가져오면 모든 음성 입력에서 정확한 맞춤법이 적용됩니다. | 번역 전용 두 번째 단축키를 지정하세요. 일반 음성 입력 키 대신 누르면, VOVOCI가 음성을 자동으로 대상 언어로 번역합니다. |
+| 구독료 없음. 유료 온라인 LLM API, 무료 티어 제공자, 또는 로컬 OpenAI-compatible 모델 서버를 선택할 수 있습니다. 유료 네트워크 API 연결은 필수가 아닙니다. | 내장된 프롬프트를 AI 에이전트에 복사하면, 코드베이스를 스캔하여 용어 테이블을 추출합니다. 이를 가져오면 모든 음성 입력에서 정확한 맞춤법이 적용됩니다. | 음성이 끝나면 검토 창을 띄울 수 있습니다. 왼쪽에는 원래 입력 언어의 전사문, 오른쪽에는 AI가 재구성한 의미 내용이 표시되어 붙여넣기나 복사 전에 확인할 수 있습니다. |
 
 ## 빠른 시작
 
@@ -48,8 +48,8 @@ graph LR
 
 | 플랫폼 | 패키지 | Release | 사용 방법 |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.5.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행한 뒤 `VOVOCI.exe`를 시작합니다. |
-| macOS | `VOVOCI-macOS-0.1.5-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG를 열어 `VOVOCI.app`을 `Applications`로 옮기고, 첫 실행 때 Gatekeeper 경고가 나오면 앱을 우클릭해 `열기`를 선택합니다. |
+| Windows | `VOVOCI-portable-0.1.6.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행한 뒤 `VOVOCI.exe`를 시작합니다. |
+| macOS | `VOVOCI-macOS-0.1.6-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG를 열어 `VOVOCI.app`을 `Applications`로 옮기고, 첫 실행 때 Gatekeeper 경고가 나오면 앱을 우클릭해 `열기`를 선택합니다. |
 
 ### 메인테이너 릴리스 절차
 
@@ -57,13 +57,13 @@ graph LR
 
 1. source 변경 사항을 `lovemage/vovoci` 에 commit 하고 push 합니다. `site/` 와 모든 언어의 README 를 반드시 포함합니다.
 2. Cloudflare Pages 가 push 된 branch 의 `site/` 에서 정적 사이트를 배포하도록 설정되어 있는지 확인하거나, Cloudflare dashboard 에서 Pages deploy 를 수동으로 실행합니다.
-3. `lovemage/vovoci-packaging` 의 `release` workflow 를 실행하고, `source_ref` 에 push 된 branch 또는 tag, `release_version` 에 `0.1.5` 를 입력합니다.
+3. `lovemage/vovoci-packaging` 의 `release` workflow 를 실행하고, `source_ref` 에 push 된 branch 또는 tag, `release_version` 에 `0.1.6` 를 입력합니다.
 4. `package_windows=true`, `package_macos=true`, `publish_release=true` 를 유지하여 GitHub Actions 로 Windows 및 macOS artifacts 를 빌드하고 게시합니다. Linux package 는 이 workflow 에서 게시하지 않습니다. Linux 지원은 현재 로컬에서 source/Python app 방식으로 테스트 완료되었습니다.
-5. Workflow 완료 후 GitHub Release 에 `VOVOCI-Setup-0.1.5.exe`, `VOVOCI-portable-0.1.5.zip`, `VOVOCI-macOS-0.1.5-unsigned.dmg` 가 있는지 확인하고, `https://vovoci.com` 이 최신 정적 사이트를 표시하는지 확인합니다.
+5. Workflow 완료 후 GitHub Release 에 `VOVOCI-Setup-0.1.6.exe`, `VOVOCI-portable-0.1.6.zip`, `VOVOCI-macOS-0.1.6-unsigned.dmg` 가 있는지 확인하고, `https://vovoci.com` 이 최신 정적 사이트를 표시하는지 확인합니다.
 
 ### 포터블 (권장)
 
-1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)에서 `VOVOCI-portable-0.1.5.zip`을 다운로드합니다
+1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)에서 `VOVOCI-portable-0.1.6.zip`을 다운로드합니다
 2. 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행합니다
 3. `VOVOCI.exe`를 실행합니다
 
@@ -85,7 +85,7 @@ VOVOCI는 여섯 가지 LLM 프로바이더를 기본 지원하며 로컬 OpenAI
 
 **OpenAI Compatible** · **OpenRouter** · **Xiaomi MiMo** · **Google Gemini** · **NVIDIA NIM** *(무료 티어)* · **Local Model**
 
-> 자체 로컬 모델 서버가 있다면 Local Model을 선택하고 API Base URL, API Key, 모델 이름을 입력하세요.
+> 자체 로컬 대형 모델 서버가 있다면 Local Model을 선택하고 API Base URL, 모델 이름, 서버가 요구하는 경우에만 API Key를 입력하세요. 이를 통해 유료 온라인 API를 강제하지 않고 로컬 모델을 사용할 수 있습니다.
 
 ## 앱 스크린샷
 
