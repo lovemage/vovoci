@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_DIR="${ROOT_DIR}/.venv-build"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 CLEAN=1
-VERSION="${APP_VERSION:-0.1.5}"
+VERSION="${APP_VERSION:-0.1.7}"
 
 usage() {
   cat <<'EOF'
@@ -85,7 +85,7 @@ from pathlib import Path
 from PyInstaller.utils.hooks import collect_all
 
 source_root = Path(os.environ["SOURCE_DIR"]).resolve()
-app_version = os.environ.get("APP_VERSION", "0.1.5")
+app_version = os.environ.get("APP_VERSION", "0.1.7")
 
 datas = [
     (str(source_root / "logo.png"), "."),

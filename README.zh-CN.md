@@ -6,12 +6,12 @@
 
 **开口即思考，边说边打磨。**
 
-自然说话，在任意 Windows 应用中获得干净的结构化文本 — 由本地 STT 和你选择的 LLM 驱动。
+自然说话，在当前桌面应用中获得干净、润色后的文本 — 由本地 STT 和你选择的 LLM 驱动。
 
-[![Version](https://img.shields.io/badge/version-0.1.6-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.7-blue)](https://github.com/lovemage/vovoci/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
-[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-4C8BF5)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
 
 Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
@@ -42,14 +42,22 @@ graph LR
 |:---:|:---:|:---:|
 | 无需订阅。你可以使用付费网络 LLM API、免费额度服务商，或本地 OpenAI-compatible 大模型服务；不强制接入付费的网络 API。 | 将内置提示词复制到你的 AI Agent 中 — 它会扫描你的代码库并导出词汇表。导入后，每次听写都能使用正确的拼写。 | 语音结束时可弹出检查窗口：左侧显示原始输入语言转录，右侧显示 AI 重组后的语义内容，便于粘贴或复制前确认。 |
 
+## v0.1.7 新功能
+
+- **悬浮录音按钮** — 关闭主窗口到系统托盘后选择 `Show Button`；点击鸟图标开始录音，再次点击即可停止、转录并 Refi。
+- **原地保存设置** — `Save Settings` 只提示保存完成，不再收起设置区或跳到 History。
+- **保留原意的 Refi** — 问句保持问句、陈述句保持陈述句，只有真正包含多个项目时才使用列表。
+- **三平台 Release** — 同一套 GitHub workflow 自动生成 Windows、macOS 和 Linux 发布文件。
+
 ## 快速开始
 
 ### 发布文件
 
 | 平台 | 文件 | Release | 使用方式 |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.6.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 解压后运行 `Run-VOVOCI-First-Time.cmd`，然后启动 `VOVOCI.exe`。 |
-| macOS | `VOVOCI-macOS-0.1.6-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 打开 DMG，把 `VOVOCI.app` 拖到 `Applications`，首次启动如果被 Gatekeeper 拦截，请右键选择“打开”。 |
+| Windows | `VOVOCI-portable-0.1.7.zip` 或 `VOVOCI-Setup-0.1.7.exe` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 解压 ZIP 并运行首次启动程序，或直接运行安装程序。 |
+| macOS | `VOVOCI-macOS-0.1.7-unsigned.dmg` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 将 `VOVOCI.app` 拖到 `Applications`；如果 Gatekeeper 拦截，请右键选择“打开”。 |
+| Linux x86_64 | `VOVOCI-Linux-0.1.7-x86_64.tar.gz` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 解压后运行 `VOVOCI/VOVOCI`；桌面环境可能仍需安装输入辅助工具。 |
 
 ### 维护者发布流程
 
@@ -57,13 +65,13 @@ graph LR
 
 1. 将 source 变更 commit 并 push 到 `lovemage/vovoci`，必须包含 `site/` 与所有语言 README。
 2. 确认 Cloudflare Pages 已设置为从推送分支的 `site/` 部署静态网站，或在 Cloudflare dashboard 手动触发 Pages 部署。
-3. 在 `lovemage/vovoci-packaging` 运行 `release` workflow，`source_ref` 填入已推送的 branch 或 tag，`release_version` 填入 `0.1.6`。
-4. 保持 `package_windows=true`、`package_macos=true`、`publish_release=true`，通过 GitHub Actions 构建并发布 Windows 与 macOS artifacts。Linux package 不由此 workflow 发布；Linux 支持目前已在本地以 source/Python app 方式测试完成。
-5. Workflow 完成后，确认 GitHub Release 包含 `VOVOCI-Setup-0.1.6.exe`、`VOVOCI-portable-0.1.6.zip`、`VOVOCI-macOS-0.1.6-unsigned.dmg`，再确认 `https://vovoci.com` 已显示最新静态网站。
+3. 推送对应版本 tag（例如 `v0.1.7`），或手动运行 `release` workflow 并填写 `release_version=0.1.7`。
+4. Workflow 会检查 `APP_VERSION`、运行测试、构建三个平台，并发布到 `lovemage/vovoci` Releases。
+5. 确认 Release 包含 Windows 安装程序与便携 ZIP、macOS DMG、Linux x86_64 压缩包，再确认 `https://vovoci.com` 已显示最新网站。
 
 ### 便携版（推荐）
 
-1. 从 [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest) 下载 `VOVOCI-portable-0.1.6.zip`
+1. 从 [Releases](https://github.com/lovemage/vovoci/releases/latest) 下载 `VOVOCI-portable-0.1.7.zip`
 2. 解压并运行 `Run-VOVOCI-First-Time.cmd`
 3. 启动 `VOVOCI.exe`
 

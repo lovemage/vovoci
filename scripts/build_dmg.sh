@@ -71,7 +71,7 @@ if [[ -z "${VERSION}" ]]; then
   fi
 fi
 if [[ -z "${VERSION}" ]]; then
-  VERSION="0.1.4"
+  VERSION="0.1.7"
 fi
 
 mkdir -p "${RELEASE_DIR}"

@@ -19,12 +19,12 @@ const translations = {
     // Hero
     "hero.title": "Your Structured Secretary for<br>Vibecoding and Real Conversation.",
     "hero.sub": "VOVOCI is built for fast idea-to-text workflows: coding thoughts, daily notes, social media drafts, and everyday chat. Speak naturally, let VOVOCI structure your meaning, then send clean output to the app you're already using.",
-    "hero.small": "One voice workflow. Many scenarios. Works across Windows software.",
-    "release.kicker": "New in v0.1.6",
-    "release.title": "Review before you paste.",
-    "release.body": "When speech ends, VOVOCI can open a review window with the original transcript on the left and the AI-restructured meaning on the right, so you can confirm the output before pasting or copying.",
-    "release.local": "You can also use a local OpenAI-compatible large language model. Paid online API access is optional, not mandatory.",
-    "hero.download": "Download Portable ZIP",
+    "hero.small": "One voice workflow. Many scenarios. Available for Windows, macOS, and Linux.",
+    "release.kicker": "New in v0.1.7",
+    "release.title": "Record from a floating bird button.",
+    "release.body": "Close VOVOCI to the tray, choose Show Button, and click the floating bird once to record and again to stop, transcribe, and refine.",
+    "release.local": "Settings now save in place, and Refi preserves questions and statements while using lists only for genuinely multi-item input.",
+    "hero.download": "Download v0.1.7",
     "hero.github": "View on GitHub",
 
     // How It Works
@@ -45,7 +45,7 @@ const translations = {
     "how.refineTitle": "Refine",
     "how.refineDesc": "Your LLM fixes grammar, smooths phrasing, and preserves your original meaning.",
     "how.outputTitle": "Output",
-    "how.outputDesc": "Structured text appears in your active app, ready to use in any Windows software.",
+    "how.outputDesc": "Refined text appears in your active app, ready to use in your desktop workflow.",
     "how.nvidiaCallout": "<strong>We recommend NVIDIA NIM for getting started.</strong> Their free API tier gives you access to capable models at no cost — no credit card needed.",
 
     // Features
@@ -58,8 +58,8 @@ const translations = {
     "feat.socialDesc": "Speak rough ideas for posts and captions, then get structured, publish-ready drafts you can quickly review and post.",
     "feat.chatTitle": "Everyday Conversation",
     "feat.chatDesc": "Use VOVOCI as your language-structuring secretary for daily communication: clearer replies, cleaner messages, and faster writing.",
-    "feat.windowsTitle": "Works in Any Windows App",
-    "feat.windowsDesc": "From IDEs to docs, chat tools, browsers, and forms — VOVOCI can output directly where your cursor is.",
+    "feat.windowsTitle": "Windows, macOS, and Linux",
+    "feat.windowsDesc": "Use native packages on all three desktop platforms, with platform-specific hotkeys, tray behavior, and output handling.",
     "feat.sttTitle": "Local STT + Your LLM Choice",
     "feat.sttDesc": "Keep speech transcription local with faster-whisper, then choose your preferred LLM provider for final semantic structuring.",
     "feat.vocabTitle": "Custom Vocabulary",
@@ -148,8 +148,8 @@ const translations = {
     "faq.a4": "No, but it helps. faster-whisper runs on CPU fine, especially with smaller models. A CUDA-compatible GPU speeds up transcription if you're using larger models.",
     "faq.q5": "Will the LLM API cost me money?",
     "faq.a5": "Depends on the provider. NVIDIA NIM offers free-tier endpoints, OpenRouter has low-cost pay-per-token options, Google Gemini has a free tier, and Local Model uses your own server. VOVOCI doesn't add any fees on top.",
-    "faq.q6": "Does it work on macOS or Linux?",
-    "faq.a6": "Not today. VOVOCI relies on Windows-specific APIs for hotkey hooks, window detection, and auto-paste. The project is open source — contributions are welcome.",
+    "faq.q6": "Which desktop platforms are supported?",
+    "faq.a6": "VOVOCI v0.1.7 publishes Windows, macOS, and Linux x86_64 packages. Some Linux desktops may require input helpers such as xdotool or wtype.",
 
     // Footer
     "footer.desc": "Built by oceanads.org — open source, no strings attached.",
@@ -157,7 +157,7 @@ const translations = {
 
     // Meta
     "meta.title": "VOVOCI — Structured Voice Secretary for Vibecoding and Everyday Conversation",
-    "meta.description": "VOVOCI is a structured voice secretary built for vibecoding and daily conversation. Turn speech into clean, usable text for notes, social posts, and any Windows app.",
+    "meta.description": "VOVOCI is a structured voice secretary for Windows, macOS, and Linux. Turn speech into clean, refined text for notes, social posts, and coding.",
   },
 
   "zh-TW": {
@@ -175,12 +175,12 @@ const translations = {
     // Hero
     "hero.title": "你的結構化語音秘書，<br>專為 Vibecoding 與日常對話而生。",
     "hero.sub": "VOVOCI 為快速「想法轉文字」工作流程而設計：程式開發構思、每日筆記、社群媒體草稿、日常溝通皆適用。自然地說話，讓 VOVOCI 整理你的語意，再將乾淨的輸出傳送到你正在使用的應用程式。",
-    "hero.small": "一套語音工作流程，適用多種情境，相容所有 Windows 軟體。",
-    "release.kicker": "v0.1.6 新功能",
-    "release.title": "貼上前先檢視。",
-    "release.body": "語音結束時，VOVOCI 可彈出檢視視窗：左側顯示原始輸入語言轉錄，右側顯示 AI 重組後的語意內容，方便貼上或複製前確認。",
-    "release.local": "你也可以使用本地 OpenAI-compatible 大模型。付費網路 API 是選項，不是強制需求。",
-    "hero.download": "下載可攜版 ZIP",
+    "hero.small": "一套語音工作流程，多種使用情境，支援 Windows、macOS 與 Linux。",
+    "release.kicker": "v0.1.7 新功能",
+    "release.title": "使用浮動鳥圖示錄音。",
+    "release.body": "將 VOVOCI 關閉到系統匣、選擇 Show Button，點一下浮動鳥圖示開始錄音，再點一下即可停止、轉錄並 Refi。",
+    "release.local": "設定現在會原地儲存；Refi 會保留問句與陳述句，只有真正包含多個項目時才使用列表。",
+    "hero.download": "下載 v0.1.7",
     "hero.github": "在 GitHub 查看",
 
     // How It Works
@@ -201,7 +201,7 @@ const translations = {
     "how.refineTitle": "精煉潤飾",
     "how.refineDesc": "LLM 修正語法、平順措辭，同時保留你原始的表達意圖。",
     "how.outputTitle": "輸出",
-    "how.outputDesc": "結構化文字會出現在你目前使用的應用程式中，可直接用於任何 Windows 軟體。",
+    "how.outputDesc": "潤飾後的文字會出現在目前使用的應用程式中，可直接接續桌面工作流程。",
     "how.nvidiaCallout": "<strong>我們建議從 NVIDIA NIM 開始使用。</strong>其免費 API 方案提供強大模型的存取權限，完全不需要信用卡。",
 
     // Features
@@ -214,8 +214,8 @@ const translations = {
     "feat.socialDesc": "口說貼文和說明文字的粗略想法，獲得結構完整、可直接發佈的草稿，快速審閱後即可發文。",
     "feat.chatTitle": "日常對話",
     "feat.chatDesc": "將 VOVOCI 作為日常溝通的語言整理秘書：回覆更清晰、訊息更乾淨、寫作更快速。",
-    "feat.windowsTitle": "適用所有 Windows 應用程式",
-    "feat.windowsDesc": "從 IDE 到文件、聊天工具、瀏覽器和表單——VOVOCI 可以直接輸出到游標所在位置。",
+    "feat.windowsTitle": "支援 Windows、macOS 與 Linux",
+    "feat.windowsDesc": "三個桌面平台都有原生發佈檔案，並提供平台對應的熱鍵、系統匣與輸出處理。",
     "feat.sttTitle": "本地 STT + 自選 LLM",
     "feat.sttDesc": "使用 faster-whisper 在本機進行語音轉文字，再選擇你偏好的 LLM 供應商進行最終語義結構化。",
     "feat.vocabTitle": "自訂詞彙表",
@@ -304,8 +304,8 @@ const translations = {
     "faq.a4": "不需要，但有 GPU 更好。faster-whisper 在 CPU 上也能正常運行，尤其使用較小的模型時。若使用較大模型，CUDA 相容的 GPU 可加速語音辨識。",
     "faq.q5": "LLM API 會產生費用嗎？",
     "faq.a5": "取決於供應商。NVIDIA NIM 提供免費端點，OpenRouter 有低成本按 token 計費選項，Google Gemini 有免費方案，Local Model 則使用你自己的本機服務。VOVOCI 不收取任何額外費用。",
-    "faq.q6": "支援 macOS 或 Linux 嗎？",
-    "faq.a6": "目前不支援。VOVOCI 依賴 Windows 專用 API 進行快捷鍵鉤取、視窗偵測和自動貼上。本專案為開源——歡迎貢獻。",
+    "faq.q6": "支援哪些桌面平台？",
+    "faq.a6": "VOVOCI v0.1.7 提供 Windows、macOS 與 Linux x86_64 發佈檔案。部分 Linux 桌面環境可能需要 xdotool 或 wtype 等輸入輔助工具。",
 
     // Footer
     "footer.desc": "由 oceanads.org 打造——開源，無附帶條件。",
@@ -313,7 +313,7 @@ const translations = {
 
     // Meta
     "meta.title": "VOVOCI — 專為 Vibecoding 與日常對話打造的結構化語音秘書",
-    "meta.description": "VOVOCI 是專為 Vibecoding 與日常對話設計的結構化語音秘書。將語音轉化為筆記、社群貼文及任何 Windows 應用程式可用的乾淨文字。",
+    "meta.description": "VOVOCI 是支援 Windows、macOS 與 Linux 的結構化語音秘書，能把語音轉成適合筆記、社群貼文與程式工作的乾淨文字。",
   },
 
   ko: {
@@ -331,12 +331,12 @@ const translations = {
     // Hero
     "hero.title": "바이브코딩과 일상 대화를 위한<br>구조화된 음성 비서.",
     "hero.sub": "VOVOCI는 빠른 아이디어-텍스트 변환 워크플로를 위해 설계되었습니다: 코딩 구상, 일일 메모, 소셜 미디어 초안, 일상 대화까지. 자연스럽게 말하면 VOVOCI가 의미를 구조화하여 현재 사용 중인 앱으로 깔끔한 결과물을 전달합니다.",
-    "hero.small": "하나의 음성 워크플로. 다양한 시나리오. 모든 Windows 소프트웨어에서 작동합니다.",
-    "release.kicker": "v0.1.6 새로운 기능",
-    "release.title": "붙여넣기 전에 먼저 검토하세요.",
-    "release.body": "음성이 끝나면 VOVOCI가 검토 창을 열 수 있습니다. 왼쪽에는 원래 입력 언어의 전사문, 오른쪽에는 AI가 재구성한 의미 내용이 표시됩니다.",
-    "release.local": "로컬 OpenAI-compatible 대형 언어 모델도 사용할 수 있습니다. 유료 온라인 API 연결은 선택 사항이며 필수가 아닙니다.",
-    "hero.download": "포터블 ZIP 다운로드",
+    "hero.small": "하나의 음성 워크플로. 다양한 시나리오. Windows, macOS, Linux를 지원합니다.",
+    "release.kicker": "v0.1.7 새로운 기능",
+    "release.title": "플로팅 새 아이콘으로 녹음하세요.",
+    "release.body": "VOVOCI를 트레이로 닫고 Show Button을 선택한 뒤, 플로팅 새 아이콘을 한 번 클릭해 녹음을 시작하고 다시 클릭해 중지·전사·Refi를 실행합니다.",
+    "release.local": "설정은 현재 화면에서 저장되며, Refi는 질문과 서술문을 유지하고 실제로 여러 항목이 있을 때만 목록을 사용합니다.",
+    "hero.download": "v0.1.7 다운로드",
     "hero.github": "GitHub에서 보기",
 
     // How It Works
@@ -357,7 +357,7 @@ const translations = {
     "how.refineTitle": "정제",
     "how.refineDesc": "LLM이 문법을 교정하고 표현을 매끄럽게 하면서 원래의 의미를 보존합니다.",
     "how.outputTitle": "출력",
-    "how.outputDesc": "구조화된 텍스트가 현재 활성화된 앱에 나타나 모든 Windows 소프트웨어에서 바로 사용 가능합니다.",
+    "how.outputDesc": "다듬어진 텍스트가 현재 활성화된 앱에 나타나 데스크톱 작업 흐름에서 바로 사용할 수 있습니다.",
     "how.nvidiaCallout": "<strong>시작을 위해 NVIDIA NIM을 추천합니다.</strong> 무료 API 티어로 신용카드 없이 강력한 모델에 접근할 수 있습니다.",
 
     // Features
@@ -370,8 +370,8 @@ const translations = {
     "feat.socialDesc": "게시물과 캡션에 대한 거친 아이디어를 말하면 구조화된 발행 준비 초안을 얻어 빠르게 검토하고 게시하세요.",
     "feat.chatTitle": "일상 대화",
     "feat.chatDesc": "VOVOCI를 일상 소통의 언어 구조화 비서로 활용하세요: 더 명확한 답변, 더 깔끔한 메시지, 더 빠른 작성.",
-    "feat.windowsTitle": "모든 Windows 앱에서 작동",
-    "feat.windowsDesc": "IDE부터 문서, 채팅 도구, 브라우저, 양식까지 — VOVOCI가 커서가 있는 곳에 직접 출력할 수 있습니다.",
+    "feat.windowsTitle": "Windows, macOS, Linux 지원",
+    "feat.windowsDesc": "세 가지 데스크톱 플랫폼용 네이티브 패키지와 플랫폼별 단축키, 트레이 및 출력 처리를 제공합니다.",
     "feat.sttTitle": "로컬 STT + 원하는 LLM 선택",
     "feat.sttDesc": "faster-whisper로 로컬에서 음성 변환을 처리하고, 최종 의미 구조화를 위해 선호하는 LLM 제공업체를 선택하세요.",
     "feat.vocabTitle": "맞춤 어휘",
@@ -460,8 +460,8 @@ const translations = {
     "faq.a4": "필요하지 않지만 도움이 됩니다. faster-whisper는 CPU에서도 잘 실행됩니다, 특히 소형 모델의 경우. CUDA 호환 GPU가 있으면 대형 모델 사용 시 변환 속도가 빨라집니다.",
     "faq.q5": "LLM API 비용이 발생하나요?",
     "faq.a5": "제공업체에 따라 다릅니다. NVIDIA NIM은 무료 티어 엔드포인트를 제공하고, OpenRouter는 저렴한 토큰당 결제 옵션이 있으며, Google Gemini에는 무료 티어가 있고, Local Model은 자체 서버를 사용합니다. VOVOCI는 추가 수수료를 부과하지 않습니다.",
-    "faq.q6": "macOS나 Linux에서 작동하나요?",
-    "faq.a6": "현재는 작동하지 않습니다. VOVOCI는 단축키 훅, 창 감지, 자동 붙여넣기를 위해 Windows 전용 API에 의존합니다. 프로젝트는 오픈 소스입니다 — 기여를 환영합니다.",
+    "faq.q6": "어떤 데스크톱 플랫폼을 지원하나요?",
+    "faq.a6": "VOVOCI v0.1.7은 Windows, macOS, Linux x86_64 패키지를 제공합니다. 일부 Linux 데스크톱은 xdotool 또는 wtype 같은 입력 보조 도구가 필요할 수 있습니다.",
 
     // Footer
     "footer.desc": "oceanads.org가 제작 — 오픈 소스, 아무 조건 없음.",
@@ -469,7 +469,7 @@ const translations = {
 
     // Meta
     "meta.title": "VOVOCI — 바이브코딩과 일상 대화를 위한 구조화된 음성 비서",
-    "meta.description": "VOVOCI는 바이브코딩과 일상 대화를 위한 구조화된 음성 비서입니다. 음성을 메모, 소셜 게시물, 모든 Windows 앱에서 사용 가능한 깔끔한 텍스트로 변환하세요.",
+    "meta.description": "VOVOCI는 Windows, macOS, Linux를 지원하는 구조화된 음성 비서입니다. 음성을 메모, 소셜 게시물, 코딩에 적합한 깔끔한 텍스트로 변환합니다.",
   },
 
   ja: {
@@ -487,12 +487,12 @@ const translations = {
     // Hero
     "hero.title": "バイブコーディングと日常会話のための<br>構造化された音声秘書。",
     "hero.sub": "VOVOCIは、アイデアをテキストに変換する高速ワークフロー向けに設計されています：コーディングの構想、日々のメモ、SNS投稿の下書き、日常会話まで。自然に話すだけで、VOVOCIが意味を構造化し、使用中のアプリに整ったテキストを送ります。",
-    "hero.small": "ひとつの音声ワークフロー。多様なシナリオ。Windowsソフトウェア全般で動作します。",
-    "release.kicker": "v0.1.6 の新機能",
-    "release.title": "貼り付ける前に確認できます。",
-    "release.body": "音声終了時に確認ウィンドウを開けます。左側に元の入力言語の文字起こし、右側に AI が再構成した意味内容を表示します。",
-    "release.local": "ローカルの OpenAI-compatible 大規模言語モデルも利用できます。有料オンライン API 接続は任意であり、必須ではありません。",
-    "hero.download": "ポータブルZIPをダウンロード",
+    "hero.small": "ひとつの音声ワークフロー。多様なシナリオ。Windows、macOS、Linux に対応します。",
+    "release.kicker": "v0.1.7 の新機能",
+    "release.title": "フローティング鳥アイコンで録音。",
+    "release.body": "VOVOCI をトレイへ閉じて Show Button を選択し、鳥アイコンを1回クリックして録音開始、もう1回クリックして停止・文字起こし・Refi を実行します。",
+    "release.local": "設定は画面を移動せず保存され、Refi は質問と平叙文を維持し、複数項目がある場合だけ箇条書きを使います。",
+    "hero.download": "v0.1.7 をダウンロード",
     "hero.github": "GitHubで見る",
 
     // How It Works
@@ -513,7 +513,7 @@ const translations = {
     "how.refineTitle": "洗練",
     "how.refineDesc": "LLMが文法を修正し、表現を滑らかにしながら、あなたの元の意図を保持します。",
     "how.outputTitle": "出力",
-    "how.outputDesc": "構造化されたテキストがアクティブなアプリに表示され、あらゆるWindowsソフトウェアですぐに使用できます。",
+    "how.outputDesc": "整えられたテキストがアクティブなアプリに表示され、デスクトップの作業ですぐに使えます。",
     "how.nvidiaCallout": "<strong>はじめにNVIDIA NIMをお勧めします。</strong>無料のAPIティアで、クレジットカード不要で高性能なモデルにアクセスできます。",
 
     // Features
@@ -526,8 +526,8 @@ const translations = {
     "feat.socialDesc": "投稿やキャプションのラフなアイデアを話すだけで、すぐに確認して投稿できる構造化された下書きが得られます。",
     "feat.chatTitle": "日常会話",
     "feat.chatDesc": "VOVOCIを日常コミュニケーションの言語構造化秘書として活用しましょう：より明確な返信、より整ったメッセージ、より速い作文。",
-    "feat.windowsTitle": "あらゆるWindowsアプリで動作",
-    "feat.windowsDesc": "IDEからドキュメント、チャットツール、ブラウザ、フォームまで — VOVOCIはカーソルのある場所に直接出力できます。",
+    "feat.windowsTitle": "Windows、macOS、Linux 対応",
+    "feat.windowsDesc": "3つのデスクトップ向けネイティブパッケージと、各プラットフォーム用のホットキー、トレイ、出力処理を提供します。",
     "feat.sttTitle": "ローカルSTT + お好みのLLM",
     "feat.sttDesc": "faster-whisperでローカルの音声変換を行い、最終的な意味構造化には好みのLLMプロバイダーを選択してください。",
     "feat.vocabTitle": "カスタム語彙",
@@ -616,8 +616,8 @@ const translations = {
     "faq.a4": "必要ありませんが、あると役立ちます。faster-whisperは特に小さいモデルの場合、CPUでも問題なく動作します。CUDA対応のGPUがあれば、大きいモデル使用時の変換速度が向上します。",
     "faq.q5": "LLM APIに費用はかかりますか？",
     "faq.a5": "プロバイダーによって異なります。NVIDIA NIMは無料ティアのエンドポイントを提供し、OpenRouterには低コストのトークン課金オプションがあり、Google Geminiには無料ティアがあります。Local Model は自分のサーバーを使います。VOVOCIは追加料金を一切請求しません。",
-    "faq.q6": "macOSやLinuxでも動作しますか？",
-    "faq.a6": "現在は対応していません。VOVOCIはホットキーフック、ウィンドウ検出、自動貼り付けのためにWindows固有のAPIに依存しています。プロジェクトはオープンソースです — コントリビューションを歓迎します。",
+    "faq.q6": "どのデスクトッププラットフォームに対応しますか？",
+    "faq.a6": "VOVOCI v0.1.7 は Windows、macOS、Linux x86_64 パッケージを提供します。一部の Linux デスクトップでは xdotool や wtype などの入力補助ツールが必要です。",
 
     // Footer
     "footer.desc": "oceanads.orgが構築 — オープンソース、制限なし。",
@@ -625,7 +625,7 @@ const translations = {
 
     // Meta
     "meta.title": "VOVOCI — バイブコーディングと日常会話のための構造化された音声秘書",
-    "meta.description": "VOVOCIはバイブコーディングと日常会話のために設計された構造化された音声秘書です。音声をメモ、SNS投稿、あらゆるWindowsアプリで使えるクリーンなテキストに変換します。",
+    "meta.description": "VOVOCIはWindows、macOS、Linux対応の構造化音声秘書です。音声をメモ、SNS投稿、コーディングに使える整ったテキストへ変換します。",
   },
 
   th: {
@@ -643,12 +643,12 @@ const translations = {
     // Hero
     "hero.title": "เลขาฯ เสียงที่มีโครงสร้างสำหรับ<br>Vibecoding และการสนทนาจริง",
     "hero.sub": "VOVOCI ออกแบบมาสำหรับเวิร์กโฟลว์แปลงความคิดเป็นข้อความที่รวดเร็ว: ความคิดด้านการเขียนโค้ด บันทึกประจำวัน ร่างโซเชียลมีเดีย และการสนทนาประจำวัน พูดตามธรรมชาติ ให้ VOVOCI จัดโครงสร้างความหมาย แล้วส่งผลลัพธ์ที่สะอาดไปยังแอปที่คุณใช้อยู่",
-    "hero.small": "เวิร์กโฟลว์เสียงเดียว หลากสถานการณ์ ทำงานได้กับซอฟต์แวร์ Windows ทุกชนิด",
-    "release.kicker": "ใหม่ใน v0.1.6",
-    "release.title": "ตรวจสอบก่อนวางข้อความ",
-    "release.body": "เมื่อพูดจบ VOVOCI สามารถเปิดหน้าต่างตรวจสอบ โดยด้านซ้ายแสดงข้อความถอดเสียงต้นฉบับ และด้านขวาแสดงความหมายที่ AI เรียบเรียงใหม่ก่อนคัดลอกหรือวาง",
-    "release.local": "คุณยังสามารถใช้โมเดลภาษาขนาดใหญ่แบบ OpenAI-compatible บนเครื่องได้ การเชื่อมต่อ API ออนไลน์แบบเสียเงินเป็นทางเลือก ไม่ใช่ข้อบังคับ",
-    "hero.download": "ดาวน์โหลดไฟล์ ZIP แบบพกพา",
+    "hero.small": "เวิร์กโฟลว์เสียงเดียว หลากสถานการณ์ รองรับ Windows, macOS และ Linux",
+    "release.kicker": "ใหม่ใน v0.1.7",
+    "release.title": "บันทึกเสียงจากไอคอนนกลอยตัว",
+    "release.body": "ปิด VOVOCI ลงในถาดระบบ เลือก Show Button แล้วคลิกไอคอนนกหนึ่งครั้งเพื่อเริ่มบันทึก และคลิกอีกครั้งเพื่อหยุด ถอดเสียง และ Refi",
+    "release.local": "การตั้งค่าจะบันทึกอยู่ที่หน้าเดิม และ Refi จะคงรูปแบบคำถามหรือประโยคบอกเล่า โดยใช้รายการเฉพาะเมื่อมีหลายหัวข้อจริง ๆ",
+    "hero.download": "ดาวน์โหลด v0.1.7",
     "hero.github": "ดูบน GitHub",
 
     // How It Works
@@ -669,7 +669,7 @@ const translations = {
     "how.refineTitle": "ปรับปรุง",
     "how.refineDesc": "LLM แก้ไขไวยากรณ์ ปรับปรุงการใช้ภาษา และรักษาความหมายดั้งเดิมของคุณ",
     "how.outputTitle": "ส่งออก",
-    "how.outputDesc": "ข้อความที่มีโครงสร้างปรากฏในแอปที่คุณใช้งานอยู่ พร้อมใช้งานในซอฟต์แวร์ Windows ทุกชนิด",
+    "how.outputDesc": "ข้อความที่ปรับแต่งแล้วจะปรากฏในแอปที่กำลังใช้งาน พร้อมใช้ต่อในเวิร์กโฟลว์เดสก์ท็อป",
     "how.nvidiaCallout": "<strong>เราแนะนำ NVIDIA NIM สำหรับการเริ่มต้น</strong> ระดับ API ฟรีของพวกเขาให้คุณเข้าถึงโมเดลที่มีประสิทธิภาพโดยไม่เสียค่าใช้จ่าย ไม่ต้องใช้บัตรเครดิต",
 
     // Features
@@ -682,8 +682,8 @@ const translations = {
     "feat.socialDesc": "พูดแนวคิดคร่าวๆ สำหรับโพสต์และคำบรรยาย แล้วรับร่างที่มีโครงสร้างพร้อมเผยแพร่ ตรวจสอบได้อย่างรวดเร็ว",
     "feat.chatTitle": "การสนทนาประจำวัน",
     "feat.chatDesc": "ใช้ VOVOCI เป็นเลขาฯ จัดโครงสร้างภาษาสำหรับการสื่อสารประจำวัน: ตอบกลับที่ชัดเจนขึ้น ข้อความที่สะอาดขึ้น และเขียนได้เร็วขึ้น",
-    "feat.windowsTitle": "ทำงานได้กับแอป Windows ทุกชนิด",
-    "feat.windowsDesc": "ตั้งแต่ IDE ไปจนถึงเอกสาร เครื่องมือแชท เบราว์เซอร์ และฟอร์ม — VOVOCI สามารถส่งออกตรงไปยังตำแหน่งเคอร์เซอร์ของคุณ",
+    "feat.windowsTitle": "รองรับ Windows, macOS และ Linux",
+    "feat.windowsDesc": "มีแพ็กเกจสำหรับเดสก์ท็อปทั้งสามแพลตฟอร์ม พร้อม hotkey ถาดระบบ และการส่งออกที่เหมาะกับแต่ละระบบ",
     "feat.sttTitle": "STT ในเครื่อง + เลือก LLM เอง",
     "feat.sttDesc": "เก็บการถอดเสียงไว้ในเครื่องด้วย faster-whisper จากนั้นเลือกผู้ให้บริการ LLM ที่คุณชื่นชอบสำหรับการจัดโครงสร้างความหมายขั้นสุดท้าย",
     "feat.vocabTitle": "คลังคำศัพท์ที่กำหนดเอง",
@@ -772,8 +772,8 @@ const translations = {
     "faq.a4": "ไม่จำเป็น แต่ช่วยได้ faster-whisper ทำงานบน CPU ได้ดี โดยเฉพาะกับโมเดลขนาดเล็ก GPU ที่รองรับ CUDA จะเร่งความเร็วการถอดเสียงหากคุณใช้โมเดลขนาดใหญ่",
     "faq.q5": "API ของ LLM จะมีค่าใช้จ่ายหรือไม่?",
     "faq.a5": "ขึ้นอยู่กับผู้ให้บริการ NVIDIA NIM มี endpoint ระดับฟรี OpenRouter มีตัวเลือกจ่ายตาม token ที่ต้นทุนต่ำ Google Gemini มีระดับฟรี และ Local Model ใช้เซิร์ฟเวอร์ของคุณเอง VOVOCI ไม่เพิ่มค่าธรรมเนียมใดๆ",
-    "faq.q6": "ทำงานบน macOS หรือ Linux ได้หรือไม่?",
-    "faq.a6": "ยังไม่ได้ในปัจจุบัน VOVOCI ขึ้นอยู่กับ API เฉพาะ Windows สำหรับ hotkey hook การตรวจจับหน้าต่าง และการวางอัตโนมัติ โปรเจกต์เป็นโอเพ่นซอร์ส — ยินดีรับการมีส่วนร่วม",
+    "faq.q6": "รองรับแพลตฟอร์มเดสก์ท็อปใดบ้าง?",
+    "faq.a6": "VOVOCI v0.1.7 มีแพ็กเกจสำหรับ Windows, macOS และ Linux x86_64 เดสก์ท็อป Linux บางแบบอาจต้องใช้เครื่องมือช่วยป้อนข้อมูล เช่น xdotool หรือ wtype",
 
     // Footer
     "footer.desc": "สร้างโดย oceanads.org — โอเพ่นซอร์ส ไม่มีเงื่อนไขแฝง",
@@ -781,7 +781,7 @@ const translations = {
 
     // Meta
     "meta.title": "VOVOCI — เลขาฯ เสียงที่มีโครงสร้างสำหรับ Vibecoding และการสนทนาประจำวัน",
-    "meta.description": "VOVOCI คือเลขาฯ เสียงที่มีโครงสร้างสำหรับ Vibecoding และการสนทนาประจำวัน แปลงเสียงเป็นข้อความที่สะอาดและใช้งานได้สำหรับบันทึก โพสต์โซเชียล และแอป Windows ทุกชนิด",
+    "meta.description": "VOVOCI คือเลขาฯ เสียงแบบมีโครงสร้างสำหรับ Windows, macOS และ Linux ที่แปลงเสียงเป็นข้อความพร้อมใช้สำหรับบันทึก โซเชียล และงานเขียนโค้ด",
   },
 };
 

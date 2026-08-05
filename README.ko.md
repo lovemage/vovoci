@@ -6,12 +6,12 @@
 
 **말로 생각하고, 말하면서 다듬어가세요.**
 
-자연스럽게 말하면, 깔끔하게 정리된 텍스트가 Windows 앱에 바로 입력됩니다 — 로컬 STT와 원하는 LLM으로 구동됩니다.
+자연스럽게 말하면 다듬어진 텍스트가 현재 사용 중인 데스크톱 앱에 바로 입력됩니다 — 로컬 STT와 원하는 LLM으로 구동됩니다.
 
-[![Version](https://img.shields.io/badge/version-0.1.6-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.7-blue)](https://github.com/lovemage/vovoci/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
-[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-4C8BF5)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
 
 Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
@@ -42,14 +42,22 @@ graph LR
 |:---:|:---:|:---:|
 | 구독료 없음. 유료 온라인 LLM API, 무료 티어 제공자, 또는 로컬 OpenAI-compatible 모델 서버를 선택할 수 있습니다. 유료 네트워크 API 연결은 필수가 아닙니다. | 내장된 프롬프트를 AI 에이전트에 복사하면, 코드베이스를 스캔하여 용어 테이블을 추출합니다. 이를 가져오면 모든 음성 입력에서 정확한 맞춤법이 적용됩니다. | 음성이 끝나면 검토 창을 띄울 수 있습니다. 왼쪽에는 원래 입력 언어의 전사문, 오른쪽에는 AI가 재구성한 의미 내용이 표시되어 붙여넣기나 복사 전에 확인할 수 있습니다. |
 
+## v0.1.7 새로운 기능
+
+- **플로팅 녹음 버튼** — 메인 창을 트레이로 닫고 `Show Button`을 선택한 뒤, 새 아이콘을 한 번 클릭해 녹음을 시작하고 다시 클릭해 중지·전사·Refi를 실행합니다.
+- **현재 화면에서 설정 저장** — `Save Settings`는 저장 완료만 표시하며 설정 패널을 접거나 History로 이동하지 않습니다.
+- **의도를 보존하는 Refi** — 질문은 질문으로, 서술문은 서술문으로 유지하고 여러 항목이 있을 때만 목록을 사용합니다.
+- **3개 플랫폼 Release** — 하나의 GitHub workflow가 Windows, macOS, Linux 패키지를 생성합니다.
+
 ## 빠른 시작
 
 ### 배포 패키지
 
 | 플랫폼 | 패키지 | Release | 사용 방법 |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.6.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행한 뒤 `VOVOCI.exe`를 시작합니다. |
-| macOS | `VOVOCI-macOS-0.1.6-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | DMG를 열어 `VOVOCI.app`을 `Applications`로 옮기고, 첫 실행 때 Gatekeeper 경고가 나오면 앱을 우클릭해 `열기`를 선택합니다. |
+| Windows | `VOVOCI-portable-0.1.7.zip` 또는 `VOVOCI-Setup-0.1.7.exe` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | ZIP 압축을 풀고 첫 실행 도구를 실행하거나 설치 프로그램을 시작합니다. |
+| macOS | `VOVOCI-macOS-0.1.7-unsigned.dmg` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | `VOVOCI.app`을 `Applications`로 옮기고 Gatekeeper 경고 시 우클릭하여 `열기`를 선택합니다. |
+| Linux x86_64 | `VOVOCI-Linux-0.1.7-x86_64.tar.gz` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 압축을 풀고 `VOVOCI/VOVOCI`를 실행합니다. 데스크톱 환경에 따라 입력 보조 도구가 필요할 수 있습니다. |
 
 ### 메인테이너 릴리스 절차
 
@@ -57,13 +65,13 @@ graph LR
 
 1. source 변경 사항을 `lovemage/vovoci` 에 commit 하고 push 합니다. `site/` 와 모든 언어의 README 를 반드시 포함합니다.
 2. Cloudflare Pages 가 push 된 branch 의 `site/` 에서 정적 사이트를 배포하도록 설정되어 있는지 확인하거나, Cloudflare dashboard 에서 Pages deploy 를 수동으로 실행합니다.
-3. `lovemage/vovoci-packaging` 의 `release` workflow 를 실행하고, `source_ref` 에 push 된 branch 또는 tag, `release_version` 에 `0.1.6` 를 입력합니다.
-4. `package_windows=true`, `package_macos=true`, `publish_release=true` 를 유지하여 GitHub Actions 로 Windows 및 macOS artifacts 를 빌드하고 게시합니다. Linux package 는 이 workflow 에서 게시하지 않습니다. Linux 지원은 현재 로컬에서 source/Python app 방식으로 테스트 완료되었습니다.
-5. Workflow 완료 후 GitHub Release 에 `VOVOCI-Setup-0.1.6.exe`, `VOVOCI-portable-0.1.6.zip`, `VOVOCI-macOS-0.1.6-unsigned.dmg` 가 있는지 확인하고, `https://vovoci.com` 이 최신 정적 사이트를 표시하는지 확인합니다.
+3. 일치하는 version tag(예: `v0.1.7`)를 push하거나 `release` workflow를 `release_version=0.1.7`로 수동 실행합니다.
+4. Workflow는 `APP_VERSION` 확인, 테스트, 3개 플랫폼 빌드를 수행하고 `lovemage/vovoci` Releases에 게시합니다.
+5. Windows installer/portable ZIP, macOS DMG, Linux x86_64 archive가 Release에 있는지 확인한 뒤 `https://vovoci.com`이 최신 사이트를 표시하는지 확인합니다.
 
 ### 포터블 (권장)
 
-1. [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)에서 `VOVOCI-portable-0.1.6.zip`을 다운로드합니다
+1. [Releases](https://github.com/lovemage/vovoci/releases/latest)에서 `VOVOCI-portable-0.1.7.zip`을 다운로드합니다
 2. 압축을 풀고 `Run-VOVOCI-First-Time.cmd`를 실행합니다
 3. `VOVOCI.exe`를 실행합니다
 

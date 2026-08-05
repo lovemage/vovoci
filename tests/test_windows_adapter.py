@@ -67,11 +67,13 @@ class WindowsAdapterTests(unittest.TestCase):
                 image=object(),
                 on_primary=lambda: None,
                 on_settings=lambda: None,
+                on_show_button=lambda: None,
                 on_exit=lambda: None,
             )
             self.assertIsNotNone(tray)
             labels = [item.text for item in tray.icon.menu.items]
             self.assertIn("Show Window", labels)
+            self.assertIn("Show Button", labels)
             adapter.stop_tray(tray)
             self.assertTrue(tray.icon.stopped)
             self.assertTrue(tray.thread.join_called)

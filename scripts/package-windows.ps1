@@ -1,5 +1,6 @@
 param(
   [string]$Version,
+  [string]$PythonPath = "",
   [switch]$PortableOnly,
   [switch]$Sign,
   [string]$SignToolPath = "",
@@ -15,7 +16,7 @@ $ProjectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $ProjectRoot
 
 if (-not $Version -or [string]::IsNullOrWhiteSpace($Version)) {
-  $defaultVersion = "0.1.1"
+  $defaultVersion = "0.1.7"
   $agentPath = Join-Path $ProjectRoot ".agent"
   if (Test-Path $agentPath) {
     try {
@@ -44,6 +45,7 @@ $buildArgs = @(
   "-File", ".\scripts\build-windows-installer.ps1",
   "-Version", $Version
 )
+if ($PythonPath -and -not [string]::IsNullOrWhiteSpace($PythonPath)) { $buildArgs += @("-PythonPath", $PythonPath) }
 if ($PortableOnly) { $buildArgs += "-SkipInstaller" }
 if ($Sign) { $buildArgs += "-Sign" }
 if ($SignToolPath -and -not [string]::IsNullOrWhiteSpace($SignToolPath)) { $buildArgs += @("-SignToolPath", $SignToolPath) }

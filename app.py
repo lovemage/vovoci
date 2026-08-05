@@ -84,9 +84,9 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.6"
+APP_VERSION = "0.1.7"
 GITHUB_SOURCE_REPO = "lovemage/vovoci"
-GITHUB_RELEASE_REPO = "lovemage/vovoci-packaging"
+GITHUB_RELEASE_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_RELEASE_REPO}"
 GITHUB_REPO_URL = f"https://github.com/{GITHUB_SOURCE_REPO}"
 GITHUB_RELEASES_URL = f"https://github.com/{GITHUB_RELEASE_REPO}/releases"
@@ -148,6 +148,8 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
     ],
     "refinement_rules": [
         "Do not rewrite for style beyond what is needed for structure and readability",
+        "Keep the wording and voice as close to the user's original expression as possible; refine it once for clarity rather than rewriting it into a new composition",
+        "Preserve the original speech act and sentence type: questions must remain questions, affirmative or declarative statements must remain affirmative or declarative statements, and requests or commands must remain requests or commands",
         "Apply automatic spelling correction for obvious misspellings when it does not change meaning",
         "Fix typos and punctuation only when needed to clarify the same meaning",
         "Remove filler/disfluency words, empty whitespace content, and duplicated phrases",
@@ -171,6 +173,7 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
         "Do NOT output phrases like 'No problem', 'Sure', 'Please provide...'",
         "Do NOT provide explanations, advice, or unrelated new content",
         "Do NOT answer questions in the input; only restructure the wording",
+        "Do NOT convert a question into a statement or a statement into a question",
         "Do NOT auto-translate the text",
         "Do not translate to any language unless explicitly asked by the input",
         "Do NOT output Simplified Chinese; use Traditional Chinese whenever Chinese text appears",
@@ -182,8 +185,8 @@ DEFAULT_SYSTEM_PROMPT_JSON = {
     "output_policy": [
         "Return only transformed text result",
         "Choose output format by content complexity",
-        "Use plain paragraph text for simple single-intent content",
-        "Use bullet list only when there are multiple distinct action items, requirements, or steps",
+        "For a single intent, task, statement, or question, return one natural refined sentence or paragraph based closely on the user's original wording",
+        "Use bullet lists only when the input contains multiple distinct action items, requirements, steps, or parallel items; never turn a single task or idea into a list",
         "End each line without trailing punctuation unless grammatically required for the language",
         "Separate distinct semantic units with a single line break",
         "No headings, no notes, no metadata",
@@ -962,6 +965,11 @@ class RefineApp:
         self._floating_refined_widget = None
         self._floating_pending_refine = False
         self._floating_status_var = tk.StringVar(value="")
+        self._floating_button_window = None
+        self._floating_button_image = None
+        self._floating_button_drag_start = None
+        self._floating_button_dragged = False
+        self._floating_button_preferred_hwnd = 0
         self._app_icon_tk = None
         self._pipeline_token = 0
         self._scanner_term_tree = None
@@ -1587,12 +1595,18 @@ class RefineApp:
             self._close_settings_window()
         if self._custom_vocab_window is not None and self._custom_vocab_window.winfo_exists():
             self._close_custom_vocabulary_window()
+        self._destroy_floating_button()
         # Destroy and rebuild the entire main UI
         for child in self.root.winfo_children():
             child.destroy()
         self._main_save_btn = None
         self._floating_text_window = None
         self._floating_text_widget = None
+        self._floating_button_window = None
+        self._floating_button_image = None
+        self._floating_button_drag_start = None
+        self._floating_button_dragged = False
+        self._floating_button_preferred_hwnd = 0
         if self._history_status_after_id is not None:
             try:
                 self.root.after_cancel(self._history_status_after_id)
@@ -2024,7 +2038,9 @@ class RefineApp:
             "Output is semantic restructuring, NOT translation — preserve original language unless explicitly asked to translate",
             "Use user's perspective only; do not add objective or subjective angles",
             "Do not generate long-form expansions or additional paragraphs",
-            "Use adaptive formatting: plain paragraph for simple single-intent text; bullet list only for multi-item or multi-step content",
+            "Keep the user's wording and voice as close to the original as possible; perform one clarity-focused refinement rather than composing new prose",
+            "Preserve the original speech act and sentence type exactly: questions remain questions, affirmative or declarative statements remain statements, and requests or commands remain requests or commands",
+            "Use adaptive formatting: one natural sentence or paragraph for a single intent; bullet lists only for multiple distinct items, tasks, requirements, or steps",
             "Preserve model names, IDs, versions, and codes exactly as provided",
             "When a term has a specific English equivalent, use the English term directly — do NOT substitute with synonyms or alternative English translations. Maintain precise term correspondence",
             "Preserve question sentences as user intent text; do NOT answer them",
@@ -2032,8 +2048,8 @@ class RefineApp:
         base_obj["output_policy"] = [
             "Return only transformed text result",
             "Choose output format by content complexity",
-            "Use plain paragraph text for simple single-intent content",
-            "Use bullet list only when there are multiple distinct action items, requirements, or steps",
+            "For a single intent, task, statement, or question, return one natural refined sentence or paragraph based closely on the user's original wording",
+            "Use bullet lists only when the input contains multiple distinct action items, requirements, steps, or parallel items; never turn a single task or idea into a list",
             "End each line without trailing punctuation unless grammatically required for the language",
             "Separate distinct semantic units with a single line break",
             "No headings, no notes, no metadata",
@@ -2483,20 +2499,30 @@ class RefineApp:
             return
         self.root.after(0, self._stop_recording_if_needed)
 
-    def _start_recording_if_needed(self, translate_hotkey_active: bool = False) -> None:
+    def _start_recording_if_needed(self, translate_hotkey_active: bool = False, preferred_paste_hwnd: int = 0) -> None:
         if self._is_recording:
             return
         if sd is None or np is None:
             self.status_var.set(self._t("stt_requires"))
             return
         self._pipeline_token += 1
-        fg_hwnd = self.platform.get_foreground_window_handle()
-        root_hwnd = self.platform.get_top_level_window_handle(int(self.root.winfo_id()))
-        fg_top_hwnd = self.platform.get_top_level_window_handle(fg_hwnd)
-        if fg_top_hwnd and fg_top_hwnd != root_hwnd:
-            self._preferred_paste_hwnd = fg_top_hwnd
+        preferred_top_hwnd = self.platform.get_top_level_window_handle(int(preferred_paste_hwnd or 0))
+        if preferred_top_hwnd and self.platform.is_valid_window_handle(preferred_top_hwnd):
+            self._preferred_paste_hwnd = preferred_top_hwnd
         else:
-            self._preferred_paste_hwnd = 0
+            fg_hwnd = self.platform.get_foreground_window_handle()
+            root_hwnd = self.platform.get_top_level_window_handle(int(self.root.winfo_id()))
+            floating_button_hwnd = 0
+            try:
+                if self._floating_button_window is not None and self._floating_button_window.winfo_exists():
+                    floating_button_hwnd = self.platform.get_top_level_window_handle(int(self._floating_button_window.winfo_id()))
+            except Exception:
+                pass
+            fg_top_hwnd = self.platform.get_top_level_window_handle(fg_hwnd)
+            if fg_top_hwnd and fg_top_hwnd not in (root_hwnd, floating_button_hwnd):
+                self._preferred_paste_hwnd = fg_top_hwnd
+            else:
+                self._preferred_paste_hwnd = 0
         self._translate_hotkey_active = bool(translate_hotkey_active and self.voice_lang_command_enabled_var.get())
         try:
             with self._recording_lock:
@@ -3338,9 +3364,9 @@ class RefineApp:
             pass
 
     def _save_config_with_feedback(self) -> None:
-        self._save_config()
+        self._save_config(silent=True)
+        self.status_var.set(self._t("settings_saved"))
         self._animate_save_button(self._main_save_btn, "save_settings")
-        self._set_workspace_settings_collapsed(True)
 
     def _save_prompt_with_feedback(self) -> None:
         if self._save_prompt_from_settings():
@@ -3838,6 +3864,128 @@ class RefineApp:
         if self._overlay_window is not None:
             self._overlay_window.withdraw()
 
+    def _show_floating_button(self) -> None:
+        """Show a compact, draggable desktop button that starts and stops recording."""
+        window = self._floating_button_window
+        try:
+            if window is not None and window.winfo_exists():
+                window.deiconify()
+                window.lift()
+                window.attributes("-topmost", True)
+                return
+        except Exception:
+            self._floating_button_window = None
+
+        if ImageTk is None:
+            return
+        try:
+            image = self._create_tray_image()
+            if image is None:
+                return
+            image.thumbnail((48, 48))
+            self._floating_button_image = ImageTk.PhotoImage(image)
+
+            window = tk.Toplevel(self.root)
+            window.overrideredirect(True)
+            window.resizable(False, False)
+            background = self.colors.get("bg", "#f5f5f7")
+            window.configure(bg=background)
+            try:
+                window.attributes("-topmost", True)
+                window.wm_attributes("-transparentcolor", background)
+            except Exception:
+                pass
+
+            x = max(12, window.winfo_screenwidth() - 76)
+            y = max(12, window.winfo_screenheight() - 156)
+            window.geometry(f"+{x}+{y}")
+
+            button = tk.Label(
+                window,
+                image=self._floating_button_image,
+                bg=background,
+                cursor="hand2",
+                borderwidth=0,
+                highlightthickness=0,
+            )
+            button.pack()
+            button.bind("<Enter>", self._capture_floating_button_target)
+            button.bind("<ButtonPress-1>", self._start_floating_button_drag)
+            button.bind("<B1-Motion>", self._drag_floating_button)
+            button.bind("<ButtonRelease-1>", self._activate_floating_button)
+            button.bind("<Button-3>", lambda _event: self._hide_floating_button())
+            window.protocol("WM_DELETE_WINDOW", self._hide_floating_button)
+            self._floating_button_window = window
+        except Exception:
+            self._floating_button_window = None
+            self._floating_button_image = None
+
+    def _start_floating_button_drag(self, event) -> None:
+        window = self._floating_button_window
+        if window is None:
+            return
+        self._floating_button_drag_start = (event.x_root, event.y_root, window.winfo_x(), window.winfo_y())
+        self._floating_button_dragged = False
+
+    def _drag_floating_button(self, event) -> None:
+        window = self._floating_button_window
+        start = self._floating_button_drag_start
+        if window is None or start is None:
+            return
+        start_x, start_y, window_x, window_y = start
+        delta_x = event.x_root - start_x
+        delta_y = event.y_root - start_y
+        if abs(delta_x) > 3 or abs(delta_y) > 3:
+            self._floating_button_dragged = True
+        window.geometry(f"+{window_x + delta_x}+{window_y + delta_y}")
+
+    def _activate_floating_button(self, _event=None) -> None:
+        if not self._floating_button_dragged:
+            self._toggle_floating_button_recording()
+        self._floating_button_drag_start = None
+
+    def _capture_floating_button_target(self, _event=None) -> None:
+        try:
+            foreground_hwnd = self.platform.get_foreground_window_handle()
+            foreground_top_hwnd = self.platform.get_top_level_window_handle(foreground_hwnd)
+            root_hwnd = self.platform.get_top_level_window_handle(int(self.root.winfo_id()))
+            floating_button_hwnd = 0
+            if self._floating_button_window is not None and self._floating_button_window.winfo_exists():
+                floating_button_hwnd = self.platform.get_top_level_window_handle(int(self._floating_button_window.winfo_id()))
+            if foreground_top_hwnd and foreground_top_hwnd not in (root_hwnd, floating_button_hwnd):
+                self._floating_button_preferred_hwnd = foreground_top_hwnd
+        except Exception:
+            pass
+
+    def _toggle_floating_button_recording(self) -> None:
+        if self._is_recording:
+            self._stop_recording_if_needed()
+            return
+        if self._is_transcribing:
+            self._cancel_active_audio_pipeline("Previous capture cancelled. Starting new recording.")
+        self._start_recording_if_needed(preferred_paste_hwnd=self._floating_button_preferred_hwnd)
+
+    def _hide_floating_button(self) -> None:
+        window = self._floating_button_window
+        try:
+            if window is not None and window.winfo_exists():
+                window.withdraw()
+        except Exception:
+            pass
+
+    def _destroy_floating_button(self) -> None:
+        window = self._floating_button_window
+        try:
+            if window is not None and window.winfo_exists():
+                window.destroy()
+        except Exception:
+            pass
+        self._floating_button_window = None
+        self._floating_button_image = None
+        self._floating_button_drag_start = None
+        self._floating_button_dragged = False
+        self._floating_button_preferred_hwnd = 0
+
     def _create_tray_image(self):
         if Image is None:
             return None
@@ -3902,6 +4050,9 @@ class RefineApp:
         def on_settings() -> None:
             self.root.after(0, self._open_settings_from_tray)
 
+        def on_show_button() -> None:
+            self.root.after(0, self._show_floating_button)
+
         def on_exit() -> None:
             self.root.after(0, self._exit_from_tray)
 
@@ -3911,6 +4062,7 @@ class RefineApp:
             image=tray_image,
             on_primary=on_primary,
             on_settings=on_settings,
+            on_show_button=on_show_button,
             on_exit=on_exit,
         )
 
@@ -3965,6 +4117,7 @@ class RefineApp:
                 pass
             self._custom_vocab_window = None
         self._hide_recording_overlay()
+        self._destroy_floating_button()
         if self._overlay_window is not None:
             try:
                 self._overlay_window.destroy()

@@ -9,6 +9,8 @@
   ],
   "refinement_rules": [
     "Do not rewrite for style beyond what is needed for structure and readability",
+    "Keep the wording and voice as close to the user's original expression as possible; refine it once for clarity rather than rewriting it into a new composition",
+    "Preserve the original speech act and sentence type: questions must remain questions, affirmative or declarative statements must remain affirmative or declarative statements, and requests or commands must remain requests or commands",
     "Apply automatic spelling correction for obvious misspellings when it does not change meaning",
     "Fix typos and punctuation only when needed to clarify the same meaning",
     "Remove filler/disfluency words, empty whitespace content, and duplicated phrases",
@@ -26,6 +28,8 @@
     "Do NOT ask follow-up questions",
     "Do NOT output phrases like 'No problem', 'Sure', 'Please provide...'",
     "Do NOT provide explanations, advice, or unrelated new content",
+    "Do NOT answer questions in the input; only restructure the wording",
+    "Do NOT convert a question into a statement or a statement into a question",
     "Do NOT auto-translate the text",
     "Do not translate to any language unless explicitly asked by the input",
     "Do NOT rewrite or normalize model IDs / part numbers / codes",
@@ -36,8 +40,8 @@
   "output_policy": [
     "Return only transformed text result",
     "Choose output format by content complexity",
-    "Use plain paragraph text for simple single-intent content",
-    "Use bullet list only when there are multiple distinct action items, requirements, or steps",
+    "For a single intent, task, statement, or question, return one natural refined sentence or paragraph based closely on the user's original wording",
+    "Use bullet lists only when the input contains multiple distinct action items, requirements, steps, or parallel items; never turn a single task or idea into a list",
     "End each line without trailing punctuation unless grammatically required for the language",
     "Separate distinct semantic units with a single line break",
     "No headings, no notes, no metadata"

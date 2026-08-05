@@ -1,5 +1,6 @@
 param(
-    [string]$Version = "0.1.1",
+    [string]$Version = "0.1.7",
+    [string]$PythonPath = "",
     [switch]$SkipInstaller,
     [switch]$Sign,
     [string]$SignToolPath = "",
@@ -57,23 +58,40 @@ function Resolve-SignToolPath {
     throw "signtool.exe not found. Install Windows SDK Signing Tools or provide -SignToolPath."
 }
 
-if (!(Test-Path $VenvDir)) {
+if (!(Test-Path $PythonExe)) {
     Write-Host "==> Creating build virtualenv"
     $FallbackPython = Join-Path $env:LOCALAPPDATA "Programs\Python\Python313\python.exe"
-    if (Get-Command py -ErrorAction SilentlyContinue) {
+    $ProjectPython = Join-Path $ProjectRoot ".venv\Scripts\python.exe"
+    if ($PythonPath -and -not [string]::IsNullOrWhiteSpace($PythonPath)) {
+        if (-not (Test-Path $PythonPath)) {
+            throw "Python not found at provided path: $PythonPath"
+        }
+        & $PythonPath -m venv $VenvDir
+    } elseif (Get-Command py -ErrorAction SilentlyContinue) {
         py -3 -m venv $VenvDir
     } elseif (Test-Path $FallbackPython) {
         & $FallbackPython -m venv $VenvDir
     } elseif (Get-Command python -ErrorAction SilentlyContinue) {
         python -m venv $VenvDir
+    } elseif (Get-Command python3 -ErrorAction SilentlyContinue) {
+        python3 -m venv $VenvDir
+    } elseif (Test-Path $ProjectPython) {
+        & $ProjectPython -m venv $VenvDir
     } else {
-        throw "Python launcher not found (need 'py' or 'python' in PATH)."
+        throw "Python launcher not found. Install Python, add it to PATH, or pass -PythonPath."
     }
 }
 
 Write-Host "==> Installing build dependencies"
+if (-not (Test-Path $PipExe)) {
+    Write-Host "==> Repairing pip in build virtualenv"
+    & $PythonExe -m ensurepip --upgrade
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install pip in $VenvDir"
+    }
+}
 & $PythonExe -m pip install --upgrade pip
-& $PipExe install -r requirements-build.txt
+& $PythonExe -m pip install -r requirements-build.txt
 
 Write-Host "==> Cleaning old build outputs"
 if (Test-Path ".\build") { Remove-Item ".\build" -Recurse -Force }

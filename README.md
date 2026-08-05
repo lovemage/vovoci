@@ -6,12 +6,12 @@
 
 **Voice Your Thoughts. Refine as You Go.**
 
-Speak naturally, get clean structured text in any Windows app — powered by local STT and your choice of LLM.
+Speak naturally and get clean, refined text in your active desktop app — powered by local STT and your choice of LLM.
 
-[![Version](https://img.shields.io/badge/version-0.1.6-blue)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Version](https://img.shields.io/badge/version-0.1.7-blue)](https://github.com/lovemage/vovoci/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows)](https://github.com/lovemage/vovoci)
-[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci-packaging/total)](https://github.com/lovemage/vovoci-packaging/releases)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-4C8BF5)](https://github.com/lovemage/vovoci)
+[![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
 
 Languages: [English](README.md) | [繁體中文](README.zh-TW.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
@@ -42,6 +42,13 @@ graph LR
 |:---:|:---:|:---:|
 | No subscription. You can use paid online LLM APIs, free-tier providers, or a local OpenAI-compatible model server. Paid network APIs are not required. | Copy a built-in prompt into your AI agent — it scans your codebase and exports a vocabulary table. Import it, and every dictation uses the right spelling. | When speech ends, VOVOCI can show a pop-up review window: the original transcript appears on the left, and the AI-restructured semantic output appears on the right before you paste or copy it. |
 
+## New in v0.1.7
+
+- **Floating recorder** — close VOVOCI to the system tray, choose `Show Button`, then click the floating bird once to record and again to stop, transcribe, and refine.
+- **In-place settings save** — `Save Settings` confirms completion without collapsing the settings panel or jumping to History.
+- **Intent-preserving Refi** — questions remain questions, statements remain statements, and bullet lists are reserved for genuinely multi-item input.
+- **Three-platform releases** — one GitHub workflow now builds Windows, macOS, and Linux packages from the same versioned source.
+
 ## Quick Start
 
 ### Linux Note
@@ -53,8 +60,9 @@ graph LR
 
 | Platform | Package | Release | How to use |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.6.zip` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Extract, run `Run-VOVOCI-First-Time.cmd`, then launch `VOVOCI.exe`. |
-| macOS | `VOVOCI-macOS-0.1.6-unsigned.dmg` | [vovoci-packaging/releases/latest](https://github.com/lovemage/vovoci-packaging/releases/latest) | Open the DMG, move `VOVOCI.app` to `Applications`, then right-click `Open` on first launch if Gatekeeper warns. |
+| Windows | `VOVOCI-portable-0.1.7.zip` or `VOVOCI-Setup-0.1.7.exe` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | Extract the ZIP and run `Run-VOVOCI-First-Time.cmd`, or launch the installer. |
+| macOS | `VOVOCI-macOS-0.1.7-unsigned.dmg` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | Move `VOVOCI.app` to `Applications`, then right-click `Open` if Gatekeeper warns. |
+| Linux x86_64 | `VOVOCI-Linux-0.1.7-x86_64.tar.gz` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | Extract the archive and run `VOVOCI/VOVOCI`; desktop input helpers may still be required. |
 
 ### Maintainer Release Workflow
 
@@ -62,13 +70,13 @@ Use this flow when local changes are ready to update the remote release and webs
 
 1. Commit and push the source changes to `lovemage/vovoci`, including `site/` and all README language files.
 2. Confirm Cloudflare Pages is configured to deploy the static site from `site/` on the pushed branch, or trigger the Cloudflare Pages deploy from the Cloudflare dashboard.
-3. Run the `release` workflow in `lovemage/vovoci-packaging` with `source_ref` set to the pushed branch or tag and `release_version` set to `0.1.6`.
-4. Keep `package_windows=true`, `package_macos=true`, and `publish_release=true` to build and publish Windows and macOS artifacts. Linux packaging is not published by this workflow; Linux support has been tested locally from source with the Python app.
-5. After the workflow finishes, confirm the GitHub Release contains `VOVOCI-Setup-0.1.6.exe`, `VOVOCI-portable-0.1.6.zip`, and `VOVOCI-macOS-0.1.6-unsigned.dmg`, then check that `https://vovoci.com` shows the latest static site.
+3. Push a matching version tag such as `v0.1.7`, or manually dispatch the `release` workflow with `release_version=0.1.7`.
+4. The workflow validates `APP_VERSION`, runs tests, builds all three platforms, and publishes the assets to `lovemage/vovoci` Releases.
+5. Confirm the Release contains the Windows installer/portable ZIP, macOS DMG, and Linux x86_64 archive, then check that `https://vovoci.com` shows the latest static site.
 
 ### Portable (Recommended)
 
-1. Download `VOVOCI-portable-0.1.6.zip` from [Releases](https://github.com/lovemage/vovoci-packaging/releases/latest)
+1. Download `VOVOCI-portable-0.1.7.zip` from [Releases](https://github.com/lovemage/vovoci/releases/latest)
 2. Extract and run `Run-VOVOCI-First-Time.cmd`
 3. Launch `VOVOCI.exe`
 

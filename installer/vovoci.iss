@@ -1,6 +1,6 @@
 ﻿#define MyAppName "VOVOCI"
 #ifndef MyAppVersion
-  #define MyAppVersion "0.1.4"
+  #define MyAppVersion "0.1.7"
 #endif
 #define MyAppPublisher "VOVOCI"
 #define MyAppExeName "VOVOCI.exe"
