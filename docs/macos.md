@@ -1,6 +1,6 @@
 # VOVOCI macOS Setup
 
-This page covers local setup and permission guidance for the unsigned VP build path.
+This page covers local setup and permission guidance for the unsigned VOVOCI build path.
 
 ## Quick Start
 
@@ -53,7 +53,7 @@ Try:
 xattr -dr com.apple.quarantine /Applications/VOVOCI.app
 ```
 
-## Build Unsigned `.app` (Task 8)
+## Build Unsigned `.app`
 
 Run on macOS:
 
@@ -70,7 +70,7 @@ If you need custom python/venv:
 ./scripts/build_macos_app.sh --python python3 --venv .venv-build
 ```
 
-## Build Unsigned `.dmg` (Task 9)
+## Build Unsigned `.dmg`
 
 After `dist/VOVOCI.app` exists:
 
@@ -84,5 +84,5 @@ Default output:
 Optional:
 
 ```bash
-./scripts/build_dmg.sh --version 0.1.5 --volume VOVOCI
+./scripts/build_dmg.sh --version 0.1.7 --volume VOVOCI
 ```

@@ -12,7 +12,7 @@
 ## 前置条件
 
 1. Windows 10/11 x64
-2. Python 3.11+（需有 `py` 或 `python` 命令）
+2. Python 3.11+（可使用 `py`/`python` 命令，或以 `-PythonPath` 指定執行檔）
 3. Inno Setup 6（提供 `ISCC.exe`）
 
 ## 一键构建
@@ -20,29 +20,29 @@
 在项目根目录执行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.1
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.7
 ```
 
 打包并签章（若系统已安装 `signtool.exe` 且证书可用）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign
 ```
 
 指定证书（可选其一）：
 
 ```powershell
 # 按证书 Thumbprint
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign -CertThumbprint "<thumbprint>"
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign -CertThumbprint "<thumbprint>"
 
 # 按证书 Subject
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -Sign -CertSubject "Your Company Name"
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign -CertSubject "Your Company Name"
 ```
 
 仅打包可携版 ZIP（不生成安装器）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.1 -PortableOnly
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -PortableOnly
 ```
 
 可携版 ZIP 内会附带 `Run-VOVOCI-First-Time.cmd`，建议首次运行时优先双击该文件（会自动执行 `Unblock-File` 后启动 `VOVOCI.exe`）。
@@ -50,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 
 仅构建可运行目录（不生成安装包）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.1 -SkipInstaller
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.7 -SkipInstaller
 ```
 
 ## 打包内容（已包含）
@@ -73,19 +73,25 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -
 - 构建脚本：`scripts/build-windows-installer.ps1`
 - Inno Setup 脚本：`installer/vovoci.iss`
 
-## 上传到 GitHub Release
-
-建议使用 GitHub CLI：
+若 Python 未加入 PATH，可明確指定：
 
 ```powershell
-gh release create v<version> --title "VOVOCI v<version>" --notes "Windows installer release"
-gh release upload v<version> release/VOVOCI-Setup-<version>.exe --clobber
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -PythonPath "C:\Path\To\python.exe" -PortableOnly
+```
+
+## GitHub Release 自动化
+
+推送与 `APP_VERSION` 一致的 tag 后，`.github/workflows/release.yml` 会在 Windows、macOS 与 Linux runner 构建并发布全部产物：
+
+```powershell
+git tag v0.1.7
+git push origin v0.1.7
 ```
 
 ## 常见问题
 
 1. 找不到 `py`/`python`
-- 安装 Python，并勾选加入 PATH。
+- 安装 Python并加入 PATH，或将 Python 執行檔路径传给 `-PythonPath`。
 
 2. 找不到 `ISCC.exe`
 - 安装 Inno Setup 6，默认路径通常是：

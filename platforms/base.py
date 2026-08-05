@@ -74,6 +74,7 @@ class PlatformAdapter(ABC):
         image: Any,
         on_primary: Callable[[], None],
         on_settings: Callable[[], None],
+        on_show_button: Callable[[], None],
         on_exit: Callable[[], None],
     ) -> TrayHandle | None:
         raise NotImplementedError

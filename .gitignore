@@ -8,6 +8,7 @@ __pycache__/
 build/
 dist/
 models/
+.venv/
 .venv-build/
 
 # Local app state / sensitive
@@ -21,5 +22,6 @@ release/*.exe
 # Packaged build outputs
 release/*.zip
 release/*.dmg
+release/*.tar.gz
 VOVOCI-portable-*/
 vovoci-packaging/

@@ -20,7 +20,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
           cache: "pip"
           cache-dependency-path: |
             requirements.txt
@@ -32,23 +32,10 @@ jobs:
           python -m pip install -r requirements-build.txt
 
       - name: Run unit tests
-        run: |
-          python -m unittest \
-            tests/test_platform_factory.py \
-            tests/test_macos_adapter.py \
-            tests/test_windows_adapter.py
+        run: python -m unittest discover -s tests -p "test_*.py"
 
       - name: Run syntax checks
-        run: |
-          python -m py_compile \
-            app.py \
-            platforms/base.py \
-            platforms/factory.py \
-            platforms/windows.py \
-            platforms/macos.py \
-            tests/test_platform_factory.py \
-            tests/test_macos_adapter.py \
-            tests/test_windows_adapter.py
+        run: python -m compileall app.py platforms tests
 
       - name: Build unsigned macOS app
         run: |

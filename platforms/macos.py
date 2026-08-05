@@ -134,6 +134,7 @@ class MacOSPlatformAdapter(PlatformAdapter):
         image: Any,
         on_primary: Callable[[], None],
         on_settings: Callable[[], None],
+        on_show_button: Callable[[], None],
         on_exit: Callable[[], None],
     ) -> TrayHandle | None:
         if pystray is None or image is None:
@@ -147,6 +148,10 @@ class MacOSPlatformAdapter(PlatformAdapter):
             del icon, item
             on_settings()
 
+        def _on_show_button(icon, item):
+            del icon, item
+            on_show_button()
+
         def _on_exit(icon, item):
             del icon, item
             on_exit()
@@ -154,6 +159,7 @@ class MacOSPlatformAdapter(PlatformAdapter):
         menu = pystray.Menu(
             pystray.MenuItem("Show Window", _on_primary),
             pystray.MenuItem("Settings", _on_settings),
+            pystray.MenuItem("Show Button", _on_show_button),
             pystray.MenuItem("Exit", _on_exit),
             pystray.MenuItem("_OpenHidden", _on_primary, default=True, visible=False),
         )
