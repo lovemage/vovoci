@@ -63,7 +63,7 @@ graph LR
 로컬 변경 사항을 원격 release 와 웹사이트에 반영할 때는 다음 절차를 사용합니다.
 
 1. source 변경 사항을 `lovemage/vovoci` 에 commit 하고 push 합니다. `site/` 와 모든 언어의 README 를 반드시 포함합니다.
-2. Cloudflare Pages 가 push 된 branch 의 `site/` 에서 정적 사이트를 배포하도록 설정되어 있는지 확인하거나, Cloudflare dashboard 에서 Pages deploy 를 수동으로 실행합니다.
+2. `site/` 변경 사항을 `main` 에 push 하면 `site-deploy` workflow 가 `site/` 를 Cloudflare Worker `vovoci`(정적 에셋, 설정은 `wrangler.jsonc`)에 배포하여 `https://vovoci.com` 에 반영합니다. repo secrets 에 `CLOUDFLARE_API_TOKEN` 과 `CLOUDFLARE_ACCOUNT_ID` 가 필요하며, 수동 배포는 저장소 루트에서 `npx wrangler@4 deploy` 를 실행합니다.
 3. 일치하는 version tag(예: `v0.1.8`)를 push하거나 `release` workflow를 `release_version=0.1.8`로 수동 실행합니다.
 4. Workflow는 `APP_VERSION` 확인, 테스트, 3개 플랫폼 빌드를 수행하고 `lovemage/vovoci` Releases에 게시합니다.
 5. Windows installer/portable ZIP, macOS DMG, Linux x86_64 archive가 Release에 있는지 확인한 뒤 `https://vovoci.com`이 최신 사이트를 표시하는지 확인합니다.
