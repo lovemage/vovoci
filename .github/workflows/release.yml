@@ -55,6 +55,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
+        id: setup-python
         with:
           python-version: "3.12"
           cache: pip
@@ -68,14 +69,14 @@ jobs:
         shell: pwsh
         run: |
           $version = "${{ needs.validate.outputs.version }}"
-          powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version $version -PortableOnly
+          powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version $version -PortableOnly -PythonPath "${{ steps.setup-python.outputs.python-path }}"
           Copy-Item ".\release\VOVOCI-portable-$version.zip" (Join-Path $env:RUNNER_TEMP "VOVOCI-portable-$version.zip") -Force
 
       - name: Build installer
         shell: pwsh
         run: |
           $version = "${{ needs.validate.outputs.version }}"
-          powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version $version
+          powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version $version -PythonPath "${{ steps.setup-python.outputs.python-path }}"
           Copy-Item (Join-Path $env:RUNNER_TEMP "VOVOCI-portable-$version.zip") ".\release\VOVOCI-portable-$version.zip" -Force
           if (-not (Test-Path ".\release\VOVOCI-Setup-$version.exe")) { throw "Windows installer missing." }
 
