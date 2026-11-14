@@ -2237,6 +2237,18 @@ class RefineApp:
             out.append(mid)
         return out
 
+    @staticmethod
+    def _resolve_saved_model(current: str, available: list[str], default_model: str, fallback: str = "") -> str:
+        """Keep the model the user picked; only replace an empty or unavailable built-in default."""
+        current = str(current or "").strip()
+        if current and (current in available or current != default_model):
+            return current
+        if fallback and fallback in available:
+            return fallback
+        if available:
+            return available[0]
+        return current or default_model
+
     def _update_model_combo_values(self, provider: str) -> None:
         all_models = list(self._all_provider_models.get(provider, PROVIDERS.get(provider, {}).get("models", [])))
         all_models = self._dedupe_model_ids(all_models)
@@ -2295,15 +2307,13 @@ class RefineApp:
             str(profile.get("api_base", "")).strip() or default_profile["api_base"],
         )
         model = str(profile.get("model", "")).strip() or default_profile["model"]
-        if provider == "OpenRouter":
-            if not model or model not in self._all_provider_models.get(provider, PROVIDERS[provider]["models"]):
-                model = OPENROUTER_DEFAULT_MODEL
         if provider == "NVIDIA NIM":
             models = self._all_provider_models.get(provider, PROVIDERS[provider]["models"])
             if (not model or model not in models) and NVIDIA_DEFAULT_MODEL in models:
                 model = NVIDIA_DEFAULT_MODEL
+        # Keep a user-selected model visible even when it is not in the built-in list.
         self._all_provider_models[provider] = self._dedupe_model_ids(
-            list(self._all_provider_models.get(provider, PROVIDERS[provider]["models"]))
+            [model] + list(self._all_provider_models.get(provider, PROVIDERS[provider]["models"]))
         )
 
         api_key = api_key if self._provider_requires_api_key(provider) else ""
@@ -2377,14 +2387,16 @@ class RefineApp:
             if provider == "NVIDIA NIM" and NVIDIA_DEFAULT_MODEL in full_models:
                 full_models = [NVIDIA_DEFAULT_MODEL] + [m for m in full_models if m != NVIDIA_DEFAULT_MODEL]
             PROVIDERS[provider]["models"] = full_models
-            self._all_provider_models[provider] = full_models
             changed.append(provider)
             prof = self.provider_profiles.get(provider, self._default_provider_profile(provider))
-            if prof.get("model") not in full_models:
-                if provider == "NVIDIA NIM" and NVIDIA_DEFAULT_MODEL in full_models:
-                    prof["model"] = NVIDIA_DEFAULT_MODEL
-                else:
-                    prof["model"] = full_models[0]
+            fallback = NVIDIA_DEFAULT_MODEL if provider == "NVIDIA NIM" else ""
+            prof["model"] = self._resolve_saved_model(
+                prof.get("model", ""),
+                full_models,
+                self._default_provider_profile(provider)["model"],
+                fallback,
+            )
+            self._all_provider_models[provider] = self._dedupe_model_ids([prof["model"]] + full_models)
             self.provider_profiles[provider] = prof
         current = self.provider_var.get().strip() or DEFAULT_PROVIDER
         if current in changed:
