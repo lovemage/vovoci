@@ -20,29 +20,29 @@
 在项目根目录执行：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.7
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.8
 ```
 
 打包并签章（若系统已安装 `signtool.exe` 且证书可用）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.8 -Sign
 ```
 
 指定证书（可选其一）：
 
 ```powershell
 # 按证书 Thumbprint
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign -CertThumbprint "<thumbprint>"
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.8 -Sign -CertThumbprint "<thumbprint>"
 
 # 按证书 Subject
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -Sign -CertSubject "Your Company Name"
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.8 -Sign -CertSubject "Your Company Name"
 ```
 
 仅打包可携版 ZIP（不生成安装器）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -PortableOnly
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.8 -PortableOnly
 ```
 
 可携版 ZIP 内会附带 `Run-VOVOCI-First-Time.cmd`，建议首次运行时优先双击该文件（会自动执行 `Unblock-File` 后启动 `VOVOCI.exe`）。
@@ -50,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 
 仅构建可运行目录（不生成安装包）：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.7 -SkipInstaller
+powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -Version 0.1.8 -SkipInstaller
 ```
 
 ## 打包内容（已包含）
@@ -76,7 +76,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-windows-installer.ps1 -
 若 Python 未加入 PATH，可明確指定：
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.7 -PythonPath "C:\Path\To\python.exe" -PortableOnly
+powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 0.1.8 -PythonPath "C:\Path\To\python.exe" -PortableOnly
 ```
 
 ## GitHub Release 自动化
@@ -84,8 +84,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\package-windows.ps1 -Version 
 推送与 `APP_VERSION` 一致的 tag 后，`.github/workflows/release.yml` 会在 Windows、macOS 与 Linux runner 构建并发布全部产物：
 
 ```powershell
-git tag v0.1.7
-git push origin v0.1.7
+git tag v0.1.8
+git push origin v0.1.8
 ```
 
 ## 常见问题

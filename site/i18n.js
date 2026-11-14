@@ -20,11 +20,11 @@ const translations = {
     "hero.title": "Your Structured Secretary for<br>Vibecoding and Real Conversation.",
     "hero.sub": "VOVOCI is built for fast idea-to-text workflows: coding thoughts, daily notes, social media drafts, and everyday chat. Speak naturally, let VOVOCI structure your meaning, then send clean output to the app you're already using.",
     "hero.small": "One voice workflow. Many scenarios. Available for Windows, macOS, and Linux.",
-    "release.kicker": "New in v0.1.7",
-    "release.title": "Record from a floating bird button.",
-    "release.body": "Close VOVOCI to the tray, choose Show Button, and click the floating bird once to record and again to stop, transcribe, and refine.",
-    "release.local": "Settings now save in place, and Refi preserves questions and statements while using lists only for genuinely multi-item input.",
-    "hero.download": "Download v0.1.7",
+    "release.kicker": "New in v0.1.8",
+    "release.title": "Refi in about a second.",
+    "release.body": "VOVOCI now turns off model thinking for refinement on OpenRouter and Google Gemini. Reasoning models such as DeepSeek V4 Flash go from roughly 4–14 seconds to about 1 second, with the same cleanup quality.",
+    "release.local": "Models that require reasoning are retried automatically with their defaults. Tip: set the STT primary language instead of auto to save another second.",
+    "hero.download": "Download v0.1.8",
     "hero.github": "View on GitHub",
 
     // How It Works
@@ -149,7 +149,7 @@ const translations = {
     "faq.q5": "Will the LLM API cost me money?",
     "faq.a5": "Depends on the provider. NVIDIA NIM offers free-tier endpoints, OpenRouter has low-cost pay-per-token options, Google Gemini has a free tier, and Local Model uses your own server. VOVOCI doesn't add any fees on top.",
     "faq.q6": "Which desktop platforms are supported?",
-    "faq.a6": "VOVOCI v0.1.7 publishes Windows, macOS, and Linux x86_64 packages. Some Linux desktops may require input helpers such as xdotool or wtype.",
+    "faq.a6": "VOVOCI v0.1.8 publishes Windows, macOS, and Linux x86_64 packages. Some Linux desktops may require input helpers such as xdotool or wtype.",
 
     // Footer
     "footer.desc": "Built by oceanads.org — open source, no strings attached.",
@@ -176,11 +176,11 @@ const translations = {
     "hero.title": "你的結構化語音秘書，<br>專為 Vibecoding 與日常對話而生。",
     "hero.sub": "VOVOCI 為快速「想法轉文字」工作流程而設計：程式開發構思、每日筆記、社群媒體草稿、日常溝通皆適用。自然地說話，讓 VOVOCI 整理你的語意，再將乾淨的輸出傳送到你正在使用的應用程式。",
     "hero.small": "一套語音工作流程，多種使用情境，支援 Windows、macOS 與 Linux。",
-    "release.kicker": "v0.1.7 新功能",
-    "release.title": "使用浮動鳥圖示錄音。",
-    "release.body": "將 VOVOCI 關閉到系統匣、選擇 Show Button，點一下浮動鳥圖示開始錄音，再點一下即可停止、轉錄並 Refi。",
-    "release.local": "設定現在會原地儲存；Refi 會保留問句與陳述句，只有真正包含多個項目時才使用列表。",
-    "hero.download": "下載 v0.1.7",
+    "release.kicker": "v0.1.8 新功能",
+    "release.title": "Refi 只要約一秒。",
+    "release.body": "在 OpenRouter 與 Google Gemini 上 Refi 時，VOVOCI 會自動關閉模型的思考模式。DeepSeek V4 Flash 等推理模型從約 4–14 秒縮短到約 1 秒，整理品質不變。",
+    "release.local": "必須開啟思考的模型會自動改用預設設定重送。小提示：將語音辨識主要語言從 auto 改為你說的語言，可再省下約 1 秒。",
+    "hero.download": "下載 v0.1.8",
     "hero.github": "在 GitHub 查看",
 
     // How It Works
@@ -305,7 +305,7 @@ const translations = {
     "faq.q5": "LLM API 會產生費用嗎？",
     "faq.a5": "取決於供應商。NVIDIA NIM 提供免費端點，OpenRouter 有低成本按 token 計費選項，Google Gemini 有免費方案，Local Model 則使用你自己的本機服務。VOVOCI 不收取任何額外費用。",
     "faq.q6": "支援哪些桌面平台？",
-    "faq.a6": "VOVOCI v0.1.7 提供 Windows、macOS 與 Linux x86_64 發佈檔案。部分 Linux 桌面環境可能需要 xdotool 或 wtype 等輸入輔助工具。",
+    "faq.a6": "VOVOCI v0.1.8 提供 Windows、macOS 與 Linux x86_64 發佈檔案。部分 Linux 桌面環境可能需要 xdotool 或 wtype 等輸入輔助工具。",
 
     // Footer
     "footer.desc": "由 oceanads.org 打造——開源，無附帶條件。",
@@ -332,11 +332,11 @@ const translations = {
     "hero.title": "바이브코딩과 일상 대화를 위한<br>구조화된 음성 비서.",
     "hero.sub": "VOVOCI는 빠른 아이디어-텍스트 변환 워크플로를 위해 설계되었습니다: 코딩 구상, 일일 메모, 소셜 미디어 초안, 일상 대화까지. 자연스럽게 말하면 VOVOCI가 의미를 구조화하여 현재 사용 중인 앱으로 깔끔한 결과물을 전달합니다.",
     "hero.small": "하나의 음성 워크플로. 다양한 시나리오. Windows, macOS, Linux를 지원합니다.",
-    "release.kicker": "v0.1.7 새로운 기능",
-    "release.title": "플로팅 새 아이콘으로 녹음하세요.",
-    "release.body": "VOVOCI를 트레이로 닫고 Show Button을 선택한 뒤, 플로팅 새 아이콘을 한 번 클릭해 녹음을 시작하고 다시 클릭해 중지·전사·Refi를 실행합니다.",
-    "release.local": "설정은 현재 화면에서 저장되며, Refi는 질문과 서술문을 유지하고 실제로 여러 항목이 있을 때만 목록을 사용합니다.",
-    "hero.download": "v0.1.7 다운로드",
+    "release.kicker": "v0.1.8 새로운 기능",
+    "release.title": "약 1초 만에 끝나는 Refi.",
+    "release.body": "OpenRouter와 Google Gemini에서 Refi를 실행할 때 VOVOCI가 모델의 사고 모드를 자동으로 끕니다. DeepSeek V4 Flash 같은 추론 모델은 약 4–14초에서 약 1초로 줄어들며 정리 품질은 같습니다.",
+    "release.local": "사고가 필수인 모델은 기본 설정으로 자동 재전송됩니다. 팁: STT 주 언어를 auto 대신 실제 언어로 지정하면 약 1초를 더 줄일 수 있습니다.",
+    "hero.download": "v0.1.8 다운로드",
     "hero.github": "GitHub에서 보기",
 
     // How It Works
@@ -461,7 +461,7 @@ const translations = {
     "faq.q5": "LLM API 비용이 발생하나요?",
     "faq.a5": "제공업체에 따라 다릅니다. NVIDIA NIM은 무료 티어 엔드포인트를 제공하고, OpenRouter는 저렴한 토큰당 결제 옵션이 있으며, Google Gemini에는 무료 티어가 있고, Local Model은 자체 서버를 사용합니다. VOVOCI는 추가 수수료를 부과하지 않습니다.",
     "faq.q6": "어떤 데스크톱 플랫폼을 지원하나요?",
-    "faq.a6": "VOVOCI v0.1.7은 Windows, macOS, Linux x86_64 패키지를 제공합니다. 일부 Linux 데스크톱은 xdotool 또는 wtype 같은 입력 보조 도구가 필요할 수 있습니다.",
+    "faq.a6": "VOVOCI v0.1.8은 Windows, macOS, Linux x86_64 패키지를 제공합니다. 일부 Linux 데스크톱은 xdotool 또는 wtype 같은 입력 보조 도구가 필요할 수 있습니다.",
 
     // Footer
     "footer.desc": "oceanads.org가 제작 — 오픈 소스, 아무 조건 없음.",
@@ -488,11 +488,11 @@ const translations = {
     "hero.title": "バイブコーディングと日常会話のための<br>構造化された音声秘書。",
     "hero.sub": "VOVOCIは、アイデアをテキストに変換する高速ワークフロー向けに設計されています：コーディングの構想、日々のメモ、SNS投稿の下書き、日常会話まで。自然に話すだけで、VOVOCIが意味を構造化し、使用中のアプリに整ったテキストを送ります。",
     "hero.small": "ひとつの音声ワークフロー。多様なシナリオ。Windows、macOS、Linux に対応します。",
-    "release.kicker": "v0.1.7 の新機能",
-    "release.title": "フローティング鳥アイコンで録音。",
-    "release.body": "VOVOCI をトレイへ閉じて Show Button を選択し、鳥アイコンを1回クリックして録音開始、もう1回クリックして停止・文字起こし・Refi を実行します。",
-    "release.local": "設定は画面を移動せず保存され、Refi は質問と平叙文を維持し、複数項目がある場合だけ箇条書きを使います。",
-    "hero.download": "v0.1.7 をダウンロード",
+    "release.kicker": "v0.1.8 の新機能",
+    "release.title": "Refi が約 1 秒に。",
+    "release.body": "OpenRouter と Google Gemini で Refi を行う際、VOVOCI はモデルの思考モードを自動的に無効化します。DeepSeek V4 Flash などの推論モデルは約 4–14 秒から約 1 秒に短縮され、整形品質は変わりません。",
+    "release.local": "思考が必須のモデルは既定の設定で自動的に再送されます。ヒント：STT の主要言語を auto ではなく話す言語にすると、さらに約 1 秒短縮できます。",
+    "hero.download": "v0.1.8 をダウンロード",
     "hero.github": "GitHubで見る",
 
     // How It Works
@@ -617,7 +617,7 @@ const translations = {
     "faq.q5": "LLM APIに費用はかかりますか？",
     "faq.a5": "プロバイダーによって異なります。NVIDIA NIMは無料ティアのエンドポイントを提供し、OpenRouterには低コストのトークン課金オプションがあり、Google Geminiには無料ティアがあります。Local Model は自分のサーバーを使います。VOVOCIは追加料金を一切請求しません。",
     "faq.q6": "どのデスクトッププラットフォームに対応しますか？",
-    "faq.a6": "VOVOCI v0.1.7 は Windows、macOS、Linux x86_64 パッケージを提供します。一部の Linux デスクトップでは xdotool や wtype などの入力補助ツールが必要です。",
+    "faq.a6": "VOVOCI v0.1.8 は Windows、macOS、Linux x86_64 パッケージを提供します。一部の Linux デスクトップでは xdotool や wtype などの入力補助ツールが必要です。",
 
     // Footer
     "footer.desc": "oceanads.orgが構築 — オープンソース、制限なし。",
@@ -644,11 +644,11 @@ const translations = {
     "hero.title": "เลขาฯ เสียงที่มีโครงสร้างสำหรับ<br>Vibecoding และการสนทนาจริง",
     "hero.sub": "VOVOCI ออกแบบมาสำหรับเวิร์กโฟลว์แปลงความคิดเป็นข้อความที่รวดเร็ว: ความคิดด้านการเขียนโค้ด บันทึกประจำวัน ร่างโซเชียลมีเดีย และการสนทนาประจำวัน พูดตามธรรมชาติ ให้ VOVOCI จัดโครงสร้างความหมาย แล้วส่งผลลัพธ์ที่สะอาดไปยังแอปที่คุณใช้อยู่",
     "hero.small": "เวิร์กโฟลว์เสียงเดียว หลากสถานการณ์ รองรับ Windows, macOS และ Linux",
-    "release.kicker": "ใหม่ใน v0.1.7",
-    "release.title": "บันทึกเสียงจากไอคอนนกลอยตัว",
-    "release.body": "ปิด VOVOCI ลงในถาดระบบ เลือก Show Button แล้วคลิกไอคอนนกหนึ่งครั้งเพื่อเริ่มบันทึก และคลิกอีกครั้งเพื่อหยุด ถอดเสียง และ Refi",
-    "release.local": "การตั้งค่าจะบันทึกอยู่ที่หน้าเดิม และ Refi จะคงรูปแบบคำถามหรือประโยคบอกเล่า โดยใช้รายการเฉพาะเมื่อมีหลายหัวข้อจริง ๆ",
-    "hero.download": "ดาวน์โหลด v0.1.7",
+    "release.kicker": "ใหม่ใน v0.1.8",
+    "release.title": "Refi เสร็จในราวหนึ่งวินาที",
+    "release.body": "VOVOCI จะปิดโหมดการคิดของโมเดลโดยอัตโนมัติเมื่อ Refi บน OpenRouter และ Google Gemini โมเดลเชิงเหตุผลอย่าง DeepSeek V4 Flash ลดเวลาจากราว 4–14 วินาทีเหลือประมาณ 1 วินาที โดยคุณภาพการเรียบเรียงเท่าเดิม",
+    "release.local": "โมเดลที่จำเป็นต้องใช้การคิดจะถูกส่งซ้ำด้วยค่าเริ่มต้นโดยอัตโนมัติ เคล็ดลับ: ตั้งภาษาหลักของ STT เป็นภาษาที่คุณพูดแทน auto เพื่อประหยัดเวลาอีกราว 1 วินาที",
+    "hero.download": "ดาวน์โหลด v0.1.8",
     "hero.github": "ดูบน GitHub",
 
     // How It Works
@@ -773,7 +773,7 @@ const translations = {
     "faq.q5": "API ของ LLM จะมีค่าใช้จ่ายหรือไม่?",
     "faq.a5": "ขึ้นอยู่กับผู้ให้บริการ NVIDIA NIM มี endpoint ระดับฟรี OpenRouter มีตัวเลือกจ่ายตาม token ที่ต้นทุนต่ำ Google Gemini มีระดับฟรี และ Local Model ใช้เซิร์ฟเวอร์ของคุณเอง VOVOCI ไม่เพิ่มค่าธรรมเนียมใดๆ",
     "faq.q6": "รองรับแพลตฟอร์มเดสก์ท็อปใดบ้าง?",
-    "faq.a6": "VOVOCI v0.1.7 มีแพ็กเกจสำหรับ Windows, macOS และ Linux x86_64 เดสก์ท็อป Linux บางแบบอาจต้องใช้เครื่องมือช่วยป้อนข้อมูล เช่น xdotool หรือ wtype",
+    "faq.a6": "VOVOCI v0.1.8 มีแพ็กเกจสำหรับ Windows, macOS และ Linux x86_64 เดสก์ท็อป Linux บางแบบอาจต้องใช้เครื่องมือช่วยป้อนข้อมูล เช่น xdotool หรือ wtype",
 
     // Footer
     "footer.desc": "สร้างโดย oceanads.org — โอเพ่นซอร์ส ไม่มีเงื่อนไขแฝง",
