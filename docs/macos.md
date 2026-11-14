@@ -84,5 +84,5 @@ Default output:
 Optional:
 
 ```bash
-./scripts/build_dmg.sh --version 0.1.7 --volume VOVOCI
+./scripts/build_dmg.sh --version 0.1.8 --volume VOVOCI
 ```
