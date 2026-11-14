@@ -5,6 +5,7 @@ import subprocess
 import sys
 import atexit
 import hashlib
+import io
 import tempfile
 import threading
 import time
@@ -13,6 +14,7 @@ import webbrowser
 import shutil
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 import tkinter as tk
 from tkinter import messagebox, ttk
 from urllib import error, request
@@ -84,7 +86,7 @@ TEMP_AUDIO_PREFIX = "vovoci_voice_"
 LOGO_PATH = RESOURCE_DIR / "logo.png"
 GITHUB_ICON_PATH = RESOURCE_DIR / "github.png"
 OVERLAY_POSITION_OPTIONS = ["Left Bottom", "Center Bottom", "Right Bottom"]
-APP_VERSION = "0.1.7"
+APP_VERSION = "0.1.8"
 GITHUB_SOURCE_REPO = "lovemage/vovoci"
 GITHUB_RELEASE_REPO = "lovemage/vovoci"
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_RELEASE_REPO}"
@@ -331,6 +333,42 @@ STT_PRIMARY_LANGUAGE_OPTIONS = [
 ]
 
 NVIDIA_DEFAULT_MODEL = "openai/gpt-oss-20b"
+
+
+def build_no_reasoning_options(provider: str) -> dict:
+    """Request fields that turn off model "thinking" for providers that support it.
+
+    Refinement is a short rewrite; reasoning tokens add seconds of latency
+    (measured 4-14s vs ~1s on DeepSeek v4 flash via OpenRouter) without
+    improving the output.
+    """
+    if provider == "OpenRouter":
+        return {"reasoning": {"enabled": False}}
+    if provider == "Google Gemini API":
+        return {"reasoning_effort": "none"}
+    return {}
+
+
+def is_reasoning_option_rejected(status_code: int, detail: str) -> bool:
+    """True when a provider rejected the request because reasoning cannot be disabled."""
+    if status_code not in (400, 422):
+        return False
+    text = (detail or "").lower()
+    return "reasoning" in text or "thinking" in text
+
+
+def build_refine_payload(model: str, system_prompt: str, input_text: str, extra: Optional[dict] = None) -> dict:
+    payload = {
+        "model": model,
+        "temperature": 0.1,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": input_text},
+        ],
+    }
+    if extra:
+        payload.update(extra)
+    return payload
 
 
 def parse_text_from_response(data: dict) -> str:
@@ -3443,15 +3481,6 @@ class RefineApp:
             api_key = self._sanitize_api_key(api_key)
             api_base = self._normalize_provider_api_base(provider, api_base)
             endpoint = f"{api_base.rstrip('/')}/chat/completions"
-            payload = {
-                "model": model,
-                "temperature": 0.1,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": input_text},
-                ],
-            }
-            body = json.dumps(payload).encode("utf-8")
             headers = {
                 "Content-Type": "application/json",
                 "User-Agent": "VOVOCI/desktop",
@@ -3464,9 +3493,31 @@ class RefineApp:
                 headers["Referer"] = "https://localhost/vovoci"
                 headers["HTTP-Referer"] = "https://localhost/vovoci"
                 headers["X-Title"] = "VOVOCI"
-            req = request.Request(endpoint, data=body, headers=headers, method="POST")
-            with request.urlopen(req, timeout=60) as resp:
-                raw = resp.read().decode("utf-8")
+
+            def post(extra: dict) -> str:
+                payload = build_refine_payload(model, system_prompt, input_text, extra)
+                body = json.dumps(payload).encode("utf-8")
+                req = request.Request(endpoint, data=body, headers=headers, method="POST")
+                with request.urlopen(req, timeout=60) as resp:
+                    return resp.read().decode("utf-8")
+
+            no_reasoning = build_no_reasoning_options(provider)
+            try:
+                raw = post(no_reasoning)
+            except error.HTTPError as exc:
+                # Some models (e.g. mandatory-reasoning endpoints) refuse to turn
+                # thinking off; retry once with the provider defaults.
+                if not no_reasoning:
+                    raise
+                try:
+                    detail = exc.read().decode("utf-8", errors="ignore")
+                except Exception:
+                    detail = ""
+                if not is_reasoning_option_rejected(exc.code, detail):
+                    raise error.HTTPError(
+                        exc.url, exc.code, exc.msg, exc.headers, io.BytesIO(detail.encode("utf-8"))
+                    ) from exc
+                raw = post({})
             data = json.loads(raw)
             text = parse_text_from_response(data)
             if not text:
