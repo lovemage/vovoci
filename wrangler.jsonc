@@ -1,0 +1,11 @@
+{
+  // vovoci.com website: an assets-only Cloudflare Worker serving site/.
+  // Deployed by .github/workflows/site-deploy.yml on pushes to main that touch site/.
+  // The vovoci.com custom domain is attached in the Cloudflare dashboard.
+  "$schema": "https://unpkg.com/wrangler@4.162.0/config-schema.json",
+  "name": "vovoci",
+  "compatibility_date": "2026-05-23",
+  "assets": {
+    "directory": "./site"
+  }
+}

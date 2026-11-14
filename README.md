@@ -68,7 +68,7 @@ graph LR
 Use this flow when local changes are ready to update the remote release and website:
 
 1. Commit and push the source changes to `lovemage/vovoci`, including `site/` and all README language files.
-2. Confirm Cloudflare Pages is configured to deploy the static site from `site/` on the pushed branch, or trigger the Cloudflare Pages deploy from the Cloudflare dashboard.
+2. Pushing `site/` changes to `main` runs the `site-deploy` workflow, which deploys `site/` to the `vovoci` Cloudflare Worker (static assets, configured in `wrangler.jsonc`) behind `https://vovoci.com`. It needs the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` repository secrets; to deploy by hand, run `npx wrangler@4 deploy` from the repository root.
 3. Push a matching version tag such as `v0.1.8`, or manually dispatch the `release` workflow with `release_version=0.1.8`.
 4. The workflow validates `APP_VERSION`, runs tests, builds all three platforms, and publishes the assets to `lovemage/vovoci` Releases.
 5. Confirm the Release contains the Windows installer/portable ZIP, macOS DMG, and Linux x86_64 archive, then check that `https://vovoci.com` shows the latest static site.

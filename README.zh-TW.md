@@ -68,7 +68,7 @@ graph LR
 當本地變更準備更新到遠端 release 與網站時，使用以下流程：
 
 1. 將 source 變更 commit 並 push 到 `lovemage/vovoci`，必須包含 `site/` 與全部語言 README。
-2. 確認 Cloudflare Pages 已設定從推送分支的 `site/` 部署靜態網站，或到 Cloudflare dashboard 手動觸發 Pages 部署。
+2. 推送到 `main` 且變更 `site/` 時，`site-deploy` workflow 會把 `site/` 部署到 Cloudflare Worker `vovoci`（靜態資源，設定在 `wrangler.jsonc`），也就是 `https://vovoci.com`。需要在 repo secrets 設定 `CLOUDFLARE_API_TOKEN` 與 `CLOUDFLARE_ACCOUNT_ID`；手動部署可在專案根目錄執行 `npx wrangler@4 deploy`。
 3. 推送對應版本 tag（例如 `v0.1.8`），或手動執行 `release` workflow 並填入 `release_version=0.1.8`。
 4. Workflow 會檢查 `APP_VERSION`、執行測試、編譯三個平台，並發佈到 `lovemage/vovoci` Releases。
 5. 確認 Release 內含 Windows 安裝程式與免安裝 ZIP、macOS DMG、Linux x86_64 壓縮檔，再確認 `https://vovoci.com` 已顯示最新網站。
