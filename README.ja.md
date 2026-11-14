@@ -8,7 +8,7 @@
 
 自然に話すだけで、整えられたテキストが使用中のデスクトップアプリに届きます — ローカルSTTとお好みのLLMで動作します。
 
-[![Version](https://img.shields.io/badge/version-0.1.8-blue)](https://github.com/lovemage/vovoci/releases)
+[![Version](https://img.shields.io/badge/version-0.1.9-blue)](https://github.com/lovemage/vovoci/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-4C8BF5)](https://github.com/lovemage/vovoci)
 [![Downloads](https://img.shields.io/github/downloads/lovemage/vovoci/total)](https://github.com/lovemage/vovoci/releases)
@@ -42,8 +42,9 @@ graph LR
 |:---:|:---:|:---:|
 | サブスクリプション不要。オンラインの有料 LLM API、無料枠のあるプロバイダー、またはローカルの OpenAI-compatible モデルサーバーを選べます。有料のネットワーク API 接続は必須ではありません。 | 内蔵プロンプトをAIエージェントにコピーするだけ — コードベースをスキャンして用語テーブルをエクスポートします。インポートすれば、すべての音声入力で正しいスペルが使われます。 | 音声終了時に確認ウィンドウを表示できます。左側に元の入力言語の文字起こし、右側に AI が再構成した意味内容を表示し、貼り付けやコピー前に確認できます。 |
 
-## v0.1.8 の新機能
+## v0.1.9 の新機能
 
+- **選んだモデルを保持** — 内蔵リストにないモデル（OpenRouter の `~deepseek/deepseek-flash-latest` などのエイリアス）が、起動時に別のモデルへリセットされなくなりました。
 - **より速い Refi** — OpenRouter と Google Gemini で Refi を行う際、モデルの「思考」モードを自動的に無効化します。DeepSeek V4 Flash などの推論モデルは、1回あたり約 4–14 秒から約 1 秒に短縮され、整形品質は変わりません。
 - **自動フォールバック** — 思考が必須のモデルは既定の設定で自動的に再送されるため、追加設定なしで利用できます。
 - **ヒント：STT の主要言語を指定** — 主要言語を `auto` ではなく話す言語にすると、Whisper の言語判定を省略でき、さらに約 1 秒短縮できます。
@@ -54,9 +55,9 @@ graph LR
 
 | プラットフォーム | パッケージ | Release | 使い方 |
 |:---|:---|:---|:---|
-| Windows | `VOVOCI-portable-0.1.8.zip` または `VOVOCI-Setup-0.1.8.exe` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | ZIP を展開して初回起動ツールを実行するか、インストーラーを起動します。 |
-| macOS | `VOVOCI-macOS-0.1.8-unsigned.dmg` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | `VOVOCI.app` を `Applications` に移動し、Gatekeeper の警告時は右クリックして「開く」を選びます。 |
-| Linux x86_64 | `VOVOCI-Linux-0.1.8-x86_64.tar.gz` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 展開して `VOVOCI/VOVOCI` を実行します。デスクトップ環境によっては入力補助ツールが必要です。 |
+| Windows | `VOVOCI-portable-0.1.9.zip` または `VOVOCI-Setup-0.1.9.exe` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | ZIP を展開して初回起動ツールを実行するか、インストーラーを起動します。 |
+| macOS | `VOVOCI-macOS-0.1.9-unsigned.dmg` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | `VOVOCI.app` を `Applications` に移動し、Gatekeeper の警告時は右クリックして「開く」を選びます。 |
+| Linux x86_64 | `VOVOCI-Linux-0.1.9-x86_64.tar.gz` | [vovoci/releases/latest](https://github.com/lovemage/vovoci/releases/latest) | 展開して `VOVOCI/VOVOCI` を実行します。デスクトップ環境によっては入力補助ツールが必要です。 |
 
 ### メンテナー向けリリース手順
 
@@ -64,13 +65,13 @@ graph LR
 
 1. source の変更を `lovemage/vovoci` に commit して push します。`site/` と全言語の README を必ず含めます。
 2. `site/` を変更して `main` に push すると、`site-deploy` workflow が `site/` を Cloudflare Worker `vovoci`（静的アセット、設定は `wrangler.jsonc`）にデプロイし、`https://vovoci.com` に反映されます。repo secrets に `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` が必要です。手動でデプロイする場合はリポジトリのルートで `npx wrangler@4 deploy` を実行します。
-3. 対応する version tag（例: `v0.1.8`）を push するか、`release` workflow を `release_version=0.1.8` で手動実行します。
+3. 対応する version tag（例: `v0.1.9`）を push するか、`release` workflow を `release_version=0.1.9` で手動実行します。
 4. Workflow は `APP_VERSION` の確認、テスト、3プラットフォームのビルドを行い、`lovemage/vovoci` Releases に公開します。
 5. Windows installer/portable ZIP、macOS DMG、Linux x86_64 archive が Release にあることと、`https://vovoci.com` が最新サイトを表示することを確認します。
 
 ### ポータブル版（推奨）
 
-1. [Releases](https://github.com/lovemage/vovoci/releases/latest) から `VOVOCI-portable-0.1.8.zip` をダウンロード
+1. [Releases](https://github.com/lovemage/vovoci/releases/latest) から `VOVOCI-portable-0.1.9.zip` をダウンロード
 2. 解凍して `Run-VOVOCI-First-Time.cmd` を実行
 3. `VOVOCI.exe` を起動
 
